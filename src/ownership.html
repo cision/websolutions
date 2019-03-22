@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cision Web Solutions | Ownership</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://code.highcharts.com/stock/7.0.3/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/7.0.3/modules/exporting.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="ownership">
+            <ul id="ownershipTabs" class="nav nav-tabs"></ul>
+
+            <div class="tab-content">
+                <div class="tab-pane" id="target-sharesizegroups"></div>
+                <div class="tab-pane active" id="target-largest">
+                    <div id="container-largest-shareholders-chart"></div>
+                    <div id="target-largestshareholders"></div>
+                </div>
+                <div class="tab-pane" id="target-area">
+                    <div id="target-shareholderareas-chart"></div>
+                    <div id="target-shareholderareas"></div>
+                </div>
+                <div class="tab-pane" id="target-grouped">
+                    <div id="container-largest-grouped-shareholders-chart"></div>
+                    <div id="target-largestgroupedshareholders"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script id="tplLargestShareholdersListing" type="text/x-jsrender">
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>{{>TextName}}</th>
+                    <th class="text-right">{{>TextTotal}}(A)</th>
+                    <th class="text-right">{{>TextTotal}}(B)</th>
+                    <th class="text-right">{{>TextHoldings}} %</th>
+                    <th class="text-right">{{>TextVotes}}</th>
+                    <th class="text-right">{{>TextValueSEK}}</th>
+                </tr>
+            </thead>
+            {{for ShareHolders}}
+            {{if #index < #parent.parent.data.AmountInList}}
+            <tr data-index="{{:#index+}}">
+                <td>{{>Number}}.</td>
+                <td>{{>Name}}</td>
+                <td class="text-right">{{>~formatNumber(TotalSharesA, 0)}}</td>
+                <td class="text-right">{{>~formatNumber(TotalSharesB, 0)}}</td>
+                <td class="text-right">{{>~formatNumber(OwnershipPercent, 1)}} %</td>
+                <td class="text-right">{{>~formatNumber(VotingRightsPercent, 1)}} %</td>
+                <td class="text-right">{{>~formatNumber(MarketValueInSEK, 0)}}</td>
+            </tr>
+            {{/if}}
+            {{/for}}
+        </table>
+        <p class="text-muted">{{>DateFormatted}}</p>
+    </script>
+
+    <script id="tplShareSizeGroupsListing" type="text/x-jsrender">
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th>{{>TextRange}}</th>
+                    <th class="text-right">{{>TextHolders}}</th>
+                    <th class="text-right">{{>TextHoldings}} %</th>
+                    <th class="text-right">{{>TextVotes}}</th>
+                    <th class="text-right">{{>TextValueSEK}}</th>
+                </tr>
+            </thead>
+            {{for Groups}}
+            <tr>
+                <td>{{>ShareSize}}.</td>
+                <td class="text-right">{{>~formatNumber(ShareHoldersCount, 0)}}</td>
+                <td class="text-right">{{>~formatNumber(OwnershipPercent, 1)}} %</td>
+                <td class="text-right">{{>~formatNumber(VotingRightsPercent, 1)}} %</td>
+                <td class="text-right">{{>~formatNumber(MarketValueInSEK, 0)}}</td>
+            </tr>
+            {{/for}}
+        </table>
+        <p class="text-muted">{{>DateFormatted}}</p>
+    </script>
+
+    <script id="tplShareShareHolderAreasListing" type="text/x-jsrender">
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th>{{>TextArea}}</th>
+                    <th class="text-right">{{>TextHolders}}</th>
+                    <th class="text-right">{{>TextTotal}}</th>
+                    <th class="text-right">{{>TextVoting}}</th>
+                    <th class="text-right">{{>TextValueSEK}}</th>
+                </tr>
+            </thead>
+            {{for Areas}}
+            <tr>
+                <td>{{>AreaName}}.</td>
+                <td class="text-right">{{>~formatNumber(ShareHoldersCount, 0)}} ({{>~formatNumber(ShareHoldersPercent, 1)}} %)</td>
+                <td class="text-right">{{>~formatNumber(TotalShares, 0)}} ({{>~formatNumber(OwnershipPercent, 1)}} %)</td>
+                <td class="text-right">{{>~formatNumber(VotingRightsTotal, 0)}} ({{>~formatNumber(VotingRightsPercent, 1)}} %)</td>
+                <td class="text-right">{{>~formatNumber(MarketValueInSEK, 0)}}</td>
+            </tr>
+            {{/for}}
+            <tr>
+                <td colspan="6">&nbsp;</td>
+            </tr>
+            {{if Total}}
+            <tr>
+                <td>{{>Total.AreaName}}.</td>
+                <td class="text-right">{{>~formatNumber(Total.ShareHoldersCount, 0)}} ({{>~formatNumber(Total.ShareHoldersPercent, 1)}} %)</td>
+                <td class="text-right">{{>~formatNumber(Total.TotalShares, 0)}} ({{>~formatNumber(Total.OwnershipPercent, 0)}} %)</td>
+                <td class="text-right">{{>~formatNumber(Total.VotingRightsTotal, 0)}} ({{>~formatNumber(Total.VotingRightsPercent, 0)}} %)</td>
+                <td class="text-right">{{>~formatNumber(Total.MarketValueInSEK, 0)}}</td>
+            </tr>
+            {{/if}}
+        </table>
+        <p class="text-muted">{{>DateFormatted}}</p>
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            var settings = window.cision.websolution.settings.general,
+                texts = window.cision.websolution.texts[settings.uiLanguage];
+
+            $("<li class='nav-item'><a href='#target-largest' class='nav-link active' data-toggle='tab'>" + texts.TextLargest + "</a></li>").appendTo("#ownershipTabs");
+            $("<li class='nav-item'><a href='#target-grouped' class='nav-link' data-toggle='tab'>" + texts.TextGrouped + "</a></li>").appendTo("#ownershipTabs");
+            $("<li class='nav-item'><a href='#target-sharesizegroups' class='nav-link' data-toggle='tab'>" + texts.TextRange + "</a></li>").appendTo("#ownershipTabs");
+            $("<li class='nav-item'><a href='#target-area' class='nav-link' data-toggle='tab'>" + texts.TextDist + "</a></li>").appendTo("#ownershipTabs");
+
+            $('#ownershipTabs a').click(function (e) {
+                e.preventDefault();
+                window.cision.websolution.ownership.renderOwnershipTab($(this)[0].hash);
+                $(this).tab('show');
+            });
+
+            //render first ownership
+            window.cision.websolution.ownership.renderLargestShareholders();
+            settings.ownershipTabLoaded["#target-largest"] = true;
+            $('#ownershipTabs a:first').tab('show');
+        });
+    </script>
+</body>
+</html>

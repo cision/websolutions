@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cision Web Solutions | Calendar</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <div id="target-event-top"></div>
+            <div id="target-categories"></div>
+
+            <ul class="nav nav-tabs"></ul>
+            <div class="tab-content">
+                <div id="upcoming" class="tab-pane active calendarbox">
+                    <div id="eventListTarget">
+                    </div>
+                </div>
+                <div id="archive" class="tab-pane archived-calendarbox">
+                    <div id="archiveEventListTarget">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script id="tplTopEvent" type="text/x-jsrender">
+        <table>
+            <tr>
+                <td>
+                    <div class="first-event">
+                        <h2>{{>TextFirstEvent}}</h2>
+                        <a href="calendarEvent.html?guid={{>EventGuid}}">
+                            <img src="{{>LogoUrl}}" />
+                            <h3>{{>Title}}</h3>
+                            <div class="pubDate"><p>{{>EventTimeFormatted}}</p></div>
+                        </a>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <a href="{{>ICalUrl}}" title="Add to calendar">
+                            <i class="fas fa-calendar-plus fa-2x"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+    </script>
+
+    <script type="text/x-jsrender" id="tplCategories">
+        <h2>{{>TextEvents}}</h2>
+        <div class="categories">
+            <button type="button" class="btn btn-outline-dark btn-sm active">{{>TextAll}}</button>
+            {{for Categories}}
+            <button type="button" class="btn btn-outline-dark btn-sm" data-category="{{:}}">{{:}}</button>
+            {{/for}}
+        </div>
+        <br />
+    </script>
+
+    <script id="tplCalendarEventListing" type="text/x-jsrender">
+        <div id="upcoming" class="calendarbox">
+            <table class="table table-sm">
+                {{if Events.length}}
+                {{if LogoUrl}}
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>{{>TextDate}}</th>
+                        <th>{{>TextEvent}}</th>
+                        <th class="text-right">{{>TextAddToCal}}</th>
+                    </tr>
+                </thead>
+                {{for Events}}
+                <tr class="all CalFin">
+                    <td class="cal-image">
+                        <a href="calendarEvent.html?guid={{>EventGuid}}"><img src="{{>LogoUrl}}" style="max-width:100px;max-height:100px;" /></a>
+                    </td>
+                    <td class="caldate">
+                        <span class="date">{{>EventTimeFormattedDate}}</span>, <span class="time">{{>EventTimeFormattedTime}}</span>
+                    </td>
+                    <td class="preview">
+                        <p><a href="calendarEvent.html?guid={{>EventGuid}}">{{>Title}}</a></p>
+                        {{if Location}}
+                        <span>{{>Location}}</span>
+                        {{/if}}
+                        {{if Address}}
+                        <a href="https://www.google.se/maps/place/{{>Address}}" target="_blank">{{>Address}}</a>
+                        {{/if}}
+                    </td>
+                    <td class="text-right">
+                        <a href="{{>ICalUrl}}" title="Add to calendar">
+                            <i class="fas fa-calendar-plus fa-1x"></i>
+                        </a>
+                    </td>
+                </tr>
+                {{/for}}
+                {{else}}
+                <thead>
+                    <tr>
+                        <th>{{>TextDate}}</th>
+                        <th>{{>TextEvent}}</th>
+                        <th class="text-right">{{>TextAddToCal}}</th>
+                    </tr>
+                </thead>
+                {{for Events}}
+                <tr class="all CalFin">
+                    <td class="caldate">
+                        <span class="date">{{>EventTimeFormattedDate}}</span>, <span class="time">{{>EventTimeFormattedTime}}</span>
+                    </td>
+                    <td class="preview">
+                        <p><a href="calendarEvent.html?guid={{>EventGuid}}">{{>Title}}</a></p>
+                        {{if Location}}
+                        <span>{{>Location}}</span>
+                        {{/if}}
+                        {{if Address}}
+                        <a href="https://www.google.se/maps/place/{{>Address}}" target="_blank">{{>Address}}</a>
+                        {{/if}}
+                    </td>
+                    <td class="text-right">
+                        <a href="{{>ICalUrl}}" title="Add to calendar">
+                            <i class="fas fa-calendar-plus fa-1x"></i>
+                        </a>
+                    </td>
+                </tr>
+                {{/for}}
+                {{/if}}
+                {{/if}}
+            </table>
+        </div>
+    </script>
+
+    <script id="tplCalendarArchiveListing" type="text/x-jsrender">
+        <div id="archive" class="archived-calendarbox">
+            <table class="table table-sm">
+                {{if Events.length}}
+                {{if LogoUrl}}
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>{{>TextDate}}</th>
+                        <th>{{>TextEvent}}</th>
+                    </tr>
+                </thead>
+                {{for Events}}
+                <tr class="all CalFin">
+                    <td class="cal-image">
+                        <a href="calendarEvent.html?guid={{>EventGuid}}"><img src="{{>LogoUrl}}" style="max-width:100px;max-height:100px;" /></a>
+                    </td>
+                    <td class="caldate">
+                        <span class="date">{{>EventTimeFormattedDate}}</span>, <span class="time">{{>EventTimeFormattedTime}}</span>
+                    </td>
+                    <td class="preview">
+                        <p><a href="calendarEvent.html?guid={{>EventGuid}}">{{>Title}}</a></p>
+                        {{if Location}}
+                        <span>{{>Location}}</span>
+                        {{/if}}
+                        {{if Address}}
+                        <br />
+                        <span><a href="https://www.google.se/maps/place/{{>Address}}" target="_blank">{{>Address}}</a></span>
+                        {{/if}}
+                    </td>
+                </tr>
+                {{/for}}
+                {{else}}
+                <thead>
+                    <tr>
+                        <th>{{>TextDate}}</th>
+                        <th>{{>TextEvent}}</th>
+                    </tr>
+                </thead>
+                {{for Events}}
+                <tr class="all CalFin">
+                    <td class="caldate">
+                        <span class="date">{{>EventTimeFormattedDate}}</span>, <span class="time">{{>EventTimeFormattedTime}}</span>
+                    </td>
+                    <td class="preview">
+                        <p><a href="calendarEvent.html?guid={{>EventGuid}}">{{>Title}}</a></p>
+                        {{if Location}}
+                        <span>{{>Location}}</span>
+                        {{/if}}
+                        {{if Address}}
+                        <a href="https://www.google.se/maps/place/{{>Address}}" target="_blank">{{>Address}}</a>
+                        {{/if}}
+                    </td>
+                </tr>
+                {{/for}}
+                {{/if}}
+                {{/if}}
+            </table>
+        </div>
+    </script>
+
+    <script type="text/javascript">
+        var settings = window.cision.websolution.settings.general,
+            texts = window.cision.websolution.texts[settings.uiLanguage];
+
+        $(function () {
+            retrieveCalandarEvents(settings.pageIndex, settings.pageSize);
+
+            $("<li class='nav-item'><a href='#upcoming' class='nav-link active' data-toggle='tab'>" + texts.TextUpcomingEvents + "</a></li>").appendTo(".nav-tabs");
+            $("<li class='nav-item'><a href='#archive'  class='nav-link' data-toggle='tab'>" + texts.TextEventArchive + "</a></li>").appendTo(".nav-tabs");
+        });
+
+        function retrieveCalandarEvents(pageIndex, pageSize, category) {
+            var promiseEvents = window.cision.websolution.calendar.renderEventList({
+                calendarPageIndex: pageIndex,
+                calendarPageSize: pageSize,
+                calendarCategory: category || '',
+                dateFormat: 'DD MMM',
+                timeFormat: 'HH:mm',
+                endDate: moment().add(5, 'years').format('YYYY-MM-DD')
+            });
+            var promiseArchivedEvents = window.cision.websolution.calendar.renderArchiveList({
+                calendarPageIndex: pageIndex,
+                calendarPageSize: pageSize,
+                calendarCategory: category || '',
+                dateFormat: 'MMM DD, YYYY',
+                timeFormat: 'HH:mm',
+                startDate: moment().subtract(5, 'years').format('YYYY-MM-DD')
+            });
+            Promise.all([promiseEvents, promiseArchivedEvents]).then(function () {
+                $(".categories button").off().on("click", function () {
+                    $(".categories button").removeClass("active");
+                    $(this).addClass("active");
+                    retrieveCalandarEvents(settings.pageIndex, settings.pageSize, $(this).data("category"));
+                });
+            });
+        }
+    </script>
+</body>
+</html>

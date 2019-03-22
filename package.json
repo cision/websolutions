@@ -1,0 +1,52 @@
+{
+  "name": "cision-websolutions",
+  "version": "4.0.0",
+  "description": "Cision Websolutions modules with webpack and NPM",
+  "main": "./src/cision.index.js",
+  "author": "Cision",
+  "repository": "https://github.com/cision/websolutions.git",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build-dev": "webpack --mode development",
+    "build-prod": "webpack --mode production"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.2.5",
+    "@fortawesome/fontawesome-svg-core": "^1.2.15",
+    "@fortawesome/free-regular-svg-icons": "^5.7.2",
+    "@fortawesome/free-solid-svg-icons": "^5.7.2",
+    "bootstrap": "^4.3.1",
+    "jquery-number": "^2.1.6",
+    "jsrender": "^1.0.2",
+    "moment": "^2.24.0",
+    "popper.js": "^1.14.7",
+    "require-context": "^1.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "autoprefixer": "^8.6.3",
+    "babel-loader": "^8.0.5",
+    "babel-minify-webpack-plugin": "^0.3.1",
+    "brotli-gzip-webpack-plugin": "^0.5.0",
+    "clean-webpack-plugin": "^0.1.19",
+    "copy-webpack-plugin": "^5.0.1",
+    "css-loader": "^0.28.11",
+    "exports-loader": "^0.7.0",
+    "expose-loader": "^0.7.5",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "file-loader": "^3.0.1",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "image-webpack-loader": "^4.6.0",
+    "node-sass": "^4.11.0",
+    "postcss-loader": "^2.1.5",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.21.0",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.29.6",
+    "webpack-bundle-analyzer": "^3.1.0",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.2.1"
+  }
+}

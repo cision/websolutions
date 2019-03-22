@@ -1,0 +1,55 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cision Web Solutions | Insiders</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="container">
+        <div id="target-transactions"></div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            window.cision.websolution.insiders.renderTransactionsList({
+                startDate: moment().subtract(5, 'years').format('YYYY-MM-DD')
+            });
+        });
+    </script>
+
+    <script id="tplInsiderTransactionsList" type="text/x-jsrender">
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th style="min-width:100px;">{{>TextDate}}</th>
+                    <th>{{>TextInsiderPerson}}</th>
+                    <th>{{>TextPosition}}</th>
+                    <th>{{>TextInstrument}}</th>
+                    <th>{{>TextQuantity}}</th>
+                    <th style="min-width:100px;">{{>TextPrice}} {{>TradeCurrency}}</th>
+                    <th>{{>TextTransaction}}</th>
+                    <th>{{>TextStatus}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{for Transactions}}
+                <tr>
+                    <td>{{>TransactionDateFormatted}}</td>
+                    <td class="text-uppercase">{{>InsiderName}}</td>
+                    <td>{{>PositionDescription}}</td>
+                    <td>{{>SecurityTypeDescription}} ({{>Security}})</td>
+                    <td>{{>~formatNumber(Quantity, 0)}}</td>
+                    <td>{{>~formatNumber(Price, 2)}}</td>
+                    <td>{{>TransactionTypeDescription}}</td>
+                    <td>{{>Status}}</td>
+                </tr>
+                {{/for}}
+            </tbody>
+        </table>
+    </script>
+</body>
+</html>

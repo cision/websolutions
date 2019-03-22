@@ -1,0 +1,84 @@
+/**********************************************************************************************************************/
+/********************************************* Share calculator styles ************************************************/
+/**********************************************************************************************************************/
+
+#shareHeader {
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+}
+.sharecalclulator-container {
+	input[type=radio] {
+		margin: 4px 0 0;
+	}
+	fieldset {
+		margin-top: 5px;
+		border: 1px solid $color_light_grey;
+		border-radius: 4px;
+		padding: 10px;
+		clear: both;
+	}
+	legend {
+		margin-bottom: 0;
+		color: $color_light_blue;
+		width: auto;
+		border-bottom: none;
+	}
+	.fullsize {
+		width: 100%;
+	}
+	.bold {
+		font-weight: 700;
+	}
+	.amount {
+		width: 100%;
+	}
+	.first {
+		width: 200px;
+	}
+	.valuesSeparator {
+		margin-top: 10px;
+	}
+	.helptext {
+		font-style: italic;
+		font-size: 13px;
+	}
+	#csvExport {
+		margin-left: 10px;
+	}
+	.history-download {
+		margin-top: 15px;
+	}
+	.compute-button {
+		margin-top: 10px;
+	}
+	#share-help-container {
+		margin-top: 20px;
+	}
+	.results-right {
+		width: 49%;
+		float: left;
+	}
+	.results-left {
+		width: 49%;
+		float: left;
+		margin-left: 10px;
+		border-left: 1px solid $color_light_grey;
+	}
+	.border {
+		margin-left: 10px;
+	}
+	h4 {
+		margin-bottom: 5px;
+	}
+	table td {
+		padding: 4px 10px 4px 0;
+		width: 110px;
+	}
+	.sharevalues .second {
+		width: 180px;
+	}
+}
+#end-value {
+	margin-left: 10px;
+}

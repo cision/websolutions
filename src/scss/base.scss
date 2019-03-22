@@ -1,0 +1,22 @@
+
+//colors
+$color_light_grey: #e5e5e5;
+$color_dark_grey: #333; 
+$color_grey: grey;
+$color_blue: #337ab7;
+$color_light_blue: #569fca;
+$color_light_border: #dee2e6;
+$color_red: #ce0202;
+$color_black: black;
+$color_white: white;
+$color_light_green: #a1c211;
+
+
+@import "~bootstrap/scss/bootstrap";
+@import 'bootstrap-datepicker';
+
+@import 'cision';
+@import 'calendar';
+@import 'estimate';
+@import 'sharecalculator';
+@import 'sharegraph';

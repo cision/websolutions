@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cision Web Solutions | Estimate</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="container">
+        <div id="estimate">
+            <ul id="estimateTabs" class="nav nav-tabs list"></ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="target-estimate-annual"></div>
+                <div class="tab-pane" id="target-estimate-quarterly"></div>
+                <div style="clear: both">&nbsp;</div>
+            </div>
+        </div>
+        <div class="sme">
+        </div>
+        <img src="images/smedirekt.png" alt="" /> <img width="45" src="images/logo.png" alt="" />
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            var settings = window.cision.websolution.settings.general,
+                texts = window.cision.websolution.texts[settings.uiLanguage];
+
+            $("<li class='nav-item'><a href='#target-estimate-annual' class='nav-link active' data-toggle='tab'>" + texts.TextAnnual + "</a></li>").appendTo(".list");
+            $("<li class='nav-item'><a href='#target-estimate-quarterly' class='nav-link' data-toggle='tab'>" + texts.TextQuarterly + "</a></li>").appendTo(".list");
+
+            $("<p class='text-muted'>" + texts.TextSME + "</p>").appendTo(".sme");
+
+            $('#estimateTabs a').click(function (e) {
+                e.preventDefault();
+                window.cision.websolution.estimate.common.renderEstimateTab($(this)[0].hash);
+                $(this).tab('show');
+            });
+
+            //render first ownership
+            window.cision.websolution.estimate.annual.render({
+                periodStart: (moment().year() - 2).toString(),
+                periodEnd: moment().year() + 1
+            });
+            window.cision.websolution.settings.general.estimateTabLoaded["#target-estimate-annual"] = true;
+
+            $('#estimateTabs a:first').tab('show');
+        });
+    </script>
+
+    <script id="template-estimate-annual" type="text/x-jsrender">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    {{for PeriodList}}
+                    <th>{{:Header}}</th>
+                    {{/for}}
+                </tr>
+            </thead>
+            <tr>
+                <td>Sales, MSEK</td>
+                {{for PeriodList}}
+                <td>&nbsp;{{>~formatNumber(Sales)}} {{if IsEstimate && Sales_Count}} <span class="analysts">* {{:Sales_Count}}</span>{{/if}}</td>
+                {{/for}}
+            </tr>
+            <tr>
+                <td>EBITDA, MSEK</td>
+                {{for PeriodList}}
+                <td>&nbsp;{{>~formatNumber(EBITDA)}} {{if IsEstimate && EBITDA_Count}} <span class="analysts">* {{:EBITDA_Count}}</span>{{/if}}</td>
+                {{/for}}
+            </tr>
+            <tr>
+                <td>EPS, SEK</td>
+                {{for PeriodList}}
+                <td>&nbsp;{{>~formatNumber(EPS)}} {{if IsEstimate && EPS_Count}} <span class="analysts">* {{:EPS_Count}}</span>{{/if}}</td>
+                {{/for}}
+            </tr>
+            <tr>
+                <td>DPS, SEK</td>
+                {{for PeriodList}}
+                <td>&nbsp;{{>~formatNumber(DPS)}} {{if IsEstimate && DPS_Count}} <span class="analysts">* {{:DPS_Count}}</span>{{/if}}</td>
+                {{/for}}
+            </tr>
+        </table>
+        <br />
+        <p class="text-muted">{{>TextLastUpdate}}: {{>PeriodList.LastDateFormatted}}</p>
+        <p class="analytics">* {{>TextAnalyticsCount}}</p>
+    </script>
+
+    <script id="template-estimate-quarterly" type="text/x-jsrender">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    {{for PeriodList}}
+                    <th>{{:Header}}</th>
+                    {{/for}}
+                </tr>
+            </thead>
+            <tr>
+                <td>Sales, MSEK</td>
+                {{for PeriodList}}
+                <td>&nbsp;{{>~formatNumber(Sales)}} {{if IsEstimate && Sales_Count}} <span class="analysts">* {{:Sales_Count}}</span>{{/if}}</td>
+                {{/for}}
+            </tr>
+            <tr>
+                <td>EBITDA, MSEK</td>
+                {{for PeriodList}}
+                <td>&nbsp;{{>~formatNumber(EBITDA)}} {{if IsEstimate && EBITDA_Count}} <span class="analysts">* {{:EBITDA_Count}}</span>{{/if}}</td>
+                {{/for}}
+            </tr>
+            <tr>
+                <td>EPS, SEK</td>
+                {{for PeriodList}}
+                <td>&nbsp;{{>~formatNumber(EPS)}} {{if IsEstimate && EPS_Count}} <span class="analysts">* {{:EPS_Count}}</span>{{/if}}</td>
+                {{/for}}
+            </tr>
+
+        </table>
+        <br />
+        <p class="text-muted">{{>TextLastUpdate}}: {{>PeriodList.LastDateFormatted}}</p>
+        <p class="analytics">* {{>TextAnalyticsCount}}</p>
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cision Web Solutions | Printed Material</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="container">
+        <div id="target-categories"></div>
+        <div id="itemListTarget">
+        </div>
+
+        <div class="modal" tabindex="-1" role="dialog" id="printedMaterialModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="responseTarget"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/x-jsrender" id="tplCategories">
+        <h2>{{>TextOrderPrint}}</h2>
+        <div class="categories">
+            <button type="button" class="btn btn-outline-dark btn-sm active">{{>TextAll}}</button>
+            {{for Categories}}
+            <button type="button" class="btn btn-outline-dark btn-sm" data-category="{{:}}">{{:}}</button>
+            {{/for}}
+        </div>
+    </script>
+
+    <script id="tplPrintedMaterialItemListing" type="text/x-jsrender">
+        <div id="printed-materials">
+            <form method="POST" id="formOrder">
+                <table class="table table-sm">
+                    <thead class="thead-light">
+                        <tr>
+                            <th></th>
+                            <th>{{>TextTitle}}</th>
+                            <th>{{>TextPrintLang}}</th>
+                            <th>{{>TextPrintLink}}</th>
+                            <th>{{>TextPrintQuant}}</th>
+                        </tr>
+                    </thead>
+                    {{for Items}}
+                    <tr class="all">
+                        <td class="image">
+                            {{if LogoUrl}}
+                            <img src="{{>LogoUrl}}" style="max-width:100px;max-height:100px;" />
+                            {{/if}}
+                        </td>
+                        <td class="preview">
+                            <p data-guid="{{>ItemGuid}}"><b>{{>Title}}</b></p>
+                            {{if Description}}
+                            <p>{{>Description}}</p>
+                            {{/if}}
+                        </td>
+                        <td>
+                            <div class="lang" id="{{:#index}}" data-id="{{>ContentLanguageCode}}"></div>
+                        </td>
+                        <td>
+                            {{if ContentDownloadUrl}}
+                            <p><a href="{{>ContentDownloadUrl}}" target="_blank">{{:~root.TextDigitalVersion}}</a></p>
+                            {{/if}}
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <input type="hidden" id="guid-{{:#index}}" value="{{>ItemGuid}}" />
+                                <!--code for using input="number"-->
+                                <input type="number" id="quantity-{{:#index}}" class="validate toValidate form-control" min="0" max="{{>MaxOrder}}" placeholder="{{:~root.TextQuantity}}" value="" style="max-width: 150px" />
+
+                                <!--code for using input="checkbox"-->
+                                <!--<input type="checkbox" id="quantity-{{:#index}}" class="validate toValidate" value="1" />-->
+                            </div>
+                        </td>
+
+
+                    </tr>
+                    {{/for}}
+                </table>
+                <div class="order-printed-form">
+                    <div class="required-text"><span>*</span>  {{>TextRequired}}</div>
+                    <div class="row">
+                        <div class="col">
+                            <span class="required">*</span><input type="text" id="name" class="form-control toValidate" name="Name" value="" placeholder="{{>TextName}}" required="required">
+                            <span class="required">*</span><input type="text" id="company" class="form-control toValidate" name="CompanyName" placeholder="{{>TextCompany}}" value="" required="required">
+                            <span class="required">*</span><input type="text" id="address" class="form-control toValidate" name="Address" placeholder="{{>TextAddress}}" value="" required="required">
+                        </div>
+                        <div class="col">
+                            <span class="required">*</span><input type="text" id="code" value="" class="form-control toValidate" name="PostCode" placeholder="{{>TextPostalCode}}" required="required">
+                            <span class="required">*</span><input type="text" id="city" value="" class="form-control toValidate" name="City" placeholder="{{>TextCity}}" required="required">
+                            <span class="required">*</span><input type="text" id="country" value="" class="form-control toValidate" name="CountryCode" placeholder="{{>TextCountry}}" required="required">
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <br />
+            <button id="btnOrder" class="btn btn-outline-dark float-right">{{>TextSubmit}}</button>
+            <br />
+        </div>
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            window.cision.websolution.printedMaterial.retrievePrintedMaterials(0, 50);
+
+            $('#printedMaterialModal .close').click(function () {
+                location.reload();
+            });
+        });
+    </script>
+</body>
+</html>
+

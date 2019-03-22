@@ -1,0 +1,130 @@
+/**********************************************************************************************************************/
+/************************************************** General styles ****************************************************/
+/**********************************************************************************************************************/
+
+a {
+	color: $color_blue;
+	&:hover {
+		text-decoration: none;
+	}
+}
+.clear {
+	clear: both;
+}
+.small-content {
+	display: flex;
+	justify-content: center;
+}
+.table {
+	margin-top: 20px;
+	border-bottom: 1px solid $color_light_border;
+	td {
+		vertical-align: baseline;
+		p {
+			margin-bottom: 0;
+		}
+		> .form-group {
+			margin-bottom: 0;
+		}
+	}
+	thead th {
+		border-top: none;
+	}
+}
+.tab-content {
+	padding: 10px;
+	padding-right: 50px;
+	padding-left: 20px;
+	border-bottom: 1px solid $color_light_grey;
+	border-left: 1px solid $color_light_grey;
+	border-right: 1px solid $color_light_grey;
+}
+.pageIndex {
+	clear: both;
+}
+.extras {
+	margin-top: 10px;
+	width: 20%;
+	float: right;
+}
+.required {
+	margin-right: 10px;
+	color: $color_red;
+}
+.required-text {
+	margin-right: 10px;
+	color: $color_red;
+	margin-bottom: 10px;
+}
+.card-columns {
+	column-count: 5;
+}
+.text-small {
+	font-size: 7pt;
+}
+.subscribeInfo {
+	float: left;
+	margin-right: 25px;
+	margin-bottom: 20px;
+}
+.mail {
+	margin-top: 10px;
+	clear: both;
+	padding-right: 50px;
+	margin-bottom: 20px;
+	.form-control {
+		margin-bottom: 10px;
+	}
+	#sendForm {
+		margin-top: 10px;
+	}
+}
+.orderbook-table {
+	td {
+		text-align: right;
+		&:nth-child(1) {
+			text-align: left;
+		}
+		&:nth-child(2) {
+			text-align: left;
+		}
+	}
+	th {
+		text-align: right;
+		&:nth-child(1) {
+			text-align: left;
+		}
+		&:nth-child(2) {
+			text-align: left;
+		}
+	}
+}
+
+.ticker-price {
+	font-size: 25pt;
+	color: $color_light_blue;
+	font-weight: bold;
+}
+.small-ticker {
+	p {
+		margin-bottom: 5px;
+	}
+	.delta {
+		margin-top: 3px;
+	}
+	img {
+		margin-left: 20px;
+	}
+}
+.container > div {
+	margin: 20px auto 20px auto;
+}
+#target-ticker img {
+	width: 25px;
+}
+.ticker-large td {
+	font-weight: 600;
+	&:nth-child(odd) {
+		padding-right: 30px;
+	}
+}

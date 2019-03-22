@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cision Web Solutions | Newsfeed</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="container">
+        <div id="target-release-detail"></div>
+    </div>
+
+    <script id="tplReleaseDetail" type="text/x-jsrender">
+        <div class="row">
+            {{if Quotes || Images || Quickfacts}}
+            <div class="col-3">
+                {{if Images}}
+                {{for Images}}
+                <div class="card">
+                    <a class="card-link" href="{{:DownloadUrl}}" target="_blank">
+                        <img class="card-img-top" src="{{:UrlTo200x200ArResized}}" alt="{{>Title}}" />
+                    </a>
+                </div>
+                <br />
+                {{/for}}
+                {{/if}}
+                {{if Quotes}}
+                <div class="Release-Quotes">
+                    {{for Quotes}}
+                    <p class="Release-Quotes"><strong>{{>Author}}:</strong> "{{>Text}}" </p>
+                    {{/for}}
+                </div>
+                {{/if}}
+
+                {{if QuickFacts }}
+                <div class="Release-QuickFacts">
+                    {{for QuickFacts}}
+                    <p class="Release-QuickFacts">"{{>#data}}"</p>
+                    {{/for}}
+                </div>
+                {{/if}}
+            </div>
+            {{/if}}
+
+            <div class="col-9">
+                <h3>{{>Title}}</h3>
+                <p class="text-muted">Publish Date: {{>PublishDateFormatted}}</p>
+                <p>{{:HtmlIntro}}</p>
+                <p>{{:HtmlBody}}</p>
+                <p>{{:HtmlCompanyInformation}}</p>
+                <p>{{:HtmlContactInformation}}</p>
+
+                {{if EmbeddedItems}}
+                <div class="Release-Embedded">
+                    {{for EmbeddedItems}}
+                    <div class="release-Embedded">
+                        {{:EmbedCode}}
+                    </div>
+                    {{/for}}
+                </div>
+                <br />
+                {{/if}}
+
+                {{if Keywords}}
+                <div class="Release-keywords">
+                    {{for Keywords}}
+                    <span>{{>#data}}</span>,
+                    {{/for}}
+                </div>
+                {{/if}}
+
+                {{if Files}}
+                <div class="Release-file">
+                    {{for Files}}
+                    <div class="Release-file" style="height:40px">
+                        <a class="{{:FileType}}" href="{{:Url}}"><i class="fas fa-file-{{:FileType}}"></i> {{>Title}}</a>
+                    </div>
+                    {{/for}}
+                </div>
+                {{/if}}
+                <br />
+                <a href="newsfeed.html"><div class="btn btn-outline-dark">{{>TextBack}}</div></a>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            // Retrieve encrypted ID
+            var releaseIdentifier = queryObj()['releaseIdentifier'];
+
+            window.cision.websolution.newsfeed.renderDetail({
+                releaseIdentifier: releaseIdentifier
+            });
+        });
+
+        function queryObj() {
+            var result = {};
+            var queryString = location.search.slice(1);
+            var re = /([^&=]+)=([^&]*)/g;
+            var m;
+
+            while (m = re.exec(queryString)) {
+                result[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+            }
+
+            return result;
+        }
+    </script>
+</body>
+</html>

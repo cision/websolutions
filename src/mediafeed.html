@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cision Web Solutions | Mediafeed</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="container">
+        <div id="target-media-list"></div>
+    </div>
+
+    <script id="tplMediaList" type="text/x-jsrender">
+        <div class="card-columns">
+            {{for Images}}
+            <div class="card" >
+                <a class="card-link" href="{{:DownloadUrl}}" target="_blank">
+                    <img class="card-img-top" src="{{:ThumbnailUrlImage}}" alt="{{>Title}}" />
+                </a>
+            </div>
+            {{/for}}
+        </div>
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            window.cision.websolution.mediafeed.renderListing();
+        });
+    </script>
+</body>
+</html>
+

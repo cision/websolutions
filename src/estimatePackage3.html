@@ -1,0 +1,253 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cision Web Solutions | Estimate</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://code.highcharts.com/stock/7.0.3/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/7.0.3/modules/exporting.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="estimate">
+            <ul id="estimateTabs" class="nav nav-tabs list"></ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="target-estimate-annual"></div>
+                <div class="tab-pane" id="target-estimate-quarterly"></div>
+                <div style="clear: both">&nbsp;</div>
+                <div class="tab-pane" id="target-estimate-historical">
+                    <div id="historicDataHeader">
+                        <h5>
+                            <a id="historicalDataHeaderSALES" class="active" href='#' onclick='window.cision.websolution.estimate.historical.reloadChart("SALES")'>SALES</a> |
+                            <a id="historicalDataHeaderEBIT" href='#' onclick='window.cision.websolution.estimate.historical.reloadChart("EBIT")'>EBIT</a> |
+                            <a id="historicalDataHeaderDPS" href='#' onclick='window.cision.websolution.estimate.historical.reloadChart("DPS")'>DPS</a> |
+                            <a id="historicalDataHeaderEPS" href='#' onclick='window.cision.websolution.estimate.historical.reloadChart("EPS")'>EPS</a>
+                        </h5>
+                    </div>
+                    <div class="tab-pane" id="historicalDataContainer"></div>
+                </div>
+                <div class="tab-pane" id="target-estimate-recommendations">
+                    <div id="currentRecommendation">
+                        <div id="shareinformation"></div>
+                        <div id="currentRecommendationDistribution"></div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="target-estimate-historic-recommendations">
+                    <div class="recommendationInfo"></div>
+                    <!-- The history Table -->
+                    <div id="historicRecommendation"></div>
+                </div>
+            </div>
+        </div>
+        <div class="sme"></div>
+        <img src="images/smedirekt.png" alt="" /> <img width="45" src="images/logo.png" alt="" />
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            var settings = window.cision.websolution.settings.general,
+                texts = window.cision.websolution.texts[settings.uiLanguage];
+
+            $("<li class='nav-item'><a href='#target-estimate-annual' class='nav-link active' data-toggle='tab'>" + texts.TextAnnual + "</a></li>").appendTo(".list");
+            $("<li class='nav-item'><a href='#target-estimate-quarterly' class='nav-link' data-toggle='tab'>" + texts.TextQuarterly + "</a></li>").appendTo(".list");
+            $("<li class='nav-item'><a href='#target-estimate-historical' class='nav-link' data-toggle='tab'>" + texts.TextHistorical + "</a></li>").appendTo(".list");
+            $("<li class='nav-item'><a href='#target-estimate-recommendations' class='nav-link' data-toggle='tab'>" + texts.TextRec + "</a></li>").appendTo(".list");
+            $("<li class='nav-item'><a href='#target-estimate-historic-recommendations' class='nav-link' data-toggle='tab'>" + texts.TextHistoricalRec + "</a></li>").appendTo(".list");
+
+            $("<p class='text-muted'>" + texts.TextSME + "</p>").appendTo(".sme");
+
+            $('#estimateTabs a').click(function (e) {
+                e.preventDefault();
+                window.cision.websolution.estimate.common.renderEstimateTab($(this)[0].hash);
+                $(this).tab('show');
+            });
+
+            //render first ownership
+            window.cision.websolution.estimate.annual.render({
+                periodStart: (moment().year() - 2).toString(),
+                periodEnd: moment().year() + 1
+            });
+            settings.estimateTabLoaded["#target-estimate-annual"] = true;
+
+            $('#estimateTabs a:first').tab('show');
+        });
+    </script>
+
+    <script id="template-estimate-annual" type="text/x-jsrender">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    {{for PeriodList}}
+                    <th>{{:Header}}</th>
+                    {{/for}}
+                </tr>
+            </thead>
+            <tr>
+                <td>Sales, MSEK</td>
+                {{for PeriodList}}
+                <td>&nbsp;{{>~formatNumber(Sales)}} {{if IsEstimate && Sales_Count}} <span class="analysts">* {{:Sales_Count}}</span>{{/if}}</td>
+                {{/for}}
+            </tr>
+            <tr>
+                <td>EBITDA, MSEK</td>
+                {{for PeriodList}}
+                <td>&nbsp;{{>~formatNumber(EBITDA)}} {{if IsEstimate && EBITDA_Count}} <span class="analysts">* {{:EBITDA_Count}}</span>{{/if}}</td>
+                {{/for}}
+            </tr>
+            <tr>
+                <td>EPS, SEK</td>
+                {{for PeriodList}}
+                <td>&nbsp;{{>~formatNumber(EPS)}} {{if IsEstimate && EPS_Count}} <span class="analysts">* {{:EPS_Count}}</span>{{/if}}</td>
+                {{/for}}
+            </tr>
+            <tr>
+                <td>DPS, SEK</td>
+                {{for PeriodList}}
+                <td>&nbsp;{{>~formatNumber(DPS)}} {{if IsEstimate && DPS_Count}} <span class="analysts">* {{:DPS_Count}}</span>{{/if}}</td>
+                {{/for}}
+            </tr>
+        </table>
+        <br />
+        <p class="text-muted">{{>TextLastUpdate}}: {{>PeriodList.LastDateFormatted}}</p>
+        <p class="analytics">* {{>TextAnalyticsCount}}</p>
+    </script>
+
+    <script id="template-estimate-quarterly" type="text/x-jsrender">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    {{for PeriodList}}
+                    <th>{{:Header}}</th>
+                    {{/for}}
+                </tr>
+            </thead>
+            <tr>
+                <td>Sales, MSEK</td>
+                {{for PeriodList}}
+                <td>&nbsp;{{>~formatNumber(Sales)}} {{if IsEstimate && Sales_Count}} <span class="analysts">* {{:Sales_Count}}</span>{{/if}}</td>
+                {{/for}}
+            </tr>
+            <tr>
+                <td>EBITDA, MSEK</td>
+                {{for PeriodList}}
+                <td>&nbsp;{{>~formatNumber(EBITDA)}} {{if IsEstimate && EBITDA_Count}} <span class="analysts">* {{:EBITDA_Count}}</span>{{/if}}</td>
+                {{/for}}
+            </tr>
+            <tr>
+                <td>EPS, SEK</td>
+                {{for PeriodList}}
+                <td>&nbsp;{{>~formatNumber(EPS)}} {{if IsEstimate && EPS_Count}} <span class="analysts">* {{:EPS_Count}}</span>{{/if}}</td>
+                {{/for}}
+            </tr>
+
+        </table>
+        <br />
+        <p class="text-muted">{{>TextLastUpdate}}: {{>PeriodList.LastDateFormatted}}</p>
+        <p class="analytics">* {{>TextAnalyticsCount}}</p>
+    </script>
+
+    <script id="template-recommendations-history-table" type="text/x-jsrender">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    {{for Months}}
+                    <th data-date="{{:Date}}">{{:MonthName}}</th>
+                    {{/for}}
+                </tr>
+            </thead>
+            <tr>
+                <td><b>{{>TextMean}}.</b></td>
+                {{for Months}}
+                <td class="bold">{{>~formatNumber(Mean)}}</td>
+                {{/for}}
+            </tr>
+            <tr>
+                <td><b>5. </b>{{>TextStrongBuy}}</td>
+                {{for Months}}
+                <td>{{>~formatNumber(StrongBuy)}}</td>
+                {{/for}}
+            </tr>
+            <tr>
+                <td><b>4. </b>{{>TextBuy}}</td>
+                {{for Months}}
+                <td>{{>~formatNumber(Buy)}}</td>
+                {{/for}}
+            </tr>
+            <tr>
+                <td><b>3. </b>{{>TextHold}}</td>
+                {{for Months}}
+                <td>{{>~formatNumber(Hold)}}</td>
+                {{/for}}
+            </tr>
+            <tr>
+                <td><b>2. </b>{{>TextSell}}</td>
+                {{for Months}}
+                <td>{{>~formatNumber(Sell)}}</td>
+                {{/for}}
+            </tr>
+            <tr>
+                <td><b>1. </b>{{>TextStrongSell}}</td>
+                {{for Months}}
+                <td>{{>~formatNumber(StrongSell)}}</td>
+                {{/for}}
+            </tr>
+        </table>
+        <br />
+        <p class="text-muted">{{>TextLastUpdate}}: {{>LastDateFormatted}}</p>
+    </script>
+
+    <script id="tplShareInformation" type="text/x-jsrender">
+        <div id="ticker" style="float:right;">
+            <h6>{{>TextHeader1}}</h6>
+            <h6>{{>TextName}}: {{>TickerSymbol}} </h6>
+            <h6>{{>TextPrice}}: {{:LatestQuote.Price}} {{>TradeCurrency}} </h6>
+            <h6>{{>TextLastUpdate}}: {{>LatestQuote.QuoteTimeFormatted}}</h6>
+        </div>
+    </script>
+
+    <script id="tplCurrentRecommendationDistribution" type="text/x-jsrender">
+        <div id="currentRecommendationExp" style="float:left;">
+            <h6>{{>TextHeader2}}</h6>
+            <h6>{{>Name}}: {{>TickerSymbol}}, {{>ISIN}} </h6>
+            <h6>{{>TextNumberRec}}: {{>TotalCount}}</h6>
+            <h6>{{>TextLastUpdate}}: {{>LastDateFormatted}}</h6>
+        </div>
+
+        <p style="clear:both;">&nbsp;</p>
+
+        <div id="recommendation_gradient">
+            <span style="position:absolute; z-index:1; display:block; background-color:#878485; width:5px; height:36px; left:{{>MeanDistribution}}%;"></span>
+            <span style="position:absolute; z-index:1; font-weight:bold; font-size:12px; margin-top:10px; left:7px; color:White">{{>TextStrongSell}}</span>
+            <span style="position:absolute; z-index:1; font-weight:bold; font-size:12px; margin-top:10px; right:7px; color:White">{{>TextStrongBuy}}</span>
+        </div>
+
+        <table id="rekBar">
+            <tr>
+                <td style="min-width: 150px;">{{>TextStrongBuy}} ({{>StrongBuy}})</td>
+                <td style="width: 100%;"><div class="recommendation-bar" style="background-color:#9ec44c; width: {{>StrongBuyDistribution}}%"></div></td>
+            </tr>
+            <tr>
+                <td>{{>TextBuy}} ({{>Buy}})</td>
+                <td><div class="recommendation-bar" style="background-color:#b8e15f; width: {{>BuyDistribution}}%"></div></td>
+            </tr>
+            <tr>
+                <td>{{>TextHold}} ({{>Hold}})</td>
+                <td><div class="recommendation-bar" style="background-color:#dfbd1a; width: {{>HoldDistribution}}%"></div></td>
+            </tr>
+            <tr>
+                <td>{{>TextSell}} ({{>Sell}})</td>
+                <td><div class="recommendation-bar" style="background-color:#de6422; width: {{>SellDistribution}}%"></div></td>
+            </tr>
+            <tr>
+                <td>{{>TextStrongSell}} ({{>StrongSell}})</td>
+                <td><div class="recommendation-bar" style="background-color:Red; width: {{>StrongSellDistribution}}%"></div></td>
+            </tr>
+        </table>
+    </script>
+</body>
+</html>

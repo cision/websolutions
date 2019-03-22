@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cision Web Solutions | Share Performance</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="container">
+        <div id="target-share-performance" class="small-content"></div>
+    </div>
+
+    <script id="tplTickerPerformance" type="text/x-jsrender">
+        <table class="table table-sm" style="width:350px;margin:20px auto;">
+            <tr>
+                <td>{{>TextSymbol}}</td>
+                <td class="text-right"><b>{{>Symbol}}</b></td>
+            </tr>
+            <tr>
+                <td>{{>TextCurrency}}</td>
+                <td class="text-right"><b>{{>TradeCurrency}}</b></td>
+            </tr>
+            <tr>
+                <td>{{>TextMarketPlace}}</td>
+                <td class="text-right"><b>{{>MarketPlace}}</b></td>
+            </tr>
+            <tr>
+                <td>{{>TextClosingPrice}}</td>
+                <td class="text-right"><b>{{>~formatNumber(ClosePrice1D, 2)}}</b></td>
+            </tr>
+            <tr>
+                <td>{{>TextLatestPrice}} ({{>LastUpdateFormatted}})</td>
+                <td class="text-right"><b>{{>~formatNumber(LastPrice, 2)}}</b></td>
+            </tr>
+            <tr>
+                <td>{{>TextYearHigh}} ({{>HighPriceYtdDateFormatted}})</td>
+                <td class="text-right"><b>{{>~formatNumber(HighPrice1Y)}}</b></td>
+            </tr>
+            <tr>
+                <td>{{>TextYearLow}} ({{>LowPriceYtdDateFormatted}})</td>
+                <td class="text-right"><b>{{>~formatNumber(LowPrice1Y)}}</b></td>
+            </tr>
+            <tr>
+                <td>{{>TextAtHigh}} ({{>AthDateFormatted}})</td>
+                <td class="text-right"><b>{{>~formatNumber(Ath, 2)}}</b></td>
+            </tr>
+            <tr>
+                <td>{{>TextAtLast}} ({{>AtlDateFormatted}})</td>
+                <td class="text-right"><b>{{>~formatNumber(Atl, 2)}}</b></td>
+            </tr>
+            <tr>
+                <td>{{>TextNumberOfShares}}</td>
+                <td class="text-right"><b>{{>~formatNumber(NumberOfShares, 0)}}</b></td>
+            </tr>
+        </table>
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            window.cision.websolution.performance.render();
+        });
+    </script>
+
+</body>
+</html>
+

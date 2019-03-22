@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cision Web Solutions | Share Trades</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="container">
+        <div id="target-trades" class="small-content"></div>
+    </div>
+        <script id="tplTickerTrades" type="text/x-jsrender">
+            <div>
+                <h3>{{>TickerName}}, {{>ISIN}}, {{>TickerSymbol}}</h3>
+                <br />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>{{>TextPrice}} {{>TradeCurrency}}</th>
+                            <th>{{>TextVolume}}</th>
+                            <th>{{>TextBuyer}}</th>
+                            <th>{{>TextSeller}}</th>
+                            <th>{{>TextTime}}</th>
+                        </tr>
+                    </thead>
+                    {{for Trades}}
+                    <tr>
+                        <td>{{>~formatNumber(Price)}}</td>
+                        <td class="text-right">{{>~formatNumber(Quantity, 0)}}</td>
+                        <td class="text-center">{{>Buyer}}</td>
+                        <td class="text-center">{{>Seller}}</td>
+                        <td class="text-center" data-time="{{>TradeTime}}">{{>~formatTime(TradeTime, 'HH:mm:ss')}}</td>
+                    </tr>
+                    {{/for}}
+                </table>
+            </div>
+        </script>
+
+    <script type="text/javascript">
+        $(function () {
+            window.cision.websolution.trades.render();
+        });    
+    </script>
+
+</body>
+</html>
+

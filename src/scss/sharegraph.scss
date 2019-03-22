@@ -1,0 +1,102 @@
+/**********************************************************************************************************************/
+/************************************************** Sharegraph styles *************************************************/
+/**********************************************************************************************************************/
+
+//@extend-elements
+//#share-options-select li a, #share-download-options li a
+%list-element-styles {
+	min-width: 220px;
+	color: $color_dark_grey;
+	margin-right: 40px;
+}
+
+#target-sharegraph-wrapper {
+	margin-top: -20px;
+}
+#sharegraph-container {
+	height: 500px;
+	width: 100%;
+}
+
+.datepicker-dropdown {
+	margin-left: -39px;
+	margin-top: 25px;
+}
+.row {
+	padding: 25px 15px 25px 5px;
+	margin-left: 0;
+}
+.dropdown {
+	float: left;
+	margin-right: 10px;
+}
+.date-picker {
+	float: left;
+	margin-right: 10px;
+	width: 160px;
+}
+#mini-sharegraph #sharegraph-container {
+	margin: 20px auto;
+	height: 150px;
+	width: 500px;
+}
+.prev:hover {
+	cursor: pointer !important;
+}
+.next:hover {
+	cursor: pointer !important;
+}
+#share-options-select li {
+	a {
+		@extend %list-element-styles;
+	}
+	&.cision-disabled {
+		a {
+			color: $color_grey;
+		}
+		&:hover {
+			cursor: default;
+			a {
+				cursor: default;
+			}
+		}
+	}
+	.fa-check {
+		display: none;
+		float: right;
+		margin-top: 4px;
+	}
+	&.selected .fa-check {
+		display: inline-block;
+	}
+}
+#share-download-options li a {
+	@extend %list-element-styles;
+}
+.performance-table td:first-child {
+	font-weight: 500;
+}
+
+
+/************** Horizontal ticker *************/
+#horisontal-ticker {
+	width: 100%;
+	margin: 20px auto;
+	border-collapse: collapse;
+	th {
+		border-bottom: 1px solid $color_light_grey;
+		text-align: left;
+		padding: 5px 10px;
+		&.image {
+			border-bottom: none;
+			img {
+				width: 40px;
+				margin-bottom: -28px;
+				padding-right: 2px;
+			}
+		}
+	}
+	td {
+		padding: 5px 10px;
+	}
+}

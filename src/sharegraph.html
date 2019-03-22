@@ -1,0 +1,272 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cision Web Solutions | Sharegraph</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://code.highcharts.com/stock/7.0.3/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/7.0.3/modules/exporting.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="target-ticker"></div>
+        <div id="target-sharegraph-wrapper"></div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            window.cision.websolution.sharegraph.init();
+        });
+
+
+    </script>
+
+    <script id="templateTicker" type="text/x-jsrender">
+        {{if showHorisontalTicker}}
+        <table id="horisontal-ticker">
+            {{for tickers}}
+            <tr>
+                <th class="image"><img src="{{url:ArrowImageurl}}" /></th>
+                <th>{{>TickerSymbol}}</th>
+                <th>{{>TextPrice}}</th>
+                <th>{{>TextLatestChange}}</th>
+                <th>{{>TextDateTime}}</th>
+                <th>{{>TextAsk}}</th>
+                <th>{{>TextBid}}</th>
+                <th>{{>TextHigh}}</th>
+                <th>{{>TextLow}}</th>
+                <th>{{>TextVolume}}</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td>{{>TradeCurrency}}</td>
+                <td>{{>~formatNumber(Price)}}</td>
+                <td>{{>~formatNumber(Delta)}} {{>TradeCurrency}} ({{>~formatNumber(DeltaPercentage, 2)}} %)</td>
+                <td>{{>~formatTime(QuoteTime, "YYYY-MM-DD HH:mm")}}</td>
+                <td>{{>~formatNumber(AskPrice)}}</td>
+                <td>{{>~formatNumber(BidPrice)}}</td>
+                <td>{{>~formatNumber(HighPrice)}}</td>
+                <td>{{>~formatNumber(LowPrice)}}</td>
+                <td>{{>~formatNumber(Quantity, 0)}}</td>
+            </tr>
+            {{/for}}
+        </table>
+        {{/if}}
+    </script>
+
+    <script id="templatesharegraph" type="text/x-jsrender">
+        <div class="row justify-content-between">
+            <div>
+                <div class="dropdown" id="share-options-select">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="shareOptionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        {{>TextShareOptions}}
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="shareOptionsDropdown">
+                        <li class="dropdown-header">{{>TextShare}} & {{>TextIndex}}</li>
+                        {{for mainInstruments}}
+                        <li class="dropdown-item show-hide-instrument selected" data-initialstate="selected" data-key='{{>symbol}}{{>marketPlace}}{{>currency}}'><a href="#"><i class="fas fa-check"></i>{{>name}}</a></li>
+                        {{if hasEffectiveYield}}
+                        <!-- To access this value you have to have this service activated in Millistream-->
+                        <li class="dropdown-item show-hide-instrument" data-key="{{>symbol}}{{>marketPlace}}{{>currency}}{{:~root.effectiveYieldSuffix}}" id="chk2"><a href="#"><i class="fas fa-check"></i>{{>name}} [{{:~root.TextTotalReturn}}]</a></li>
+                        {{/if}}
+                        {{/for}}
+                        {{if indexInstruments.length}}
+                        {{for indexInstruments}}
+                        <li class="dropdown-item show-hide-instrument share-index" data-triggercomparison='true' data-symbol='{{>symbol}}' data-key='{{>symbol}}{{>marketPlace}}{{>currency}}'><a href="#"><i class="fas fa-check"></i>{{>name}}</a></li>
+                        {{/for}}
+                        {{/if}}
+                        {{if peersInstruments.length}}
+                        <li role="separator" class="dropdown-divider"></li>
+                        <li class="dropdown-header">{{>TextPeers}}</li>
+                        {{for peersInstruments}}
+                        <li class="dropdown-item show-hide-instrument share-peer" data-triggercomparison='true' data-symbol='{{>symbol}}' data-key='{{>symbol}}{{>marketPlace}}{{>currency}}'><a href="#"><i class="fas fa-check"></i>{{>name}}</a></li>
+                        {{/for}}
+                        {{/if}}
+                        <li role="separator" class="dropdown-divider"></li>
+                        <li class="dropdown-header">{{>TextReleases}}</li>
+                        {{for indicatorsOnSeries}}
+                        <li class="dropdown-item show-hide-instrument indicator" data-title="{{:~root.TextIndicatorDisabledTooltip}}" data-toggle="tooltip" data-key='{{>uniqueKey}}'><a href="#"><i class="fas fa-check"></i>{{>~getTranslation(translationKey)}}</a></li>
+                        {{/for}}
+                        <li role="separator" class="dropdown-divider"></li>
+                        <li class="dropdown-header">{{>TextCompSubtitle}}</li>
+                        <li class="dropdown-item chartComparisonType" id="comparisonPercent" data-key='percent'><a href="#"><i class="fa fa-check"></i>{{>TextPercent}}</a></li>
+                        <li class="dropdown-item chartComparisonType selected" data-initialstate="selected" id="comparisonNone" data-key='price'><a href="#"><i class="fas fa-check"></i>{{>TextPrice}}</a></li>
+                        <li role="separator" class="dropdown-divider"></li>
+                        <li class="dropdown-item chartComparisonType volume" data-title="{{>TextVolumeDisabledTooltip}}" data-toggle="tooltip" data-key='volume'><a href="#"><i class="fas fa-check"></i>{{>TextShowVolume}}</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown" id="share-download-options">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="downloadOptionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        {{>TextDownload}}
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="downloadOptionsDropdown">
+                        <li class="dropdown-item" id="excel-download"><a href="#"><i class="fas fa-download"></i> {{>TextDownloadShareHistory}}</a></li>
+                        <li class="dropdown-item" id="print-chart"><a href="#"><i class="fas fa-print"></i> {{>TextPrintChart}}</a></li>
+                        <li class="dropdown-item" id="export-png-chart"><a href="#"><i class="fas fa-image"></i> {{>TextDownloadAsPNG}}</a></li>
+                        <li class="dropdown-item" id="export-jpeg-chart"><a href="#"><i class="fas fa-image"></i> {{>TextDownloadAsJPEG}}</a></li>
+                        <li class="dropdown-item" id="export-svg-chart"><a href="#"><i class="fas fa-image"></i> {{>TextDownloadAsSVG}}</a></li>
+                        <li class="dropdown-item" id="export-pdf-chart"><a href="#"><i class="fas fa-file-pdf"></i> {{>TextDownloadAsPDF}}</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="periods" class="btn-group">
+                <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodDays1">{{>TextPartOfDay}}</div>
+                <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodWeeks1">{{>Text1V}}</div>
+                <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodMonths1">{{>Text1M}}</div>
+                <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodMonths3">{{>Text3M}}</div>
+                <div class="action btn btn-outline-secondary active selected" name="dataPeriod" data-key="dataPeriodMonths6">{{>Text6M}}</div>
+                <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodYears1">{{>Text1Y}}</div>
+                <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodYearsAll">{{>TextAll}}</div>
+            </div>
+
+            <div>
+                <div class="input-group date-picker" id="datePickerFrom">
+                    <span class="input-group-prepend">
+                        <button class="btn btn-outline-secondary" type="button"><i class="fas fa-calendar-alt"></i></button>
+                    </span>
+                    <input type="text" class="form-control date-input" />
+                </div>
+                <div class="input-group date-picker" id="datePickerTo">
+                    <span class="input-group-prepend">
+                        <button class="btn btn-outline-secondary" type="button"><i class="fas fa-calendar-alt"></i></button>
+                    </span>
+                    <input type="text" class="form-control date-input" />
+                </div>
+            </div>
+        </div>
+
+        <div id="sharegraph-container"></div>
+
+        <div class="sharegraph-tabs">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item" role="presentation"><a href="#performance" class="nav-link active" aria-controls="home" role="tab" data-toggle="tab">{{>TextPerformance}}</a></li>
+                <li class="nav-item" role="presentation"><a href="#orderbook" class="nav-link" aria-controls="profile" role="tab" data-toggle="tab">{{>TextOrderBook}}</a></li>
+                <li class="nav-item" role="presentation"><a href="#trades" class="nav-link" aria-controls="messages" role="tab" data-toggle="tab">{{>TextTrades}}</a></li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="performance"><div id="target-share-performance"></div></div>
+                <div role="tabpanel" class="tab-pane" id="orderbook"><div id="target-orderbook"></div></div>
+                <div role="tabpanel" class="tab-pane" id="trades"><div id="target-trades"></div></div>
+            </div>
+        </div>
+    </script>
+
+    <script id="tplTickerPerformance" type="text/x-jsrender">
+        <table class="table table-sm performance-table">
+            <tr>
+                <td>{{>TextSymbol}}</td>
+                <td class="text-right">{{>Symbol}}</td>
+            </tr>
+            <tr>
+                <td>{{>TextCurrency}}</td>
+                <td class="text-right">{{>TradeCurrency}}</td>
+            </tr>
+            <tr>
+                <td>{{>TextMarketPlace}}</td>
+                <td class="text-right">{{>MarketPlace}}</td>
+            </tr>
+            <tr>
+                <td>{{>TextClosingPrice}}</td>
+                <td class="text-right">{{>~formatNumber(ClosePrice1D, 2)}}</td>
+            </tr>
+            <tr>
+                <td>{{>TextLatestPrice}} ({{>LastUpdateFormatted}})</td>
+                <td class="text-right">{{>~formatNumber(LastPrice, 2)}}</td>
+            </tr>
+            <tr>
+                <td>{{>TextYearHigh}} ({{>HighPriceYtdDateFormatted}})</td>
+                <td class="text-right">{{>~formatNumber(HighPrice1Y)}}</td>
+            </tr>
+            <tr>
+                <td>{{>TextYearLow}} ({{>LowPriceYtdDateFormatted}})</td>
+                <td class="text-right">{{>~formatNumber(LowPrice1Y)}}</td>
+            </tr>
+            <tr>
+                <td>{{>TextAtHigh}} ({{>AthDateFormatted}})</td>
+                <td class="text-right">{{>~formatNumber(Ath, 2)}}</td>
+            </tr>
+            <tr>
+                <td>{{>TextAtLast}} ({{>AtlDateFormatted}})</td>
+                <td class="text-right">{{>~formatNumber(Atl, 2)}}</td>
+            </tr>
+            <tr>
+                <td>{{>TextNumberOfShares}}</td>
+                <td class="text-right">{{>~formatNumber(NumberOfShares, 0)}}</td>
+            </tr>
+        </table>
+    </script>
+
+    <script id="templateorderbook" type="text/x-jsrender">
+        {{if OrderBookItems.length}}
+        <table class="table table-sm orderbook-table">
+            <thead>
+                <tr>
+                    <th>{{>TextBuy}}</th>
+                    <th>{{>TextVolume}}</th>
+                    <th style="width: 30%">&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th style="width: 30%">&nbsp;</th>
+                    <th>{{>TextVolume}}</th>
+                    <th>{{>TextSell}}</th>
+                </tr>
+            </thead>
+            {{for OrderBookItems}}
+            <tr id="order-level-{{>Level}}">
+                <td>{{>~formatNumber(BidPrice)}}</td>
+                <td>{{>~formatNumber(BidQuantity, 0)}}</td>
+                <td style="vertical-align:middle; text-align: center;">
+                    <div style="height:8px; padding: 0; margin: 2px;">
+                        <div style="height:8px; float:right; background-color:#1756E3; width : {{>BidVisualComparison}}%">&nbsp;</div>
+                    </div>
+                </td>
+                <td style="width:2px;"></td>
+                <td style="vertical-align:middle; text-align: center;">
+                    <div style="height:8px; padding: 0; margin: 2px; ">
+                        <div style="height:8px; background-color:#8cc63f; width : {{>AskVisualComparison}}%">&nbsp;</div>
+                    </div>
+                </td>
+                <td>{{>~formatNumber(AskQuantity, 0)}}</td>
+                <td>{{>~formatNumber(AskPrice)}}</td>
+            </tr>
+            {{/for}}
+        </table>
+        {{else}}
+        <p>{{>TextNoTradesYet}}</p>
+        {{/if}}
+    </script>
+
+    <script id="tplTickerTrades" type="text/x-jsrender">
+        {{if Trades.length}}
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th class="text-left">{{>TextPrice}} {{>TradeCurrency}}</th>
+                    <th class="text-left">{{>TextVolume}}</th>
+                    <th class="text-left">{{>TextBuyer}}</th>
+                    <th class="text-left">{{>TextSeller}}</th>
+                    <th class="text-left">{{>TextTime}}</th>
+                </tr>
+            </thead>
+            {{for Trades}}
+            <tr>
+                <td class="text-left">{{>~formatNumber(Price)}}</td>
+                <td class="text-left">{{>~formatNumber(Quantity, 0)}}</td>
+                <td class="text-left">{{>Buyer}}</td>
+                <td class="text-left">{{>Seller}}</td>
+                <td class="text-left" data-time="{{>TradeTime}}">{{>~formatTime(TradeTime, 'HH:mm:ss')}}</td>
+            </tr>
+            {{/for}}
+        </table>
+        {{else}}
+        <p>{{>TextNoTradesYet}}</p>
+        {{/if}}
+    </script>
+
+</body>
+</html>

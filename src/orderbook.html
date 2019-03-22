@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cision Web Solutions | Orderbook</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="container">
+        <div id="target-orderbook"></div>
+    </div>
+
+    <script id="templateorderbook" type="text/x-jsrender">
+        <table class="table table-sm orderbook-table">
+            <thead>
+                <tr>
+                    <th>{{>TextBuy}}</th>
+                    <th>{{>TextVolume}}</th>
+                    <th style="width: 30%">&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th style="width: 30%">&nbsp;</th>
+                    <th>{{>TextVolume}}</th>
+                    <th>{{>TextSell}}</th>
+                </tr>
+            </thead>
+            {{for OrderBookItems}}
+            <tr id="order-level-{{>Level}}">
+                <td>{{>~formatNumber(BidPrice)}}</td>
+                <td>{{>~formatNumber(BidQuantity, 0)}}</td>
+                <td style="vertical-align:middle; text-align: center;">
+                    <div style="height:8px; padding: 0; margin: 2px;">
+                        <div style="height:8px; float:right; background-color:#1756E3; width : {{>BidVisualComparison}}%">&nbsp;</div>
+                    </div>
+                </td>
+                <td style="width:2px;"></td>
+                <td style="vertical-align:middle; text-align: center;">
+                    <div style="height:8px; padding: 0; margin: 2px; ">
+                        <div style="height:8px; background-color:#8cc63f; width : {{>AskVisualComparison}}%">&nbsp;</div>
+                    </div>
+                </td>
+                <td>{{>~formatNumber(AskQuantity, 0)}}</td>
+                <td>{{>~formatNumber(AskPrice)}}</td>
+            </tr>
+            {{/for}}
+        </table>
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            window.cision.websolution.orderbook.render();
+        });
+    </script>
+
+</body>
+</html>
+

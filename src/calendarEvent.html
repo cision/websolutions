@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cision Web Solutions | Calendar Event</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="container">
+        <div id="target-event-detail"></div>
+    </div>
+
+    <script id="tplEventDetail" type="text/x-jsrender">
+        <div id="event">
+            <div class="event-content">
+                <img src="{{>LogoUrl}}" />
+                <h2>{{>Title}}</h2>
+                <b>{{>Summary}}</b>
+                <p>{{>Body}}</p>
+                <div class="dateTime">
+                    {{if EventDateFormatted || Location || Address}}
+                    <h4>{{>TextWhenWhere}}</h4>
+                    {{/if}}
+                    {{if EventDateFormatted}}
+                    <p><span class="date clear">{{>EventDateFormatted}}</span></p>
+                    {{/if}}
+                    {{if Location}}
+                    <span>{{>Location}}</span>
+                    {{/if}}
+                    {{if Address}}
+                    <a href="https://www.google.se/maps/place/{{>Address}}" target="_blank">{{>Address}}</a>
+                    {{/if}}
+                </div>
+                <div class="attachments">
+                    {{if Links || Files}}
+                    <h4>{{>TextAttachment}}</h4>
+                    {{/if}}
+                    {{if Links}}
+                    {{for Links}}
+                    <p><a href="{{>LinkUrl}}" target="_blank">{{>LinkText}}</a></p>
+                    {{/for}}
+                    {{/if}}
+                    {{if Files}}
+                    {{for Files}}
+                    <div class="attachment-thunbnail"><a href="{{>LinkUrl}}" target="_blank">{{if LinkText}}<p>{{>LinkText}}</p>{{/if}}{{if ThumbnailUrl}}<img src="{{>ThumbnailUrl}}" />{{/if}}</a></div>
+                    {{/for}}
+                    {{/if}}
+                </div>
+            </div>
+            <br />
+            <div class="clear"></div>
+            <a href="calendar.html"><div class="btn btn-outline-dark">{{>TextBack}}</div></a>
+        </div>
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            // Retrieve encrypted ID
+            var eventGuid = window.cision.websolution.calendar.queryObj()['guid'];
+            window.cision.websolution.calendar.getEventByGuid({
+                eventGuid: eventGuid
+            });
+        });
+    </script>
+</body>
+</html>

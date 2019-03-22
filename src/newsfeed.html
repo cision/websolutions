@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cision Web Solutions | Newsfeed</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="container">
+        <div id="target-release-list"></div>
+    </div>
+
+    <script id="tplReleaseList" type="text/x-jsrender">
+        <h2>Pressmeddelanden</h2>
+        <div class="list-group">
+            {{for Releases}}
+            <a href="releaseDetail.html?releaseIdentifier={{>EncryptedId}}" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="row">
+                    {{if ThumbnailUrl.length}}
+                    <div class="col-2">
+                        <div class="card">
+                            <img class="card-img-top" src="{{:ThumbnailUrl}}" alt="{{>Title}}" />
+                        </div>
+                    </div>
+                    {{/if}}
+                    <div class="col">
+                        <h4>{{>Title}}</h4>
+                        <p class="text-muted">{{>PublishDateFormatted}}</p>
+                        <p>{{>Intro}}</p>
+                    </div>
+                </div>
+            </a>
+            {{/for}}
+        </div>
+        <br />
+        <div class="row justify-content-center">
+            <nav aria-label="">
+                <ul class="pagination">
+                    <li class="page-item {{if PageIndex == 1}}disabled{{/if}}">
+                        <span class="page-link" onclick="changePage({{>PreviousPageIndex}},{{>PageSize}})"><i class="fas fa-caret-left"></i></span>
+                    </li>
+                    <li class="page-item disabled">
+                        <span class="page-link">
+                            {{>PageIndex}} of {{>PageCount}}
+                        </span>
+                    </li>
+                    <li class="page-item {{if NextPageExists == false}}disabled{{/if}}">
+                        <span class="page-link" onclick="changePage({{>NextPageIndex}},{{>PageSize}})"><i class="fas fa-caret-right"></i></span>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            changePage(0, 10);
+        });
+
+        function changePage(pageIndex, pageSize) {
+            var promise = window.cision.websolution.newsfeed.render({
+                pageIndex: pageIndex,
+                pageSize: pageSize,
+                introMaxLength: 120
+            });
+            promise.then(function(){
+                window.scrollTo(0, 0);
+            });
+        };
+    </script>
+
+</body>
+</html>

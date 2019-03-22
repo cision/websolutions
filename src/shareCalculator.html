@@ -1,0 +1,280 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cision Web Solutions | Share Calculator</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="container">
+        <div id="sharecalclulator-sharetype-container" class="sharecalclulator-container"></div>
+        <div id="sharecalclulator-container" class="sharecalclulator-container"></div>
+        <div id="sharecalclulator-results-container" class="sharecalclulator-container"></div>
+        <div id="sharecalclulator-history-container" class="sharecalclulator-container"></div>
+    </div>
+
+    <script id="template-sharecalclulator-sharetype" type="text/x-jsrender">
+        <fieldset>
+            <legend>{{>TextShareType}}</legend>
+            <p class="helptext">{{>TextShareTypeHelp}}</p>
+            <div class="row justify-content-between">
+                {{for Instruments}}
+                <div class="col">
+                    <label><input type="radio" name="shareType" value="{{>TickerSymbol}}" {{if Checked}} checked="checked" {{/if}}/>{{>TickerSymbol}} ({{>TradeCurrency}})</label><br />
+                </div>
+                {{/for}}
+            </div>
+        </fieldset>
+    </script>
+
+    <script id="template-sharecalclulator" type="text/x-jsrender">
+        <fieldset>
+            <legend>{{>TextShareSettings}}</legend>
+            <p class="helptext">{{>TextPeriodHelp}}</p>
+            <table class="sharedates" border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td class="bold first"> </td>
+                        <td class="bold">{{>TextYear}}</td>
+                        <td class="bold">{{>TextMonth}}</td>
+                        <td class="bold">{{>TextDay}}</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">{{>TextFromIncluding}}:</td>
+                        <td>
+                            <select id="shareCalculatorStartYear" class="form-control">
+                                {{for Years}}
+                                {{if #data == ~root.StartDateSelectedYear}}
+                                <option value={{>}} selected="selected">{{>}}</option>
+                                {{else}}
+                                <option value={{>}}>{{>}}</option>
+                                {{/if}}
+                                {{/for}}
+                            </select>
+                        </td>
+                        <td>
+                            <select id="shareCalculatorStartMonth" class="form-control">
+                                {{for Months}}
+                                {{if #data == ~root.SelectedMonth}}
+                                <option value={{>}} selected="selected">{{>}}</option>
+                                {{else}}
+                                <option value={{>}}>{{>}}</option>
+                                {{/if}}
+                                {{/for}}
+                            </select>
+                        </td>
+                        <td class="last">
+                            <select id="shareCalculatorStartDay" class="form-control">
+                                {{for Days}}
+                                {{if #data == ~root.SelectedDay}}
+                                <option value={{>}} selected="selected">{{>}}</option>
+                                {{else}}
+                                <option value={{>}}>{{>}}</option>
+                                {{/if}}
+                                {{/for}}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bold">{{>TextToIncluding}}:</td>
+                        <td>
+                            <select id="shareCalculatorEndYear" class="form-control">
+                                {{for Years}}
+                                {{if #data == ~root.EndDateSelectedYear}}
+                                <option value={{>}} selected="selected">{{>}}</option>
+                                {{else}}
+                                <option value={{>}}>{{>}}</option>
+                                {{/if}}
+                                {{/for}}
+                            </select>
+                        </td>
+                        <td>
+                            <select id="shareCalculatorEndMonth" class="form-control">
+                                {{for Months}}
+                                {{if #data == ~root.SelectedMonth}}
+                                <option value={{>}} selected="selected">{{>}}</option>
+                                {{else}}
+                                <option value={{>}}>{{>}}</option>
+                                {{/if}}
+                                {{/for}}
+                            </select>
+                        </td>
+                        <td class="last">
+                            <select id="shareCalculatorEndDay" class="form-control">
+                                {{for Days}}
+                                {{if #data == ~root.SelectedDay}}
+                                <option value={{>}} selected="selected">{{>}}</option>
+                                {{else}}
+                                <option value={{>}}>{{>}}</option>
+                                {{/if}}
+                                {{/for}}
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="share-help-container">
+                <p class="helptext">{{>TextNumberOfSharesHelp}}</p>
+            </div>
+            <table class="sharevalues" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="bold first">{{>TextNumberOfShares}}:</td>
+                    <td class="second">
+                        <input type="text" id="tbNumberOfShares" class="amount form-control" value="" />
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="bold">{{>TextShareValue}}:</td>
+                    <td class="second">
+                        <input type="text" id="tbAmount" class="amount form-control" value="" />
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </fieldset>
+        <button type="button" class="btn btn-outline-dark float-left compute-button" onclick="ShareCalculatorCompute()">{{>TextShareCompute}}</button>
+    </script>
+
+    <script id="template-sharecalclulator-results" type="text/x-jsrender">
+        <div class="history-download float-right">
+            <a href="javascript:window.cision.websolution.sharecalculator.exportCsv();" id="csvExport" role='button'>
+                <i class="fas fa-file-excel"></i> {{>TextDownloadResultsAndShareHistory}}
+            </a>
+        </div>
+        {{if RenderResults}}
+        <fieldset>
+            <legend>{{>TextShareCalculatorResults}}</legend>
+            <div class="results-right">
+                <div class="text-center">
+                    <h4 id="initial-investment-header" class="bold">{{>TextInitialInvestment}}</h4>
+                    <p id="initial-investment-type">({{>TextEndOfTheDay}})</p>
+                </div>
+                <table id="initial-investment" class="fullsize table" border="0" cellpadding="0" cellspacing="0">
+                    <tbody>
+                        <tr class="bold">
+                            <td>{{>TextDate}}</td>
+                            <td class="text-right">{{>Results.StartDateFormated}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{>TextValue}} ({{>Results.Currency}})</td>
+                            <td class="text-right">{{>~formatNumber(Results.StartValue, 2)}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{>TextSharePrice}} ({{>Results.Currency}})</td>
+                            <td class="text-right">{{>~formatNumber(Results.StartPrice, 2)}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{>TextSharesBought}}</td>
+                            <td class="text-right">{{>~formatNumber(Results.NumberOfShares, 0)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="results-left">
+                <div class="text-center">
+                    <h4 id="end-value-header" class="bold">{{>TextEndValue}}</h4>
+                    {{if Results.EndDateQuote.QuoteType == "PartOfDay"}}
+                    <p id="end-value-type">({{>TextPartOfTheDay}})</p>
+                    {{else}}
+                    <p id="end-value-type">({{>TextEndOfTheDay}})</p>
+                    {{/if}}
+                </div>
+                <table id="end-value" class="table table-sm">
+                    <tbody>
+                        <tr class="bold">
+                            <td>{{>TextDate}}</td>
+                            <td class="text-right">{{>Results.EndDateFormated}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{>TextValue}} ({{>Results.Currency}})</td>
+                            <td class="text-right">{{>~formatNumber(Results.EndValue, 2)}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{>TextSharePrice}} ({{>Results.Currency}})</td>
+                            <td class="text-right">{{>~formatNumber(Results.EndPrice, 2)}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{>TextChange}} ({{>Results.Currency}})</td>
+                            <td class="text-right">{{>~formatNumber(Results.Change, 2)}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{>TextChange}} (%)</td>
+                            <td class="text-right">{{>~formatNumber(Results.ChangePercent, 2)}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{>TextAnnualizedChange}} (%)</td>
+                            <td class="text-right">{{>~formatNumber(Results.ChangeAnnualizedPercent, 2)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </fieldset>
+        {{/if}}
+    </script>
+
+    <script id="template-sharecalclulator-history" type="text/x-jsrender">
+        <fieldset>
+            <legend>{{>TextShareCalculatorHistory}}</legend>
+            {{if ~root.PartOfDayHelp}}
+            <div>
+                <p class="helptext pull-right">* {{>TextPartOfTheDay}}</p>                
+            </div>
+            {{/if}}
+            <table id="shareCalculatorHistory" class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>{{>TextDate}}</th>
+                        <th>{{>TextOpenPrice}}</th>
+                        <th>{{>TextAsk}}</th>
+                        <th>{{>TextBid}}</th>
+                        <th>{{>TextPrice}}</th>
+                        <th>{{>TextHigh}}</th>
+                        <th>{{>TextLow}}</th>
+                        <th>{{>TextVolume}}</th>
+                        <th>{{>TextTurnover}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{for Quotes}}
+                    <tr>
+                        {{if QuoteType == "PartOfDay"}}
+                        <td>{{>QuoteTimeFormated}} *</td>
+                        {{else}}
+                        <td>{{>QuoteTimeFormated}}</td>
+                        {{/if}}
+                        <td>{{>~formatNumber(OpenPrice, 2)}}</td>
+                        <td>{{>~formatNumber(AskPrice, 2)}}</td>
+                        <td>{{>~formatNumber(BidPrice, 2)}}</td>
+                        <td>{{>~formatNumber(Price, 2)}}</td>
+                        <td>{{>~formatNumber(HighPrice, 2)}}</td>
+                        <td>{{>~formatNumber(LowPrice, 2)}}</td>
+                        <td>{{>~formatNumber(Quantity, 0)}}</td>
+                        <td>{{>~formatNumber(Turnover, 0)}}</td>
+                    </tr>
+                    {{/for}}
+                </tbody>
+            </table>
+        </fieldset>
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            window.cision.websolution.sharecalculator.render();
+        });
+
+        $(document).keypress(function (e) {
+            if (e.which == 13 || event.keyCode == 13) {
+                ShareCalculatorCompute();
+            }
+        });
+
+        function ShareCalculatorCompute() {
+            window.cision.websolution.sharecalculator.compute();
+        }
+    </script>
+</body>
+</html>

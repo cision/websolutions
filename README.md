@@ -18,6 +18,18 @@ Installation
 npm install -D cision-websolution
 ```
 
+Build
+-------------------
+```javascript
+npm run build-prod
+```
+
+Run
+-------------------
+```javascript
+npm run start
+```
+
 ##### Settings
  For all our modules we provide an accessKey or a unique identifier which is essential for the module to work. These are specified in the settings file together with all other module related settings The settings file can be found in `Scripts/settings.js`. These settings can be overridden for any given module and can be passed as an object in all init and render functions. For example, a few of the default settings in the smaller sharegraph in our package differ from those of the original sharegraph, so we want to override them.
 ```javascript
@@ -142,7 +154,7 @@ By Tim Wood, this is used to parse and format dates and times.
 By Highsoft AS, this is used for all the charts in this application. 
 
 * **Version:** 7.0.3
-* **License:** Hihgstock 10 developer license
+* **License:** To make changes to the charts, clients need their own [Highstock licence](https://shop.highsoft.com/highstock)
 * **Website:** [api.highcharts.com/highstock](http://api.highcharts.com/highstock)
 
 

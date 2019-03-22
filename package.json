@@ -1,7 +1,7 @@
 {
   "name": "cision-websolutions",
   "version": "4.0.0",
-  "description": "Cision Websolutions modules with webpack and NPM",
+  "description": "Cision Websolutions modules",
   "main": "./src/cision.index.js",
   "author": "Cision",
   "repository": "https://github.com/cision/websolutions.git",

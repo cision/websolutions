@@ -4,18 +4,23 @@
 Websolutions
 =====================
 
- We deliver release feeds, sharegraphs, subscription modules and other investor relations modules such as estimate, ownership and insider. Some of these web modules work together with Cisions main product Cision Point were costumers send out their releases to their recipients collected from our media database. 
+ We deliver release feeds, share graphs, subscription modules and other investor relations modules such as estimate, ownership and insider. Some of these web modules work together with Cisions main product Cision Point were costumers send out their releases to their recipients collected from our media database. 
 
  To see examples on all our modules and more information visit [our demosite](http://websolutions.ne.cision.com).
-
-General information
--------------------
- These modules are built with JavaScript and jQuery, they are modestly styled with Twitter's Bootstrap framework and we user JSRender as the template engine. To render graphs and charts we use Highstock. Highstock is required for the sharegraph, the Estimate history graph and the ownership pie charts.
  
 Installation
 -------------------
+This project requires to be installed with pnpm to be able to run out of the box since npm will flatten the project which destroys the folder structure.
+To read more about how pnpm works go visit their GitHub page[their GitHub page](https://github.com/pnpm/pnpm). 
 ```javascript
-npm install -D cision-websolution
+npm install pnpm
+pnpm install --save cision-websolutions
+```
+
+Run
+-------------------
+```javascript
+npm run start
 ```
 
 Build
@@ -24,11 +29,9 @@ Build
 npm run build-prod
 ```
 
-Run
+General information
 -------------------
-```javascript
-npm run start
-```
+ This is a Webpack version of the Cision Web Solutions modules and running this will create a cision bundle with all cision resources and dependencies. These modules are built using jQuery, they are modestly styled with Twitter's Bootstrap framework and we use JSRender as the template engine. To render graphs and charts we use Highstock. Highstock is required for the sharegraph, the Estimate history graph and the ownership pie charts. JQuery and Highcharts are loaded via CDN on the pages that require them to minimize the bundle size. This is done since they are big libraries that could already be included in a web application and it would in that case not make sense to load them again in the Cision bundle.
 
 ##### Settings
  For all our modules we provide an accessKey or a unique identifier which is essential for the module to work. These are specified in the settings file together with all other module related settings The settings file can be found in `Scripts/settings.js`. These settings can be overridden for any given module and can be passed as an object in all init and render functions. For example, a few of the default settings in the smaller sharegraph in our package differ from those of the original sharegraph, so we want to override them.

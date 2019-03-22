@@ -19,12 +19,14 @@ pnpm install --save cision-websolutions
 
 Run
 -------------------
+Make sure all dev dependencies are installed before running this. 
 ```javascript
 npm run start
 ```
 
 Build
 -------------------
+Make sure all dev dependencies are installed before running this. 
 ```javascript
 npm run build-prod
 ```

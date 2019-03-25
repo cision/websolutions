@@ -13,8 +13,8 @@ Installation
 This project requires to be installed with pnpm to be able to run out of the box since npm will flatten the project which destroys the folder structure.
 To read more about how pnpm works go visit their GitHub page[their GitHub page](https://github.com/pnpm/pnpm). 
 ```javascript
-npm install pnpm
-pnpm install --save cision-websolutions
+npm i -g pnpm
+pnpm i --save cision-websolutions
 ```
 
 Run
@@ -35,8 +35,8 @@ General information
 -------------------
  This is a Webpack version of the Cision Web Solutions modules and running this will create a cision bundle with all cision resources and dependencies. These modules are built using jQuery, they are modestly styled with Twitter's Bootstrap framework and we use JSRender as the template engine. To render graphs and charts we use Highstock. Highstock is required for the sharegraph, the Estimate history graph and the ownership pie charts. JQuery and Highcharts are loaded via CDN on the pages that require them to minimize the bundle size. This is done since they are big libraries that could already be included in a web application and it would in that case not make sense to load them again in the Cision bundle.
 
-##### Settings
- For all our modules we provide an accessKey or a unique identifier which is essential for the module to work. These are specified in the settings file together with all other module related settings The settings file can be found in `Scripts/settings.js`. These settings can be overridden for any given module and can be passed as an object in all init and render functions. For example, a few of the default settings in the smaller sharegraph in our package differ from those of the original sharegraph, so we want to override them.
+### Settings
+ For all our modules we provide an accessKey or a unique identifier which is essential for the module to work. These are specified in the settings file together with all other module related settings The settings file can be found in `src/js/settings.js`. These settings can be overridden for any given module and can be passed as an object in all init and render functions. For example, a few of the default settings in the smaller sharegraph in our package differ from those of the original sharegraph, so we want to override them.
 ```javascript
 var options = {
     showVolume: false,
@@ -47,11 +47,11 @@ var options = {
 cision.websolution.sharegraph.init(options);
 ```
 
- ##### Translations
- Translations for all the modules is found in  `Scripts/texts.js`. We have full support for Swedish, English and Finnish. There is also limited support for Norwegian, German and Danish, but the translations are currently incomplete. Texts can be changed and new languages added by editing the file. The language code correlates to the uiLanguage setting.   
+ ### Translations
+ Translations for all the modules is found in  `src/js/texts.js`. We have full support for Swedish, English and Finnish. There is also limited support for Norwegian, German and Danish, but the translations are currently incomplete. Texts can be changed and new languages added by editing the file. The language code correlates to the uiLanguage setting.   
 
 
- ##### Helpers
+ ### Helpers
  Included in our websolutions bundle we have helpers for formatting date, time, numbers, and numbers with currency. Those helpers can be used in all jsrender scripts to directly format a spcific value. 
  
  Example of usage inside JSRender script tag with deafult formatting options stated in the settings file:

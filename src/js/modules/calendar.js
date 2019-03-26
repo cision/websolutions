@@ -3,7 +3,7 @@
 
 import './module.dependencies.js';
 
-window.cision.websolution.calendar = function ($) {
+window.cision.websolution.calendar = !cision.websolution.settings.calendar.accessKey ? {} : function ($) {
     var settings = $.extend({}, window.cision.websolution.settings.general),
         accessKey = (window.cision.websolution.settings.calendar || {}).accessKey,
         categories = [],

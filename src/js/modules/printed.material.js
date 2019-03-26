@@ -3,7 +3,7 @@
 
 import './module.dependencies.js';
 
-window.cision.websolution.printedMaterial = function ($) {
+window.cision.websolution.printedMaterial = !cision.websolution.settings.printedMaterial.accessKey ? {} : function ($) {
 
     var settings = $.extend({}, window.cision.websolution.settings.general),
         accessKey = (window.cision.websolution.settings.printedMaterial || {}).accessKey,

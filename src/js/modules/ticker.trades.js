@@ -3,7 +3,7 @@
 
 import './module.dependencies.js';
 
-window.cision.websolution.trades = function($) {
+window.cision.websolution.trades = !cision.websolution.settings.ticker.accessKey ? {} : function($) {
     var settings = $.extend({}, window.cision.websolution.settings.general),
         accessKey = window.cision.websolution.settings.ticker.accessKey;
 

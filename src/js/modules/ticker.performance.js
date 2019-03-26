@@ -3,7 +3,7 @@
 
 import './module.dependencies.js';
 
-window.cision.websolution.performance = function($) {
+window.cision.websolution.performance = !cision.websolution.settings.ticker.accessKey ? {} : function($) {
     var settings = $.extend({}, window.cision.websolution.settings.general),
         accessKey = window.cision.websolution.settings.ticker.accessKey,
         texts = window.cision.websolution.texts[settings.uiLanguage];
@@ -22,9 +22,7 @@ window.cision.websolution.performance = function($) {
         return Promise.resolve(promiseTickerPerformance).then(function (rawData) {
             var rawInstruments = rawData.Instruments;
             var instruments = $.extend(rawInstruments, texts);
-            // var sortBySymbol = function (s) {
-            //     return _.sortBy(s, "Symbol");
-            // };
+      
             var sortedPerformanceData = instruments.sort(function (a, b) {
                 return a.TickerSymbol - b.Symbol;
             });

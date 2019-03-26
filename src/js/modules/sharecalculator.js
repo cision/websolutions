@@ -3,7 +3,7 @@
 
 import './module.dependencies.js';
 
-window.cision.websolution.sharecalculator = function($) {
+window.cision.websolution.sharecalculator = !cision.websolution.settings.sharecalculator.accessKey ? {} : function($) {
 
     var settings = $.extend({}, window.cision.websolution.settings.general);
     var accessKey = window.cision.websolution.settings.sharecalculator.accessKey;

@@ -3,7 +3,7 @@
 
 import './module.dependencies.js';
 
-window.cision.websolution.orderbook = function ($) {
+window.cision.websolution.orderbook = !cision.websolution.settings.orderbook.accessKey ? {} : function ($) {
     var settings = $.extend({}, window.cision.websolution.settings.general),
         accessKey = window.cision.websolution.settings.orderbook.accessKey;
 

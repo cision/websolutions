@@ -46,32 +46,36 @@
 .next:hover {
 	cursor: pointer !important;
 }
-#share-options-select li {
-	a {
-		@extend %list-element-styles;
-	}
-	&.cision-disabled {
+.sharegraph-extras {
+	margin-top: 10px;
+
+	#share-options-select li {
 		a {
-			color: $color_grey;
+			@extend %list-element-styles;
 		}
-		&:hover {
-			cursor: default;
+		&.cision-disabled {
 			a {
+				color: $color_grey;
+			}
+			&:hover {
 				cursor: default;
+				a {
+					cursor: default;
+				}
 			}
 		}
+		.fa-check {
+			display: none;
+			float: right;
+			margin-top: 4px;
+		}
+		&.selected .fa-check {
+			display: inline-block;
+		}
 	}
-	.fa-check {
-		display: none;
-		float: right;
-		margin-top: 4px;
+	#share-download-options li a {
+		@extend %list-element-styles;
 	}
-	&.selected .fa-check {
-		display: inline-block;
-	}
-}
-#share-download-options li a {
-	@extend %list-element-styles;
 }
 .performance-table td:first-child {
 	font-weight: 500;

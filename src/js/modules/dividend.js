@@ -3,7 +3,7 @@
 
 import './module.dependencies.js';
 
-cision.websolution.dividend = function ($) {
+cision.websolution.dividend = !cision.websolution.settings.ticker.accessKey ? {} : function ($) {
     var settings = cision.websolution.settings.general;
     var accessKey = cision.websolution.settings.ticker.accessKey;
 

@@ -1,5 +1,5 @@
 
-window.cision.websolution.translationHelpers = function () {
+window.cision.websolution.translationHelpers = function ($) {
     function getTranslation(key) {
         return window.cision.websolution.texts[window.cision.websolution.settings.general.uiLanguage][key];
     }
@@ -7,28 +7,7 @@ window.cision.websolution.translationHelpers = function () {
     return {
         getTranslation: getTranslation
     };
-}();
-
-window.cision.websolution.helpers = function() {
-    function map(obj, iteratee, context) {
-        iteratee = cb(iteratee, context);
-        var keys = !isArrayLike(obj) && _.keys(obj),
-            length = (keys || obj).length,
-            results = Array(length);
-        for (var index = 0; index < length; index++) {
-          var currentKey = keys ? keys[index] : index;
-          results[index] = iteratee(obj[currentKey], currentKey, obj);
-        }
-        return results;
-    }
-
-    return {
-        map: map,
-        findWhere: findWhere,
-        uniq: uniq,
-        sortBy: sortBy
-    };
-}
+}(jQuery);
 
 window.cision.websolution.common = function ($) {
     var settings = $.extend({}, window.cision.websolution.settings.general),

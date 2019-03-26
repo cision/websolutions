@@ -58,86 +58,86 @@
 
     <script id="templatesharegraph" type="text/x-jsrender">
         <div class="row justify-content-between">
-            <div>
-                <div class="dropdown" id="share-options-select">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="shareOptionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="caret"></span>
-                        {{>TextShareOptions}}
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="shareOptionsDropdown">
-                        <li class="dropdown-header">{{>TextShare}} & {{>TextIndex}}</li>
-                        {{for mainInstruments}}
-                        <li class="dropdown-item show-hide-instrument selected" data-initialstate="selected" data-key='{{>symbol}}{{>marketPlace}}{{>currency}}'><a href="#"><i class="fas fa-check"></i>{{>name}}</a></li>
-                        {{if hasEffectiveYield}}
-                        <!-- To access this value you have to have this service activated in Millistream-->
-                        <li class="dropdown-item show-hide-instrument" data-key="{{>symbol}}{{>marketPlace}}{{>currency}}{{:~root.effectiveYieldSuffix}}" id="chk2"><a href="#"><i class="fas fa-check"></i>{{>name}} [{{:~root.TextTotalReturn}}]</a></li>
-                        {{/if}}
-                        {{/for}}
-                        {{if indexInstruments.length}}
-                        {{for indexInstruments}}
-                        <li class="dropdown-item show-hide-instrument share-index" data-triggercomparison='true' data-symbol='{{>symbol}}' data-key='{{>symbol}}{{>marketPlace}}{{>currency}}'><a href="#"><i class="fas fa-check"></i>{{>name}}</a></li>
-                        {{/for}}
-                        {{/if}}
-                        {{if peersInstruments.length}}
-                        <li role="separator" class="dropdown-divider"></li>
-                        <li class="dropdown-header">{{>TextPeers}}</li>
-                        {{for peersInstruments}}
-                        <li class="dropdown-item show-hide-instrument share-peer" data-triggercomparison='true' data-symbol='{{>symbol}}' data-key='{{>symbol}}{{>marketPlace}}{{>currency}}'><a href="#"><i class="fas fa-check"></i>{{>name}}</a></li>
-                        {{/for}}
-                        {{/if}}
-                        <li role="separator" class="dropdown-divider"></li>
-                        <li class="dropdown-header">{{>TextReleases}}</li>
-                        {{for indicatorsOnSeries}}
-                        <li class="dropdown-item show-hide-instrument indicator" data-title="{{:~root.TextIndicatorDisabledTooltip}}" data-toggle="tooltip" data-key='{{>uniqueKey}}'><a href="#"><i class="fas fa-check"></i>{{>~getTranslation(translationKey)}}</a></li>
-                        {{/for}}
-                        <li role="separator" class="dropdown-divider"></li>
-                        <li class="dropdown-header">{{>TextCompSubtitle}}</li>
-                        <li class="dropdown-item chartComparisonType" id="comparisonPercent" data-key='percent'><a href="#"><i class="fa fa-check"></i>{{>TextPercent}}</a></li>
-                        <li class="dropdown-item chartComparisonType selected" data-initialstate="selected" id="comparisonNone" data-key='price'><a href="#"><i class="fas fa-check"></i>{{>TextPrice}}</a></li>
-                        <li role="separator" class="dropdown-divider"></li>
-                        <li class="dropdown-item chartComparisonType volume" data-title="{{>TextVolumeDisabledTooltip}}" data-toggle="tooltip" data-key='volume'><a href="#"><i class="fas fa-check"></i>{{>TextShowVolume}}</a></li>
-                    </ul>
-                </div>
-                <div class="dropdown" id="share-download-options">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="downloadOptionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="caret"></span>
-                        {{>TextDownload}}
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="downloadOptionsDropdown">
-                        <li class="dropdown-item" id="excel-download"><a href="#"><i class="fas fa-download"></i> {{>TextDownloadShareHistory}}</a></li>
-                        <li class="dropdown-item" id="print-chart"><a href="#"><i class="fas fa-print"></i> {{>TextPrintChart}}</a></li>
-                        <li class="dropdown-item" id="export-png-chart"><a href="#"><i class="fas fa-image"></i> {{>TextDownloadAsPNG}}</a></li>
-                        <li class="dropdown-item" id="export-jpeg-chart"><a href="#"><i class="fas fa-image"></i> {{>TextDownloadAsJPEG}}</a></li>
-                        <li class="dropdown-item" id="export-svg-chart"><a href="#"><i class="fas fa-image"></i> {{>TextDownloadAsSVG}}</a></li>
-                        <li class="dropdown-item" id="export-pdf-chart"><a href="#"><i class="fas fa-file-pdf"></i> {{>TextDownloadAsPDF}}</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div id="periods" class="btn-group">
-                <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodDays1">{{>TextPartOfDay}}</div>
-                <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodWeeks1">{{>Text1V}}</div>
-                <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodMonths1">{{>Text1M}}</div>
-                <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodMonths3">{{>Text3M}}</div>
-                <div class="action btn btn-outline-secondary active selected" name="dataPeriod" data-key="dataPeriodMonths6">{{>Text6M}}</div>
-                <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodYears1">{{>Text1Y}}</div>
-                <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodYearsAll">{{>TextAll}}</div>
-            </div>
-
-            <div>
-                <div class="input-group date-picker" id="datePickerFrom">
-                    <span class="input-group-prepend">
-                        <button class="btn btn-outline-secondary" type="button"><i class="fas fa-calendar-alt"></i></button>
-                    </span>
-                    <input type="text" class="form-control date-input" />
-                </div>
-                <div class="input-group date-picker" id="datePickerTo">
-                    <span class="input-group-prepend">
-                        <button class="btn btn-outline-secondary" type="button"><i class="fas fa-calendar-alt"></i></button>
-                    </span>
-                    <input type="text" class="form-control date-input" />
-                </div>
-            </div>
+                <div class="sharegraph-extras">
+                        <div class="dropdown" id="share-options-select">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="shareOptionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span class="caret"></span>
+                                {{>TextShareOptions}}
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-header">{{>TextShare}} & {{>TextIndex}}</li>
+                                {{for mainInstruments}}
+                                <li class="dropdown-item show-hide-instrument selected" data-initialstate="selected" data-key='{{>symbol}}{{>marketPlace}}{{>currency}}'><a href="#"><i class="fas fa-check"></i>{{>name}}</a></li>
+                                {{if hasEffectiveYield}}
+                                <!-- To access this value you have to have this service activated in Millistream-->
+                                <li class="dropdown-item show-hide-instrument" data-key="{{>symbol}}{{>marketPlace}}{{>currency}}{{:~root.effectiveYieldSuffix}}" id="chk2"><a href="#"><i class="fas fa-check"></i>{{>name}} [{{:~root.TextTotalReturn}}]</a></li>
+                                {{/if}}
+                                {{/for}}
+                                {{if indexInstruments.length}}
+                                {{for indexInstruments}}
+                                <li class="dropdown-item show-hide-instrument share-index" data-triggercomparison='true' data-symbol='{{>symbol}}' data-key='{{>symbol}}{{>marketPlace}}{{>currency}}'><a href="#"><i class="fas fa-check"></i>{{>name}}</a></li>
+                                {{/for}}
+                                {{/if}}
+                                {{if peersInstruments.length}}
+                                <li role="separator" class="dropdown-divider"></li>
+                                <li class="dropdown-header">{{>TextPeers}}</li>
+                                {{for peersInstruments}}
+                                <li class="dropdown-item show-hide-instrument share-peer" data-triggercomparison='true' data-symbol='{{>symbol}}' data-key='{{>symbol}}{{>marketPlace}}{{>currency}}'><a href="#"><i class="fas fa-check"></i>{{>name}}</a></li>
+                                {{/for}}
+                                {{/if}}
+                                <li role="separator" class="dropdown-divider"></li>
+                                <li class="dropdown-header">{{>TextReleases}}</li>
+                                {{for indicatorsOnSeries}}
+                                <li class="dropdown-item show-hide-instrument indicator" data-title="{{:~root.TextIndicatorDisabledTooltip}}" data-toggle="tooltip" data-key='{{>uniqueKey}}'><a href="#"><i class="fas fa-check"></i>{{>~getTranslation(translationKey)}}</a></li>
+                                {{/for}}
+                                <li role="separator" class="dropdown-divider"></li>
+                                <li class="dropdown-header">{{>TextCompSubtitle}}</li>
+                                <li class="dropdown-item chartComparisonType" id="comparisonPercent" data-key='percent'><a href="#"><i class="fa fa-check"></i>{{>TextPercent}}</a></li>
+                                <li class="dropdown-item chartComparisonType selected" data-initialstate="selected" id="comparisonNone" data-key='price'><a href="#"><i class="fas fa-check"></i>{{>TextPrice}}</a></li>
+                                <li role="separator" class="dropdown-divider"></li>
+                                <li class="dropdown-item chartComparisonType volume" data-title="{{>TextVolumeDisabledTooltip}}" data-toggle="tooltip" data-key='volume'><a href="#"><i class="fas fa-check"></i>{{>TextShowVolume}}</a></li>
+                            </ul>
+                        </div>
+                        <div class="dropdown" id="share-download-options">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="downloadOptionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span class="caret"></span>
+                                {{>TextDownload}}
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-item" id="excel-download"><a href="#"><i class="fas fa-download"></i> {{>TextDownloadShareHistory}}</a></li>
+                                <li class="dropdown-item" id="print-chart"><a href="#"><i class="fas fa-print"></i> {{>TextPrintChart}}</a></li>
+                                <li class="dropdown-item" id="export-png-chart"><a href="#"><i class="fas fa-image"></i> {{>TextDownloadAsPNG}}</a></li>
+                                <li class="dropdown-item" id="export-jpeg-chart"><a href="#"><i class="fas fa-image"></i> {{>TextDownloadAsJPEG}}</a></li>
+                                <li class="dropdown-item" id="export-svg-chart"><a href="#"><i class="fas fa-image"></i> {{>TextDownloadAsSVG}}</a></li>
+                                <li class="dropdown-item" id="export-pdf-chart"><a href="#"><i class="fas fa-file-pdf"></i> {{>TextDownloadAsPDF}}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+        
+                    <div id="periods" class="btn-group sharegraph-extras">
+                        <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodDays1">{{>TextPartOfDay}}</div>
+                        <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodWeeks1">{{>Text1V}}</div>
+                        <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodMonths1">{{>Text1M}}</div>
+                        <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodMonths3">{{>Text3M}}</div>
+                        <div class="action btn btn-outline-secondary active selected" name="dataPeriod" data-key="dataPeriodMonths6">{{>Text6M}}</div>
+                        <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodYears1">{{>Text1Y}}</div>
+                        <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodYearsAll">{{>TextAll}}</div>
+                    </div>
+        
+                    <div class="sharegraph-extras">
+                        <div class="input-group date-picker" id="datePickerFrom">
+                            <span class="input-group-prepend">
+                                <button class="btn btn-outline-secondary" type="button"><i class="fas fa-calendar-alt"></i></button>
+                            </span>
+                            <input type="text" class="form-control date-input" />
+                        </div>
+                        <div class="input-group date-picker" id="datePickerTo">
+                            <span class="input-group-prepend">
+                                <button class="btn btn-outline-secondary" type="button"><i class="fas fa-calendar-alt"></i></button>
+                            </span>
+                            <input type="text" class="form-control date-input" />
+                        </div>
+                    </div>
         </div>
 
         <div id="sharegraph-container"></div>

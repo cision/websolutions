@@ -4,7 +4,8 @@
 import './module.dependencies.js';
 
 window.cision.websolution.estimate = cision.websolution.estimate || {};
-window.cision.websolution.estimate.quarterly = function ($) {
+
+window.cision.websolution.estimate.quarterly = !cision.websolution.settings.estimate.accessKey ? {} : function ($) {
     var settings = $.extend({}, window.cision.websolution.settings.general),
         accessKey = window.cision.websolution.settings.estimate.accessKey;
 

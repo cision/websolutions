@@ -3,7 +3,7 @@
 
 import './module.dependencies.js';
 
-window.cision.websolution.tickers = function($) {
+window.cision.websolution.tickers = !cision.websolution.settings.ticker.accessKey ? {} : function($) {
     var settings = $.extend({}, window.cision.websolution.settings.general),
         accessKey = window.cision.websolution.settings.ticker.accessKey,
         texts = window.cision.websolution.texts[settings.uiLanguage];
@@ -30,10 +30,6 @@ window.cision.websolution.tickers = function($) {
                 var data = {
                     tickers: []
                 };
-
-                // var sortBySymbol = function (s) {
-                //     return _.sortBy(s, "TickerSymbol");
-                // };
 
                 var sortedTickerData = tickerData.Instruments.sort(function (a, b) {
                     return a.TickerSymbol - b.TickerSymbol;

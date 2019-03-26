@@ -3,7 +3,7 @@
 
 import './module.dependencies.js';
 
-window.cision.websolution.newsfeed =  function ($) {
+window.cision.websolution.newsfeed =  !cision.websolution.settings.newsfeed.accessKey ? {} : function ($) {
     var settings = $.extend({}, window.cision.websolution.settings.general),
         accessKey = window.cision.websolution.settings.newsfeed.accessKey;
 

@@ -3,7 +3,7 @@
 
 import './module.dependencies.js';
 
-window.cision.websolution.ownership = function ($) {
+window.cision.websolution.ownership = !cision.websolution.settings.ownership.accessKey ? {} : function ($) {
     var settings = $.extend({}, window.cision.websolution.settings.general),
         accessKey = window.cision.websolution.settings.ownership.accessKey,
         texts = window.cision.websolution.texts[settings.uiLanguage];

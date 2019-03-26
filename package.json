@@ -5,6 +5,7 @@
   "main": "./src/cision.index.js",
   "author": "Cision",
   "repository": "https://github.com/cision/websolutions.git",
+  "homepage": "https://websolutions.ne.cision.com/",
   "scripts": {
     "start": "webpack-dev-server",
     "build-dev": "webpack --mode development",

@@ -33,10 +33,10 @@ npm run build-prod
 
 General information
 -------------------
- This is a Webpack version of the Cision Web Solutions modules and running this will create a cision bundle with all cision resources and dependencies. These modules are built using jQuery, they are modestly styled with Twitter's Bootstrap framework and JSRender is used as the template engine. To render graphs and charts we use Highstock. Highstock is required for the sharegraph, the Estimate history graph and the ownership pie charts. JQuery and Highcharts are loaded via CDN on the pages that require them to minimize the bundle size. This is done since they are big libraries that could already be included in a web application and it would in that case not make sense to load them again in the Cision bundle. Also we get to benefit from the CDN cache.
+This is a Webpack version of the Cision Web Solutions modules and running this will create a cision bundle with all cision resources and dependencies. These modules are built using jQuery, they are modestly styled with Twitter's Bootstrap framework and JSRender is used as the template engine. To render graphs and charts we use Highstock. Highstock is required for the sharegraph, the Estimate history graph and the ownership pie charts. JQuery and Highcharts are loaded via CDN on the pages that require them to minimize the bundle size. This is done since they are big libraries that could already be included in a web application and it would in that case not make sense to load them again in the Cision bundle. Also we get to benefit from the CDN cache.
 
 ### Settings
- For all our modules we provide an accessKey or a unique identifier which is essential for the module to work. These examples are set up using Cisions example feeds and the identifiers will have to be changed. These are specified in the settings file together with all other module related settings. The settings file can be found in `src/js/settings.js`. These settings can be overridden for any given module and can be passed as an object in all init and render functions. For example, a few of the default settings in the smaller sharegraph in our package differ from those of the original sharegraph, so we want to override them.
+For all our modules we provide an accessKey or a unique identifier which is essential for the module to work. These examples are set up using Cisions example feeds and the identifiers will have to be changed. These are specified in the settings file together with all other module related settings. The settings file can be found in `src/js/settings.js`. These settings can be overridden for any given module and can be passed as an object in all init and render functions. For example, a few of the default settings in the smaller sharegraph in our package differ from those of the original sharegraph, so we want to override them.
 ```javascript
 var options = {
     showVolume: false,
@@ -47,14 +47,14 @@ var options = {
 window.cision.websolution.sharegraph.init(options);
 ```
 
- ### Translations
- Translations for all the modules is found in  `src/js/texts.js`. We have full support for Swedish, English and Finnish. There is also limited support for Norwegian, German and Danish, but the translations are currently incomplete. Texts can be changed and new languages added by editing this file. The language code correlates to the uiLanguage setting.   
+### Translations
+Translations for all the modules is found in  `src/js/texts.js`. We have full support for Swedish, English and Finnish. There is also limited support for Norwegian, German and Danish, but the translations are currently incomplete. Texts can be changed and new languages added by editing this file. The language code correlates to the uiLanguage setting.   
 
 
- ### Helpers
- Included in our websolutions bundle we have helpers for formatting date, time, numbers, and numbers with currency. Those helpers can be used in all jsrender scripts to directly format a spcific value. 
+### Helpers
+Included in our websolutions bundle we have helpers for formatting date, time, numbers, and numbers with currency. Those helpers can be used in all jsrender scripts to directly format a spcific value. 
  
- Example of usage inside JSRender script tag with default formatting options stated in the settings file:
+Example of usage inside JSRender script tag with default formatting options stated in the settings file:
 ```javascript  
 {{>~formatNumber(inputNumber)}}
 ```

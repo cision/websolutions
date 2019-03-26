@@ -153,18 +153,18 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       inject: 'head',
-      template: './src/estimatePackage1.html',
-      filename: 'estimatePackage1.html'
+      template: './src/estimateSmall.html',
+      filename: 'estimateSmall.html'
     }),
     new HtmlWebpackPlugin({
       inject: 'head',
-      template: './src/estimatePackage2.html',
-      filename: 'estimatePackage2.html'
+      template: './src/estimateMedium.html',
+      filename: 'estimateMedium.html'
     }),
     new HtmlWebpackPlugin({
       inject: 'head',
-      template: './src/estimatePackage3.html',
-      filename: 'estimatePackage3.html'
+      template: './src/estimateLarge.html',
+      filename: 'estimateLarge.html'
     }),
     new HtmlWebpackPlugin({
       inject: 'head',

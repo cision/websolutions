@@ -17,6 +17,13 @@ window.cision.websolution.ownership = !cision.websolution.settings.ownership.acc
             return;
         }
 
+        Highcharts.setOptions({
+            lang: {
+                decimalPoint: cision.websolution.settings.general.numberFormatOptions.decimalSeparator,
+                thousandsSep: cision.websolution.settings.general.numberFormatOptions.thousandSeparator
+            }
+        });
+        
         var promiseOwnership = window.cision.websolution.common.getModuleData({ 'accessKey': accessKey, 'module': "Ownership Largest shareholders", 'path': 'Ownership/' + accessKey });
 
         return Promise.resolve(promiseOwnership).then(function (rawData) {

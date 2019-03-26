@@ -123,72 +123,52 @@ window.cision.websolution.settings = {
         estimateTabLoaded: []
     },
 
+    // AccessKeys for all modules to fetch the data. 
+    // Cision accessKeys added for demo purposes, these should be changed into client specific ones. 
+    // Tele2 is used as a demo client for all the share data since Cision is not listed on a swedish stock exchange. 
     orderbook: {
-        accessKey: 'D10D291AD2FB4056ACFC1E6D75DDCF2E'
+        accessKey: '6C4EC853924B4CA4903CB24B0922882A'
     },
-
     ownership: {
-        accessKey: '79B318BC2D6A4088BD690116403614CA'
+        accessKey: 'E8581513D3E04B25BB4F616A41315FDC'
     },
-
     estimate: {
-        accessKey: '441EC33DF7534A1F9E9708E319A1A607',
-        accessKeyTicker: '4F7F3DD44FA34928A4F592D7F772D52C'
+        accessKey: 'F8D4BD57FD654EEABF8CDCF520FA9B98',
+        accessKeyTicker: 'FDC260DD9AEE461996F9A400C3E67649'
     },
-
     ticker: {
-        accessKey: '4F7F3DD44FA34928A4F592D7F772D52C'
+        accessKey: 'FDC260DD9AEE461996F9A400C3E67649'
     },
-
     sharegraph: {
-        accessKey: '42BD7A23C7774A43A9F67DC11E22C10C',
-        shareHistoryKey: '992FAAB4CA9A43A5B576D2638E5E8775'
+        accessKey: '11B2CD3AAAF1481AA7DBEC5820ED615F',
+        shareHistoryKey: '8CD21721350E43968E4FE52299AE02F1'
     },
-
     sharecalculator: {        
-        accessKey: 'E3B999AB39524308B86284367E86EDC4'
+        accessKey: '18C3B618661C4D7ABF1C622D5DDA0672'
     },
-
     minisharegraph: {
-        accessKey: '42BD7A23C7774A43A9F67DC11E22C10C'
+        accessKey: '11B2CD3AAAF1481AA7DBEC5820ED615F'
     },
-
     newsfeed: {
-        accessKey: 'A275C0BF733048FFAE9126ACA64DD08F'
+        accessKey: 'F32103526F704E469FB808E4CF5225D0'
     },
-
     mediafeed: {
-        accessKey: 'A275C0BF733048FFAE9126ACA64DD08F'
+        accessKey: 'F32103526F704E469FB808E4CF5225D0'
     },
-
     insider: {
-        accessKey: '9D35823245AC45F799175AAF7C9F6A3D'   
+        accessKey: '8E7CD4D865004D2987EB25D23CF7830F'   
     },
-
     calendar: {
-        accessKey: 'EFE3E2777A4F4E9DA0E98982315281BA'
+        accessKey: '737CB5BF989D43D6844C27F294CA9238'
     },
-
     printedMaterial: {
-        accessKey: '30384BEE368745F3AF5F6BFB3D7D5471'
+        accessKey: 'F9AAF9CA0154483C9CBF5A65E215A892'
     }
-
 };
 
 // Switch moment language
 try {
     moment.locale(cision.websolution.settings.general.uiLanguage);
-} catch (e) {
-    console.log(e);
-}
-
-try {
-    Highcharts.setOptions({
-        lang: {
-            decimalPoint: cision.websolution.settings.general.numberFormatOptions.decimalSeparator,
-            thousandsSep: cision.websolution.settings.general.numberFormatOptions.thousandSeparator
-        }
-    });
 } catch (e) {
     console.log(e);
 }

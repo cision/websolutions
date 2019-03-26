@@ -56,12 +56,12 @@
                     </thead>
                     {{for Items}}
                     <tr class="all">
-                        <td class="image">
+                        <td style="max-width:100px; padding-right:10px;">
                             {{if LogoUrl}}
-                            <img src="{{>LogoUrl}}" style="max-width:100px;max-height:100px;" />
+                            <img src="{{>LogoUrl}}" style="width:100%"/>
                             {{/if}}
                         </td>
-                        <td class="preview">
+                        <td class="preview" style="max-width: 500px; padding-right: 20px;">
                             <p data-guid="{{>ItemGuid}}"><b>{{>Title}}</b></p>
                             {{if Description}}
                             <p>{{>Description}}</p>
@@ -72,7 +72,7 @@
                         </td>
                         <td>
                             {{if ContentDownloadUrl}}
-                            <p><a href="{{>ContentDownloadUrl}}" target="_blank">{{:~root.TextDigitalVersion}}</a></p>
+                            <p><a href="{{>ContentDownloadUrl}}" data-toggle="tooltip" target="_blank" title="{{:~root.TextDigitalVersion}}"><i class="fas fa-file-pdf"></i></a></p>
                             {{/if}}
                         </td>
                         <td>

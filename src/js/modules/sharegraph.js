@@ -40,6 +40,13 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph.a
         }
 
         showEndOfDay();
+
+        Highcharts.setOptions({
+            lang: {
+                decimalPoint: cision.websolution.settings.general.numberFormatOptions.decimalSeparator,
+                thousandsSep: cision.websolution.settings.general.numberFormatOptions.thousandSeparator
+            }
+        });
     }
 
     function sharegraphPrintFix() {

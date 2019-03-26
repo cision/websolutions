@@ -23,6 +23,13 @@ window.cision.websolution.estimate.historical = !cision.websolution.settings.est
             field: settings.field
         };
 
+        Highcharts.setOptions({
+            lang: {
+                decimalPoint: cision.websolution.settings.general.numberFormatOptions.decimalSeparator,
+                thousandsSep: cision.websolution.settings.general.numberFormatOptions.thousandSeparator
+            }
+        });
+
         var promiseEstimateHistorical = window.cision.websolution.common.getModuleData({ 'accessKey': accessKey, 'module': "Estimate historical", 'path': 'Estimate/' + accessKey + '/Historical', 'postData': postData });
 
         return Promise.resolve(promiseEstimateHistorical).then(function (dataObj) {

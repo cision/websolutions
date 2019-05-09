@@ -8,7 +8,6 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph.a
         accessKey = window.cision.websolution.settings.sharegraph.accessKey,
         showVolume = false,
         today = moment().format('YYYY-MM-DD'),
-        typeOfChart = "endOfDay",
         comparisonType = "price",
         actions = [],
         objChart;
@@ -39,7 +38,13 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph.a
             window.cision.websolution.orderbook.render();
         }
 
-        showEndOfDay();
+        if (settings.typeOfChart == 'PartOfDay') {
+            showPartOfDay();
+            $("#intraDay").addClass('active');
+        } else {
+            showEndOfDay();
+            $("#deafultPeriod").addClass('active');
+        }
 
         Highcharts.setOptions({
             lang: {
@@ -226,7 +231,7 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph.a
         actions["price"] = showPriceChart;
         actions["volume"] = function (evt, obj) {
             showVolume = $(obj).hasClass('selected');
-            if (typeOfChart == "endOfDay") {
+            if (typeOfChart == "EndOfDay") {
                 showEndOfDay();
             } else {
                 showPartOfDay();
@@ -307,11 +312,11 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph.a
     };
 
     function  showEndOfDay() {
-        typeOfChart = "endOfDay";
+        settings.typeOfChart = "EndOfDay";
         var proimiseEndOfDay = render({
             volumeOffset: -35,
             showVolume: showVolume,
-            typeOfChart: 'EndOfDay',
+            typeOfChart: settings.typeOfChart,
             dateToStartFrom: settings.endOfDayStartFrom /*'2012-01-01'*/,
             dateToEnd: settings.endOfDayEndTime
         });
@@ -331,7 +336,7 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph.a
     }
 
     function  showPartOfDay() {
-        typeOfChart = "partOfDay";
+        settings.typeOfChart = "PartOfDay";
         var daysBack = 1;
 
         // day of week, if higher than 5 its on a weekend and we have no share data for that day
@@ -346,7 +351,7 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph.a
         var promisePartOfDay = render({
             dateToStartFrom: settings.endOfDayStartFrom,
             dateToEnd: null,
-            typeOfChart: 'PartOfDay',
+            typeOfChart: settings.typeOfChart,
             showVolume: showVolume
         });
         promisePartOfDay.then(function () {
@@ -827,7 +832,7 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph.a
             }
         };
 
-        if (settings.typeOfChart == "partOfDay") {
+        if (settings.typeOfChart == "PartOfDay") {
             objRangeSelector.buttons = [{
                 type: 'minute',
                 count: 15,

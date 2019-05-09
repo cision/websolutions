@@ -12,13 +12,17 @@ Installation
 -------------------
 This project requires to be installed with pnpm to be able to run out of the box since npm will flatten the project which destroys the folder structure.
 To read more about how pnpm works go visit [their GitHub page](https://github.com/pnpm/pnpm). 
+
+To install pnpm, the cision package and all its dependencies run the following commands.
 ```javascript
 npm i -g pnpm
 pnpm i cision-websolutions
+pnpm install
 ```
 
 Run
 -------------------
+This command can only be run from the node_modules/cision-websolutions folder not from the root level of the downloaded package.
 Make sure all dev dependencies are installed before running this. 
 ```javascript
 npm run start
@@ -26,6 +30,7 @@ npm run start
 
 Build
 -------------------
+This command can only be run from the node_modules/cision-websolutions folder not from the root level of the downloaded package.
 Make sure all dev dependencies are installed before running this. 
 ```javascript
 npm run build-prod

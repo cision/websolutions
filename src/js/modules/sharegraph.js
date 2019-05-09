@@ -231,7 +231,7 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph.a
         actions["price"] = showPriceChart;
         actions["volume"] = function (evt, obj) {
             showVolume = $(obj).hasClass('selected');
-            if (typeOfChart == "EndOfDay") {
+            if (settings.typeOfChart == "EndOfDay") {
                 showEndOfDay();
             } else {
                 showPartOfDay();

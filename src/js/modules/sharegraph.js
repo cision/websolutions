@@ -42,8 +42,15 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph.a
             showPartOfDay();
             $("#intraDay").addClass('active');
         } else {
-            showEndOfDay();
-            $("#deafultPeriod").addClass('active');
+            var $element = $("#defaultPeriod");
+
+            $element.addClass('active');
+            var arg = $element.data("key");
+            var delegate = actions[arg];
+
+            if (delegate) {
+                delegate(event, $element);
+            }
         }
 
         Highcharts.setOptions({

@@ -4,7 +4,7 @@
 import './module.dependencies.js';
 import '../insiderTexts.js';
 
-window.cision.websolution.insiders = !cision.websolution.settings.insider.accessKey ? {} : function ($) {
+window.cision.websolution.insiders = !cision.websolution.settings.insider ? {} : function ($) {
     var settings = $.extend({}, window.cision.websolution.settings.general),
         accessKey = window.cision.websolution.settings.insider.accessKey;
 

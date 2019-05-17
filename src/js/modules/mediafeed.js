@@ -3,7 +3,7 @@
 
 import './module.dependencies.js';
 
-window.cision.websolution.mediafeed = !cision.websolution.settings.mediafeed.accessKey ? {} : function ($) {
+window.cision.websolution.mediafeed = !cision.websolution.settings.mediafeed ? {} : function ($) {
     var settings = $.extend({}, window.cision.websolution.settings.general),
         accessKey = window.cision.websolution.settings.mediafeed.accessKey;
 

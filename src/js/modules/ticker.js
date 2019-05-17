@@ -3,7 +3,7 @@
 
 import './module.dependencies.js';
 
-window.cision.websolution.tickers = !cision.websolution.settings.ticker.accessKey ? {} : function($) {
+window.cision.websolution.tickers = !cision.websolution.settings.ticker ? {} : function($) {
     var settings = $.extend({}, window.cision.websolution.settings.general),
         accessKey = window.cision.websolution.settings.ticker.accessKey,
         texts = window.cision.websolution.texts[settings.uiLanguage];

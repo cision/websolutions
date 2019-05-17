@@ -3,7 +3,7 @@
 
 import './module.dependencies.js';
 
-window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph.accessKey ? {} : function($){
+window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph ? {} : function($){
     var settings = $.extend({}, window.cision.websolution.settings.general),
         accessKey = window.cision.websolution.settings.sharegraph.accessKey,
         showVolume = false,

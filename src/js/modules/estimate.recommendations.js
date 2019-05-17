@@ -5,7 +5,7 @@ import './module.dependencies.js';
 
 window.cision.websolution.estimate = cision.websolution.estimate || {};
 
-window.cision.websolution.estimate.recommendations = !cision.websolution.settings.estimate.accessKey ? {} : function ($) {
+window.cision.websolution.estimate.recommendations = !cision.websolution.settings.estimate ? {} : function ($) {
     var settings = $.extend({}, window.cision.websolution.settings.general),
         accessKey = window.cision.websolution.settings.estimate.accessKey,
         accessKeyTicker = window.cision.websolution.settings.estimate.accessKeyTicker;

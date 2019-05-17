@@ -5,7 +5,7 @@ import './module.dependencies.js';
 
 window.cision.websolution.estimate = cision.websolution.estimate || {};
 
-window.cision.websolution.estimate.common = !cision.websolution.settings.estimate.accessKey ? {} : function ($) {
+window.cision.websolution.estimate.common = !cision.websolution.settings.estimate ? {} : function ($) {
     var settings = window.cision.websolution.settings.general;
 
     function renderEstimateTab(name) {

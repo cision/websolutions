@@ -163,6 +163,9 @@ window.cision.websolution.settings = {
     },
     printedMaterial: {
         accessKey: 'F9AAF9CA0154483C9CBF5A65E215A892'
+    },
+    dividend: {
+        accessKey: ''
     }
 };
 

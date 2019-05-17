@@ -10,7 +10,7 @@ window.cision.websolution.translationHelpers = function ($) {
 }(jQuery);
 
 window.cision.websolution.common = function ($) {
-    var settings = $.extend({}, window.cision.websolution.settings.general),
+    var settings = window.cision.websolution.settings.general,
         texts = window.cision.websolution.texts[settings.uiLanguage];
 
     function generateUrl(path) {

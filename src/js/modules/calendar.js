@@ -101,7 +101,7 @@ window.cision.websolution.calendar = !cision.websolution.settings.calendar ? {} 
                 }
 
                 if (firstRunEvent) {
-                    texts.Categories = uniqueCategories;
+                    window.cision.websolution.texts.Categories = uniqueCategories;
                     var tplCategoryElement = '#' + (settings.categoriesTemplateElement || 'tplCategories');
                     var tplCategoryTarget = '#' + (settings.categoriesOutputTargetElement || 'target-categories'); 
                     window.cision.websolution.common.modelToHtml({}, tplCategoryElement, tplCategoryTarget);

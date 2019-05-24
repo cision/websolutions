@@ -8,6 +8,21 @@
 	margin-right: auto;
 }
 .sharecalclulator-container {
+	.row {
+		padding: 5px 0;
+		margin-left: 0;
+		margin-right: -10px;
+	
+			.col-sm-6, .col {
+				padding-right: 30px;
+				padding-left: 0px;
+			}
+			.col-sm-6:last-child {
+				padding-right: 0;
+			}
+	
+		}
+
 	input[type=radio] {
 		margin: 4px 0 0;
 	}
@@ -47,7 +62,7 @@
 		margin-left: 10px;
 	}
 	.history-download {
-		margin-top: 15px;
+		margin-top: -15px;
 	}
 	.compute-button {
 		margin-top: 10px;

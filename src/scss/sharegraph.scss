@@ -28,7 +28,6 @@
 }
 .dropdown {
 	float: left;
-	margin-right: 10px;
 }
 .date-picker {
 	float: left;
@@ -49,7 +48,9 @@
 .sharegraph-extras {
 	margin-top: 10px;
 
-	#share-options-select li {
+	#share-options-select {
+		margin-right: 10px;
+		li {
 		a {
 			@extend %list-element-styles;
 		}
@@ -73,6 +74,7 @@
 			display: inline-block;
 		}
 	}
+}
 	#share-download-options li a {
 		@extend %list-element-styles;
 	}

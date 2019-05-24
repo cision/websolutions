@@ -73,6 +73,7 @@ window.cision.websolution.sharecalculator = !cision.websolution.settings.shareca
         window.cision.websolution.common.modelToHtml({ Instruments: calculatorData.Instruments }, tplElement, tplTarget, true);
 
         InitSettingsChanged();
+        initializeDatepickers();
     }
 
     var compute = function() {
@@ -206,7 +207,7 @@ window.cision.websolution.sharecalculator = !cision.websolution.settings.shareca
         var csv = '';
         if ($rowsInitial.length > 0) {
             csv += $("#initial-investment-header").text() + " " + $("#initial-investment-type").text() + rowDelim;
-            csv += formatRows($rows.map(grabRow));
+            csv += formatRows($rowsInitial.map(grabRow));
             csv += rowDelim + rowDelim;
         }
 
@@ -214,7 +215,7 @@ window.cision.websolution.sharecalculator = !cision.websolution.settings.shareca
         var $rowsValue = $tableValue.find('tr:has(td)');
         if ($rowsValue.length > 0) {
             csv += $("#end-value-header").text() + " " + $("#end-value-type").text() + rowDelim;
-            csv += formatRows($rows.map(grabRow));
+            csv += formatRows($rowsInitial.map(grabRow));
             csv += rowDelim + rowDelim;
         }
 
@@ -265,6 +266,35 @@ window.cision.websolution.sharecalculator = !cision.websolution.settings.shareca
 
             return $text.replace('"', '""'); // escape double quotes
         }
+    }
+
+    function initializeDatepickers() {
+        $('#datePickerShareCalculatorFrom input').datepicker({
+            format: "yyyy-mm-dd",
+            todayBtn: false,
+            autoclose: true,
+            todayHighlight: true,
+            orientation: "bottom left",
+            language: settings.uiLanguage,
+            endDate: moment().subtract(1, 'days').format('YYYY-MM-DD')
+        });
+        $('#datePickerShareCalculatorTo input').datepicker({
+            format: "yyyy-mm-dd",
+            todayBtn: "linked",
+            autoclose: true,
+            todayHighlight: true,
+            orientation: "bottom left",
+            language: settings.uiLanguage,
+            endDate: moment().format('YYYY-MM-DD')
+        });
+
+        // set initial values
+        $('#datePickerShareCalculatorFrom input').datepicker('update', moment().subtract(1, 'years').format('YYYY-MM-DD'));
+        $('#datePickerShareCalculatorTo input').datepicker('update', moment().format('YYYY-MM-DD'));
+
+        $('.date-picker').on('click', function () {
+            $(this).find('input').datepicker('show');
+        });
     }
 
     var exportCsv = function() {

@@ -58,6 +58,7 @@ window.cision.websolution.texts["sv"] = {
     TextVolumeDisabledTooltip: "Detta val bör inte kombineras med kurspåverkande information",
     TextDelayInfo: "Kursinformationen är 15 minuter fördröjd.",
     TextCredits: "Källa Cision/Millistream",
+    TextShareCalculator: "Aktiekalkylatorn",
 
     // Insider translations
     TextInsiderTrans: "Insynshandel",
@@ -252,6 +253,7 @@ window.cision.websolution.texts["en"] = {
     TextVolumeDisabledTooltip: "This option should not be viewed at the same time as any of the indicators since they are overlapping in the graph",
     TextDelayInfo: "Quotes are delayed 15 minutes.",
     TextCredits: "Source Cision/Millistream",
+    TextShareCalculator: "Share calculator",
 
     // Insider translations
     TextInsiderTrans: "Insider transactions",
@@ -449,6 +451,7 @@ window.cision.websolution.texts["fi"] = {
     TextTrades: "Viimeisimmät kaupat",
     TextPerformance: "Kaupankäyntitieto",
     TextDelayInfo: "Quotes are delayed 15 minutes.",
+    TextShareCalculator: "Share calculator",
     TextCredits: "Source Cision/Millistream",
 
     // Insider translations
@@ -646,6 +649,7 @@ window.cision.websolution.texts["fi"] = {
 //     TextOrderBook: "Order book",
 //     TextTrades: "Trades",
 //     TextPerformance: "Performance",
+//     TextShareCalculator: "Share calculator",
 
 //     // Insider translations
 //     TextInsiderTrans: "Insider transactions",
@@ -843,6 +847,7 @@ window.cision.websolution.texts["fi"] = {
 //     TextVolumeDisabledTooltip: "This option should not be viewed at the same time as any of the indicators since they are overlapping in the graph",
 //     TextDelayInfo: "Quotes are delayed 15 minutes.",
 //     TextCredits: "Source Cision/Millistream",
+//     TextShareCalculator: "Share calculator",
 
 //     // Insider translations
 //     TextInsiderTrans: "Insider transactions",
@@ -1039,6 +1044,7 @@ window.cision.websolution.texts["fi"] = {
 //     TextVolumeDisabledTooltip: "This option should not be viewed at the same time as any of the indicators since they are overlapping in the graph",
 //     TextDelayInfo: "Quotes are delayed 15 minutes.",
 //     TextCredits: "Source Cision/Millistream",
+//     TextShareCalculator: "Share calculator",
 
 
 //     // Insider translations

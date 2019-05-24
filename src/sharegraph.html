@@ -18,9 +18,17 @@
     <script type="text/javascript">
         $(function () {
             window.cision.websolution.sharegraph.init();
+
+            $(document).keypress(function (e) {
+                if (e.which == 13 || event.keyCode == 13) {
+                    ShareCalculatorCompute();
+                }
+            });
         });
 
-
+        function ShareCalculatorCompute() {
+            cision.websolution.sharecalculator.compute();
+        }
     </script>
 
     <script id="templateTicker" type="text/x-jsrender">
@@ -58,86 +66,86 @@
 
     <script id="templatesharegraph" type="text/x-jsrender">
         <div class="row justify-content-between">
-                <div class="sharegraph-extras">
-                        <div class="dropdown" id="share-options-select">
-                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="shareOptionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <span class="caret"></span>
-                                {{>TextShareOptions}}
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li class="dropdown-header">{{>TextShare}} & {{>TextIndex}}</li>
-                                {{for mainInstruments}}
-                                <li class="dropdown-item show-hide-instrument selected" data-initialstate="selected" data-key='{{>symbol}}{{>marketPlace}}{{>currency}}'><a href="#"><i class="fas fa-check"></i>{{>name}}</a></li>
-                                {{if hasEffectiveYield}}
-                                <!-- To access this value you have to have this service activated in Millistream-->
-                                <li class="dropdown-item show-hide-instrument" data-key="{{>symbol}}{{>marketPlace}}{{>currency}}{{:~root.effectiveYieldSuffix}}" id="chk2"><a href="#"><i class="fas fa-check"></i>{{>name}} [{{:~root.TextTotalReturn}}]</a></li>
-                                {{/if}}
-                                {{/for}}
-                                {{if indexInstruments.length}}
-                                {{for indexInstruments}}
-                                <li class="dropdown-item show-hide-instrument share-index" data-triggercomparison='true' data-symbol='{{>symbol}}' data-key='{{>symbol}}{{>marketPlace}}{{>currency}}'><a href="#"><i class="fas fa-check"></i>{{>name}}</a></li>
-                                {{/for}}
-                                {{/if}}
-                                {{if peersInstruments.length}}
-                                <li role="separator" class="dropdown-divider"></li>
-                                <li class="dropdown-header">{{>TextPeers}}</li>
-                                {{for peersInstruments}}
-                                <li class="dropdown-item show-hide-instrument share-peer" data-triggercomparison='true' data-symbol='{{>symbol}}' data-key='{{>symbol}}{{>marketPlace}}{{>currency}}'><a href="#"><i class="fas fa-check"></i>{{>name}}</a></li>
-                                {{/for}}
-                                {{/if}}
-                                <li role="separator" class="dropdown-divider"></li>
-                                <li class="dropdown-header">{{>TextReleases}}</li>
-                                {{for indicatorsOnSeries}}
-                                <li class="dropdown-item show-hide-instrument indicator" data-title="{{:~root.TextIndicatorDisabledTooltip}}" data-toggle="tooltip" data-key='{{>uniqueKey}}'><a href="#"><i class="fas fa-check"></i>{{>~getTranslation(translationKey)}}</a></li>
-                                {{/for}}
-                                <li role="separator" class="dropdown-divider"></li>
-                                <li class="dropdown-header">{{>TextCompSubtitle}}</li>
-                                <li class="dropdown-item chartComparisonType" id="comparisonPercent" data-key='percent'><a href="#"><i class="fa fa-check"></i>{{>TextPercent}}</a></li>
-                                <li class="dropdown-item chartComparisonType selected" data-initialstate="selected" id="comparisonNone" data-key='price'><a href="#"><i class="fas fa-check"></i>{{>TextPrice}}</a></li>
-                                <li role="separator" class="dropdown-divider"></li>
-                                <li class="dropdown-item chartComparisonType volume" data-title="{{>TextVolumeDisabledTooltip}}" data-toggle="tooltip" data-key='volume'><a href="#"><i class="fas fa-check"></i>{{>TextShowVolume}}</a></li>
-                            </ul>
-                        </div>
-                        <div class="dropdown" id="share-download-options">
-                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="downloadOptionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <span class="caret"></span>
-                                {{>TextDownload}}
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li class="dropdown-item" id="excel-download"><a href="#"><i class="fas fa-download"></i> {{>TextDownloadShareHistory}}</a></li>
-                                <li class="dropdown-item" id="print-chart"><a href="#"><i class="fas fa-print"></i> {{>TextPrintChart}}</a></li>
-                                <li class="dropdown-item" id="export-png-chart"><a href="#"><i class="fas fa-image"></i> {{>TextDownloadAsPNG}}</a></li>
-                                <li class="dropdown-item" id="export-jpeg-chart"><a href="#"><i class="fas fa-image"></i> {{>TextDownloadAsJPEG}}</a></li>
-                                <li class="dropdown-item" id="export-svg-chart"><a href="#"><i class="fas fa-image"></i> {{>TextDownloadAsSVG}}</a></li>
-                                <li class="dropdown-item" id="export-pdf-chart"><a href="#"><i class="fas fa-file-pdf"></i> {{>TextDownloadAsPDF}}</a></li>
-                            </ul>
-                        </div>
-                    </div>
-        
-                    <div id="periods" class="btn-group sharegraph-extras">
-                        <div class="action btn btn-outline-secondary" id="intraDay" name="dataPeriod" data-key="dataPeriodDays1">{{>TextPartOfDay}}</div>
-                        <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodWeeks1">{{>Text1V}}</div>
-                        <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodMonths1">{{>Text1M}}</div>
-                        <div class="action btn btn-outline-secondary" id="defaultPeriod" name="dataPeriod" data-key="dataPeriodMonths3">{{>Text3M}}</div>
-                        <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodMonths6">{{>Text6M}}</div>
-                        <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodYears1">{{>Text1Y}}</div>
-                        <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodYearsAll">{{>TextAll}}</div>
-                    </div>
-        
-                    <div class="sharegraph-extras">
-                        <div class="input-group date-picker" id="datePickerFrom">
-                            <span class="input-group-prepend">
-                                <button class="btn btn-outline-secondary" type="button"><i class="fas fa-calendar-alt"></i></button>
-                            </span>
-                            <input type="text" class="form-control date-input" />
-                        </div>
-                        <div class="input-group date-picker" id="datePickerTo">
-                            <span class="input-group-prepend">
-                                <button class="btn btn-outline-secondary" type="button"><i class="fas fa-calendar-alt"></i></button>
-                            </span>
-                            <input type="text" class="form-control date-input" />
-                        </div>
-                    </div>
+            <div class="sharegraph-extras">
+                <div class="dropdown" id="share-options-select">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="shareOptionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="caret"></span>
+                        {{>TextShareOptions}}
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-header">{{>TextShare}} & {{>TextIndex}}</li>
+                        {{for mainInstruments}}
+                        <li class="dropdown-item show-hide-instrument selected" data-initialstate="selected" data-key='{{>symbol}}{{>marketPlace}}{{>currency}}'><a href="#"><i class="fas fa-check"></i>{{>name}}</a></li>
+                        {{if hasEffectiveYield}}
+                        <!-- To access this value you have to have this service activated in Millistream-->
+                        <li class="dropdown-item show-hide-instrument" data-key="{{>symbol}}{{>marketPlace}}{{>currency}}{{:~root.effectiveYieldSuffix}}" id="chk2"><a href="#"><i class="fas fa-check"></i>{{>name}} [{{:~root.TextTotalReturn}}]</a></li>
+                        {{/if}}
+                        {{/for}}
+                        {{if indexInstruments.length}}
+                        {{for indexInstruments}}
+                        <li class="dropdown-item show-hide-instrument share-index" data-triggercomparison='true' data-symbol='{{>symbol}}' data-key='{{>symbol}}{{>marketPlace}}{{>currency}}'><a href="#"><i class="fas fa-check"></i>{{>name}}</a></li>
+                        {{/for}}
+                        {{/if}}
+                        {{if peersInstruments.length}}
+                        <li role="separator" class="dropdown-divider"></li>
+                        <li class="dropdown-header">{{>TextPeers}}</li>
+                        {{for peersInstruments}}
+                        <li class="dropdown-item show-hide-instrument share-peer" data-triggercomparison='true' data-symbol='{{>symbol}}' data-key='{{>symbol}}{{>marketPlace}}{{>currency}}'><a href="#"><i class="fas fa-check"></i>{{>name}}</a></li>
+                        {{/for}}
+                        {{/if}}
+                        <li role="separator" class="dropdown-divider"></li>
+                        <li class="dropdown-header">{{>TextReleases}}</li>
+                        {{for indicatorsOnSeries}}
+                        <li class="dropdown-item show-hide-instrument indicator" data-title="{{:~root.TextIndicatorDisabledTooltip}}" data-toggle="tooltip" data-key='{{>uniqueKey}}'><a href="#"><i class="fas fa-check"></i>{{>~getTranslation(translationKey)}}</a></li>
+                        {{/for}}
+                        <li role="separator" class="dropdown-divider"></li>
+                        <li class="dropdown-header">{{>TextCompSubtitle}}</li>
+                        <li class="dropdown-item chartComparisonType" id="comparisonPercent" data-key='percent'><a href="#"><i class="fa fa-check"></i>{{>TextPercent}}</a></li>
+                        <li class="dropdown-item chartComparisonType selected" data-initialstate="selected" id="comparisonNone" data-key='price'><a href="#"><i class="fas fa-check"></i>{{>TextPrice}}</a></li>
+                        <li role="separator" class="dropdown-divider"></li>
+                        <li class="dropdown-item chartComparisonType volume" data-title="{{>TextVolumeDisabledTooltip}}" data-toggle="tooltip" data-key='volume'><a href="#"><i class="fas fa-check"></i>{{>TextShowVolume}}</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown" id="share-download-options">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="downloadOptionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="caret"></span>
+                        {{>TextDownload}}
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item" id="excel-download"><a href="#"><i class="fas fa-download"></i> {{>TextDownloadShareHistory}}</a></li>
+                        <li class="dropdown-item" id="print-chart"><a href="#"><i class="fas fa-print"></i> {{>TextPrintChart}}</a></li>
+                        <li class="dropdown-item" id="export-png-chart"><a href="#"><i class="fas fa-image"></i> {{>TextDownloadAsPNG}}</a></li>
+                        <li class="dropdown-item" id="export-jpeg-chart"><a href="#"><i class="fas fa-image"></i> {{>TextDownloadAsJPEG}}</a></li>
+                        <li class="dropdown-item" id="export-svg-chart"><a href="#"><i class="fas fa-image"></i> {{>TextDownloadAsSVG}}</a></li>
+                        <li class="dropdown-item" id="export-pdf-chart"><a href="#"><i class="fas fa-file-pdf"></i> {{>TextDownloadAsPDF}}</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="periods" class="btn-group sharegraph-extras">
+                <div class="action btn btn-outline-secondary" id="intraDay" name="dataPeriod" data-key="dataPeriodDays1">{{>TextPartOfDay}}</div>
+                <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodWeeks1">{{>Text1V}}</div>
+                <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodMonths1">{{>Text1M}}</div>
+                <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodMonths3">{{>Text3M}}</div>
+                <div class="action btn btn-outline-secondary" id="defaultPeriod" name="dataPeriod" data-key="dataPeriodMonths6">{{>Text6M}}</div>
+                <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodYears1">{{>Text1Y}}</div>
+                <div class="action btn btn-outline-secondary" name="dataPeriod" data-key="dataPeriodYearsAll">{{>TextAll}}</div>
+            </div>
+
+            <div class="sharegraph-extras">
+                <div class="input-group date-picker" id="datePickerFrom">
+                    <span class="input-group-prepend">
+                        <button class="btn btn-outline-secondary" type="button"><i class="fas fa-calendar-alt"></i></button>
+                    </span>
+                    <input type="text" class="form-control date-input" />
+                </div>
+                <div class="input-group date-picker" id="datePickerTo">
+                    <span class="input-group-prepend">
+                        <button class="btn btn-outline-secondary" type="button"><i class="fas fa-calendar-alt"></i></button>
+                    </span>
+                    <input type="text" class="form-control date-input" />
+                </div>
+            </div>
         </div>
 
         <div id="sharegraph-container"></div>
@@ -148,13 +156,205 @@
                 <li class="nav-item" role="presentation"><a href="#performance" class="nav-link active" aria-controls="home" role="tab" data-toggle="tab">{{>TextPerformance}}</a></li>
                 <li class="nav-item" role="presentation"><a href="#orderbook" class="nav-link" aria-controls="profile" role="tab" data-toggle="tab">{{>TextOrderBook}}</a></li>
                 <li class="nav-item" role="presentation"><a href="#trades" class="nav-link" aria-controls="messages" role="tab" data-toggle="tab">{{>TextTrades}}</a></li>
+                <li class="nav-item" role="presentation"><a href="#sharecaculator" class="nav-link" aria-controls="messages" role="tab" data-toggle="tab">{{>TextShareCalculator}}</a></li>
             </ul>
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="performance"><div id="target-share-performance"></div></div>
                 <div role="tabpanel" class="tab-pane" id="orderbook"><div id="target-orderbook"></div></div>
                 <div role="tabpanel" class="tab-pane" id="trades"><div id="target-trades"></div></div>
+                <div role="tabpanel" class="tab-pane" id="sharecaculator">
+                    <div id="sharecalclulator-sharetype-container" class="sharecalclulator-container"></div>
+                    <div id="sharecalclulator-container" class="sharecalclulator-container"></div>
+                    <div id="sharecalclulator-results-container" class="sharecalclulator-container"></div>
+                    <div id="sharecalclulator-history-container" class="sharecalclulator-container"></div>
+                </div>
             </div>
         </div>
+    </script>
+
+    <script id="template-sharecalclulator-sharetype" type="text/x-jsrender">
+            <div class="share-help-container">
+                <p class="helptext">{{>TextShareTypeHelp}}</p>
+            </div>
+            <div class="row justify-content-between">
+                {{for Instruments}}
+                <div class="col">
+                    <label><input type="radio" name="shareType" value="{{>TickerSymbol}}" {{if Checked}} checked="checked" {{/if}} /> {{>TickerSymbol}} ({{>TradeCurrency}})</label><br />
+                </div>
+                {{/for}}
+            </div>
+    </script>
+
+    <script id="template-sharecalclulator" type="text/x-jsrender">
+        <div class="row">
+            <div class="col-sm-6">
+                <p class="helptext">{{>TextPeriodHelp}}</p>
+                <table class="table table-borderless sharevalues" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="bold">{{>TextFromIncluding}}:</td>
+                        <td>
+                            <div class="input-group date-picker" id="datePickerShareCalculatorFrom">
+                                <span class="input-group-prepend">
+                                    <button class="btn btn-outline-secondary" type="button"><i class="fas fa-calendar-alt"></i></button>
+                                </span>
+                                <input type="text" class="form-control date-input" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bold">{{>TextToIncluding}}:</td>
+                        <td>
+                            <div class="input-group date-picker" id="datePickerShareCalculatorTo">
+                                <span class="input-group-prepend">
+                                    <button class="btn btn-outline-secondary" type="button"><i class="fas fa-calendar-alt"></i></button>
+                                </span>
+                                <input type="text" class="form-control date-input" />
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-6">
+                <p class="helptext">{{>TextNumberOfSharesHelp}}</p>
+                <table class="table table-borderless sharevalues" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="bold">{{>TextNumberOfShares}}:</td>
+                        <td>
+                            <input type="text" id="tbNumberOfShares" class="amount form-control" value="" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bold">{{>TextShareValue}}:</td>
+                        <td>
+                            <input type="text" id="tbAmount" class="amount form-control" value="" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <button type="button" class="btn btn-outline-dark float-right compute-button" onclick="ShareCalculatorCompute()">{{>TextShareCompute}}</button>
+        <div class="clear"></div>
+        <br />
+    </script>
+
+    <script id="template-sharecalclulator-results" type="text/x-jsrender">
+        {{if RenderResults}}
+        <hr />
+        <br />
+        <div class="results-right">
+            <div class="text-center">
+                <h4 id="initial-investment-header" class="bold">{{>TextInitialInvestment}}</h4>
+                <p id="initial-investment-type">({{>TextEndOfTheDay}})</p>
+            </div>
+            <table id="initial-investment" class="table table-sm fullsize" border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr class="bold">
+                        <td>{{>TextDate}}</td>
+                        <td class="text-right">{{>Results.StartDateFormated}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{>TextValue}} ({{>Results.Currency}})</td>
+                        <td class="text-right">{{>~formatNumber(Results.StartValue, 2)}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{>TextSharePrice}} ({{>Results.Currency}})</td>
+                        <td class="text-right">{{>~formatNumber(Results.StartPrice, 2)}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{>TextSharesBought}}</td>
+                        <td class="text-right">{{>~formatNumber(Results.NumberOfShares, 0)}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="results-left">
+            <div class="text-center">
+                <h4 id="end-value-header" class="bold">{{>TextEndValue}}</h4>
+                {{if Results.EndDateQuote.QuoteType == "PartOfDay"}}
+                <p id="end-value-type">({{>TextPartOfTheDay}})</p>
+                {{else}}
+                <p id="end-value-type">({{>TextEndOfTheDay}})</p>
+                {{/if}}
+            </div>
+            <table id="end-value" class="table table-sm">
+                <tbody>
+                    <tr class="bold">
+                        <td>{{>TextDate}}</td>
+                        <td class="text-right">{{>Results.EndDateFormated}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{>TextValue}} ({{>Results.Currency}})</td>
+                        <td class="text-right">{{>~formatNumber(Results.EndValue, 2)}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{>TextSharePrice}} ({{>Results.Currency}})</td>
+                        <td class="text-right">{{>~formatNumber(Results.EndPrice, 2)}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{>TextChange}} ({{>Results.Currency}})</td>
+                        <td class="text-right">{{>~formatNumber(Results.Change, 2)}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{>TextChange}} (%)</td>
+                        <td class="text-right">{{>~formatNumber(Results.ChangePercent, 2)}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{>TextAnnualizedChange}} (%)</td>
+                        <td class="text-right">{{>~formatNumber(Results.ChangeAnnualizedPercent, 2)}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {{/if}}
+    </script>
+
+    <script id="template-sharecalclulator-history" type="text/x-jsrender">
+        <legend>{{>TextShareCalculatorHistory}}</legend>
+        <div class="history-download float-right">
+            <a href="javascript:cision.websolution.sharecalculator.exportCsv();" id="csvExport" role='button'>
+                <i class="fas fa-file-excel"></i> {{>TextDownloadResultsAndShareHistory}}
+            </a>
+        </div>
+        {{if ~root.PartOfDayHelp}}
+        <div>
+            <p class="helptext pull-right">* {{>TextPartOfTheDay}}</p>
+        </div>
+        {{/if}}
+
+        <table id="shareCalculatorHistory" class="table table-sm">
+            <thead>
+                <tr>
+                    <th>{{>TextDate}}</th>
+                    <th>{{>TextOpenPrice}}</th>
+                    <th>{{>TextAsk}}</th>
+                    <th>{{>TextBid}}</th>
+                    <th>{{>TextPrice}}</th>
+                    <th>{{>TextHigh}}</th>
+                    <th>{{>TextLow}}</th>
+                    <th>{{>TextVolume}}</th>
+                    <th>{{>TextTurnover}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{for Quotes}}
+                <tr>
+                    {{if QuoteType == "PartOfDay"}}
+                    <td>{{>QuoteTimeFormated}} *</td>
+                    {{else}}
+                    <td>{{>QuoteTimeFormated}}</td>
+                    {{/if}}
+                    <td>{{>~formatNumber(OpenPrice, 2)}}</td>
+                    <td>{{>~formatNumber(AskPrice, 2)}}</td>
+                    <td>{{>~formatNumber(BidPrice, 2)}}</td>
+                    <td>{{>~formatNumber(Price, 2)}}</td>
+                    <td>{{>~formatNumber(HighPrice, 2)}}</td>
+                    <td>{{>~formatNumber(LowPrice, 2)}}</td>
+                    <td>{{>~formatNumber(Quantity, 0)}}</td>
+                    <td>{{>~formatNumber(Turnover, 0)}}</td>
+                </tr>
+                {{/for}}
+            </tbody>
+        </table>
     </script>
 
     <script id="tplTickerPerformance" type="text/x-jsrender">

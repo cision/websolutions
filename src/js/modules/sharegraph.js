@@ -36,6 +36,7 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph ?
             window.cision.websolution.trades.render();
             window.cision.websolution.performance.render();
             window.cision.websolution.orderbook.render();
+            window.cision.websolution.sharecalculator.render();
 
             if (settings.typeOfChart == 'PartOfDay') {
                 showPartOfDay();

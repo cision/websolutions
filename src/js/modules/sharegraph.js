@@ -3,12 +3,11 @@
 
 import './module.dependencies.js';
 
-window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph ? {} : function($){
+window.cision.websolution.sharegraph = !window.cision.websolution.settings.sharegraph ? {} : function($){
     var settings = $.extend({}, window.cision.websolution.settings.general),
         accessKey = window.cision.websolution.settings.sharegraph.accessKey,
         showVolume = false,
-        today = moment().format('YYYY-MM-DD'),
-        comparisonType = "price",
+        today = moment().format('YYYY-MM-DD'),       
         actions = [],
         objChart;
 
@@ -36,32 +35,23 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph ?
             window.cision.websolution.trades.render();
             window.cision.websolution.performance.render();
             window.cision.websolution.orderbook.render();
-            window.cision.websolution.sharecalculator.render();
-
-            if (settings.typeOfChart == 'PartOfDay') {
-                showPartOfDay();
-                $("#intraDay").addClass('active');
-            } else {
-                var $element = $("#defaultPeriod");
-    
-                $element.addClass('active');
-                var arg = $element.data("key");
-                var delegate = actions[arg];
-    
-                if (delegate) {
-                    delegate(event, $element);
-                }
-            }
-        }else {
-            showEndOfDay();
+            window.cision.websolution.sharecalculator.render();           
         }
 
-        Highcharts.setOptions({
-            lang: {
-                decimalPoint: cision.websolution.settings.general.numberFormatOptions.decimalSeparator,
-                thousandsSep: cision.websolution.settings.general.numberFormatOptions.thousandSeparator
+        if (settings.typeOfChart == 'PartOfDay') {
+            showPartOfDay();
+            $("#intraDay").addClass('active');
+        } else {
+            var $element = $("#defaultPeriod");
+
+            $element.addClass('active');
+            var arg = $element.data("key");
+            var delegate = actions[arg];
+      
+            if (delegate) {
+                delegate(event, $element);
             }
-        });
+        }
     }
 
     function sharegraphPrintFix() {
@@ -188,9 +178,10 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph ?
                 var ticker = $(this).data("symbol");
                 listOfTickers += ticker + ",";
             });
-
+            var startDate = $('#datePickerFrom input').val();
+            var endDate = $('#datePickerTo input').val();
             window.open(
-                settings.serviceEndpoint + "ShareHistory/" + window.cision.websolution.settings.sharegraph.shareHistoryKey + "/csv?indexSymbols=" + listOfTickers + "&mainInstrument=" + settings.mainInstruments[0].symbol,
+                settings.serviceEndpoint + "ShareHistory/" + window.cision.websolution.settings.sharegraph.shareHistoryKey + "/csv?indexSymbols=" + listOfTickers + "&mainInstrument=" + settings.mainInstruments[0].symbol + "&startDate=" + startDate + "&endDate=" + endDate,
                 "exeldownload",
                 ""
             );
@@ -295,7 +286,7 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph ?
 
     var setInstrumentVisibility = function (uniqueKey, makeVisible) {
         // var objChart = Highcharts.chart(settings.chartContainerId);
-        
+
         $.each(objChart.series, function (idx, objSerie) {
             var objCurrentInstrument = objSerie.userOptions.objOriginal; /* the original object is attached above */
 
@@ -321,7 +312,7 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph ?
         return color;
     };
 
-    function  showEndOfDay() {
+    function showEndOfDay() {
         settings.typeOfChart = "EndOfDay";
         var proimiseEndOfDay = render({
             volumeOffset: -35,
@@ -345,7 +336,7 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph ?
         });
     }
 
-    function  showPartOfDay() {
+    function showPartOfDay() {
         settings.typeOfChart = "PartOfDay";
         var daysBack = 1;
 
@@ -365,30 +356,29 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph ?
             showVolume: showVolume
         });
         promisePartOfDay.then(function () {
-            reinitializeState();
-
             $('#datePickerFrom input').datepicker('update', settings.endOfDayStartFrom);
             $('#datePickerTo input').datepicker('update', settings.endOfDayEndTime);
             $('.share-index').addClass("disabled");
+
+            reinitializeState();
 
             // fix for graph size issue on print
             sharegraphPrintFix();
         });
     }
 
-    var reinitializeState = function() {
+    var reinitializeState = function () {
         $('.show-hide-instrument')
             .each(function () {
                 var thisElement = $(this);
                 updateInstrumentSeries(thisElement);
             });
-    }
+    };
 
     var triggerAutomaticComparison = 0;
     /* This will be incremented for every peer-or-index added (decremented when removed) */
-    var updateInstrumentSeries = function(element) {
+    var updateInstrumentSeries = function (element) {
         var $el = $(element);
-        // var objChart = Highcharts.chart(settings.chartContainerId);
         var uniqueKey = $el.data("key");
         var triggerComparison = $el.data("triggercomparison");
         var makeVisible = $el.hasClass("selected");
@@ -404,29 +394,11 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph ?
             triggerAutomaticComparison = (triggerAutomaticComparison >= 0 ? triggerAutomaticComparison : 0);
 
             // Set comparison type
-            if (triggerAutomaticComparison > 0) {
+            if (triggerAutomaticComparison > 0 || settings.chartComparison == "percent") {
                 // Set Comparison since we have more instruments visible
-                objChart.yAxis[0].setCompare('percent');
-                $('#comparisonPercent').addClass("selected");
-                $('#comparisonNone').removeClass("selected");
-                objChart.yAxis[0].setExtremes(null);
+                showComparisonChart();
             } else {
-                objChart.yAxis[0].setCompare('none');
-                $('#comparisonNone').addClass("selected");
-                $('#comparisonPercent').removeClass("selected");
-
-                // if the index is clicked to hide it highcharts needs a little time to set the new min value of the y-axis
-                setTimeout(function () {
-                    var ex = objChart.yAxis[0].getExtremes();
-                    var minValue = ex.min <= 0 ? 0 : ex.min;
-                    if (minValue >= 0) {
-                        //set the min and return the values
-                        objChart.yAxis[0].setExtremes(minValue, null, true, false);
-                    }
-                    else {
-                        objChart.yAxis[0].setExtremes(null);
-                    }
-                }, 600);
+                showPriceChart();
             }
         }
 
@@ -495,14 +467,13 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph ?
     }
 
     function showComparisonChart() {
-        // var objChart = Highcharts.chart(settings.chartContainerId);
-        comparisonType = 'percent';
+        settings.chartComparison = 'percent';
 
         $.each(objChart.series,
             function (i, serie) {
                 if (serie.type !== 'flag' && serie.type !== 'column') {
                     serie.update({
-                        compare: comparisonType
+                        compare: settings.chartComparison
                     },
                         false);
                 }
@@ -510,17 +481,19 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph ?
 
         objChart.redraw();
         objChart.yAxis[0].setExtremes(null);
+
+        $('#comparisonPercent').addClass("selected");
+        $('#comparisonNone').removeClass("selected");
     }
 
     function showPriceChart() {
-        // var objChart = Highcharts.chart(settings.chartContainerId);
-        comparisonType = 'none';
+        settings.chartComparison = 'none';
 
         $.each(objChart.series,
             function (i, serie) {
                 if (serie.type !== 'flag' && serie.type !== 'column') {
                     serie.update({
-                        compare: comparisonType
+                        compare: settings.chartComparison
                     },
                         false);
                 }
@@ -532,11 +505,12 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph ?
             //set the min and return the values
             objChart.yAxis[0].setExtremes(0, null, true, false);
         }
+
+        $('#comparisonNone').addClass("selected");
+        $('#comparisonPercent').removeClass("selected");
     }
 
     function showReleasesOnChart(uniqueKey) {
-        // var objChart = Highcharts.chart(settings.chartContainerId);
-
         var promiseGraphReleases = window.cision.websolution.common.getModuleData({
             'accessKey': accessKey, 'module': "Share releases", 'path': 'Share/' + accessKey + '/Releases', 'postData': {
                 startDate: settings.dateToStartFrom
@@ -614,7 +588,7 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph ?
 
     // this method can be used directly if none of our custom elements (actions, datepickers, downloads etc.) are needed
     // if so some settings will be required in the options object to get highcharts own implementation of the above elements
-    var render = function(options) {
+    var render = function (options) {
         if (options) {
             $.extend(settings, options);
         }
@@ -788,7 +762,7 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph ?
             },
             series: {
                 turboThreshold: 100000,
-                compare: settings.chartComparison,
+                compare: settings.chartComparison || 'none',
                 lineWidth: settings.lineWidth
             }
         };
@@ -906,7 +880,7 @@ window.cision.websolution.sharegraph = !cision.websolution.settings.sharegraph ?
                 printChart: window.cision.websolution.texts[settings.uiLanguage].calendarTexts['printChart']
             }
         });
-       
+
         objChart = new Highcharts.StockChart({
             chart: {
                 renderTo: settings.chartContainerId,

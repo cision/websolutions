@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cision Web Solutions | Sharegraph</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://code.highcharts.com/stock/7.0.3/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/7.0.3/modules/exporting.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="totalReturn">
+            <div id="target-total-return-information" class="">
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var settings, texts;
+
+        $(function () {
+            settings = window.cision.websolution.settings.general;
+            texts = window.cision.websolution.texts[settings.uiLanguage];
+
+            var compositeModel = $.extend({}, texts);
+            var renderedHtml = $('#tplTotalReturnInformation').render(compositeModel, window.cision.websolution.formatHelpers);
+            $('#target-total-return-information').html(renderedHtml);
+        });
+    </script>
+
+    <script id="tplTotalReturnInformation" type="text/x-jsrender">
+        <div>
+            {{for totalReturnDescriptions.informationParagraphs}}
+            <h2>{{>title}}</h2>
+            <div>{{:content}}</div>
+            <br />
+            {{/for}}
+        </div>
+    </script>
+</body>
+</html>

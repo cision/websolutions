@@ -1,0 +1,300 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cision Web Solutions | Sharegraph</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://code.highcharts.com/stock/7.0.3/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/7.0.3/modules/exporting.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="totalReturn">
+
+
+            <ul id="totalReturnTabs" class="nav nav-tabs cision-tab-headers"></ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="target-total-return-overview">
+                    <div id="container-total-return-overview-chart"></div>
+                </div>
+                <div class="tab-pane" id="target-total-return-detail">
+                    <div id="container-total-return-detail-chart"></div>
+                    <div id="target-total-return-detail-periods"></div>
+
+                    <p>&nbsp;</p>
+
+                    <div id="target-total-return-detail-custom-summary"></div>
+
+                    <p>&nbsp;</p>
+
+                    <div id="target-total-return-detail-listing"></div>
+
+                    <p>&nbsp;</p>
+
+                    <div id="target-total-return-detail-cagr-listing"></div>
+                </div>
+                <div class="tab-pane" id="target-total-return-dividend">
+                    <div id="container-total-return-dividend-chart"></div>
+
+                    <p>&nbsp;</p>
+
+                    <div id="target-total-return-dividend-listing"></div>
+                </div>
+                <div class="tab-pane" id="target-total-return-information"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var settings, texts, textsDescriptions;
+
+        /**
+         * Disable buttons and other active elements if needed
+         *
+         * @param isLoading {boolean} True if page is loading
+         */
+        var setDetailLoadingState = function (isLoading) {
+            if (isLoading) {
+                $(".btn-refresh").attr("disabled", true);
+            } else {
+                $(".btn-refresh").attr("disabled", false);
+            }
+        };
+
+        /**
+         *
+         * @param startdate {Date}
+         * @param endDate {Date}
+         */
+        var setDetailDatepickerValues = function (startdate, endDate) {
+            $('#datePickerStart input').datepicker('update', moment(startdate).format('YYYY-MM-DD'));
+            $('#datePickerEnd input').datepicker('update', moment(endDate).format('YYYY-MM-DD'));
+
+            // Enable buttons
+            setDetailLoadingState(false);
+        };
+
+        $(function () {
+            settings = settings || window.cision.websolution.settings.general;
+            texts = texts || window.cision.websolution.texts[settings.uiLanguage];
+            textsDescriptions = textsDescriptions || window.cision.websolution.texts[settings.uiLanguage].totalReturnDescriptions;
+
+            $("<li class='nav-item'><a href='#target-total-return-overview' class='nav-link active' data-toggle='tab'>" + textsDescriptions.titles.Overview + "</a></li>").appendTo(".cision-tab-headers");
+            $("<li class='nav-item'><a href='#target-total-return-detail' class='nav-link' data-toggle='tab'>" + textsDescriptions.titles.TotalReturn + "</a></li>").appendTo(".cision-tab-headers");
+            $("<li class='nav-item'><a href='#target-total-return-dividend' class='nav-link' data-toggle='tab'>" + textsDescriptions.titles.Dividend + "</a></li>").appendTo(".cision-tab-headers");
+            $("<li class='nav-item'><a href='#target-total-return-information' class='nav-link' data-toggle='tab'>" + textsDescriptions.titles.Information + "</a></li>").appendTo(".cision-tab-headers");
+
+            iniHighcharts();
+
+            renderOverview();
+            renderDetail();
+            renderDividend();
+            renderInformation();
+        });
+
+        function iniHighcharts() {
+            Highcharts.setOptions({
+                lang: {
+                    rangeSelectorZoom: '',
+                    contextButtonTitle: window.cision.websolution.texts[settings.uiLanguage].TextDownload || 'Download',
+                    months: window.cision.websolution.texts[settings.uiLanguage].calendarTexts['months'],
+                    weekdays: window.cision.websolution.texts[settings.uiLanguage].calendarTexts['weekdays'],
+                    shortMonths: window.cision.websolution.texts[settings.uiLanguage].calendarTexts['shortMonths'],
+                    rangeSelectorFrom: window.cision.websolution.texts[settings.uiLanguage].calendarTexts['rangeSelectorFrom'],
+                    rangeSelectorTo: window.cision.websolution.texts[settings.uiLanguage].calendarTexts['rangeSelectorTo'],
+                    downloadJPEG: window.cision.websolution.texts[settings.uiLanguage].calendarTexts['downloadJPEG'],
+                    downloadPDF: window.cision.websolution.texts[settings.uiLanguage].calendarTexts['downloadPDF'],
+                    downloadPNG: window.cision.websolution.texts[settings.uiLanguage].calendarTexts['downloadPNG'],
+                    downloadSVG: window.cision.websolution.texts[settings.uiLanguage].calendarTexts['downloadSVG'],
+                    printChart: window.cision.websolution.texts[settings.uiLanguage].calendarTexts['printChart']
+                }
+            });
+        }
+
+        function renderInformation() {
+            var compositeModel = $.extend({}, texts);
+            var renderedHtml = $('#tplTotalReturnInformation').render(compositeModel, window.cision.websolution.formatHelpers);
+            $('#target-total-return-information').html(renderedHtml);
+        }
+
+        function renderOverview() {
+            var excludeKeys = ['LAST_03_MONTH', 'LAST_06_MONTH', 'LAST_20_YEAR', 'LAST_25_YEAR', 'LAST_50_YEAR', 'LAST_00_ALL', 'ALL'];
+            window.cision.websolution.totalReturn.overview.render({ excludeKeys: excludeKeys });
+        }
+
+        function renderDetail() {
+            var excludeKeys = ['LAST_03_MONTH', 'LAST_06_MONTH', 'LAST_25_YEAR', 'LAST_50_YEAR', 'LAST_00_ALL', 'ALL'];
+
+            // Buttons
+            var compositeModel = $.extend({}, texts);
+            var renderedHtml = $('#tplTotalReturnPeriods').render(compositeModel, window.cision.websolution.formatHelpers);
+            $('#target-total-return-detail-periods').html(renderedHtml);
+
+            // Rebind buttons
+            $(".btn-refresh").click(function () {
+                setDetailLoadingState(true);
+                var $btnRefresh = $(this);
+
+                var intervalLength = 1 * $btnRefresh.data("intervallength");
+                var intervalType = $btnRefresh.data("intervaltype");
+
+                window.cision.websolution.totalReturn.detail.render({ excludeKeys: excludeKeys, intervalType: intervalType, intervalLength: intervalLength, callback: setDetailDatepickerValues });
+            });
+
+            $("#btnTotalReturnDetailCsv").click(function () {
+                var startDate = $('#datePickerStart input').val();
+                var endDate = $('#datePickerEnd input').val();
+                var url = settings.serviceEndpoint + "TotalReturn/" + window.cision.websolution.settings.totalreturn.accessKey + "/Csv"
+                    + "?intervalType=Custom"
+                    //+ "&decimalSeparator=" + window.cision.websolution.settings.general.numberFormatOptions.decimalSeparator
+                    + "&startDate=" + startDate
+                    + "&endDate=" + endDate;
+                window.open(url, "exceldownload", "");
+            });
+
+            window.cision.websolution.totalReturn.detail.initDatePickers({ callback: setDetailDatepickerValues, setDetailLoadingState: setDetailLoadingState });
+
+            //render totalReturn Detail
+            window.cision.websolution.totalReturn.detail.render({ excludeKeys: excludeKeys, intervalType: 'Year', intervalLength: 1, callback: setDetailDatepickerValues });
+        }
+
+        function renderDividend() {
+            //render totalReturn dividend
+            window.cision.websolution.totalReturn.dividend.render({ excludeKeys: ['LAST_03_MONTH', 'LAST_06_MONTH', 'LAST_25_YEAR', 'LAST_50_YEAR'] });
+        }
+    </script>
+
+    <script id="tplTotalReturnDividendListing" type="text/x-jsrender">
+        <table class="table table-sm" style="">
+            <tr>
+                <th class="text-center">{{>totalReturnDescriptions.titles.Year}}</th>
+                <th class="text-center">{{>TextDate}}</th>
+                <th class="text-center">{{>totalReturnDescriptions.titles.DividendUnAdjusted}}</th>
+                <th class="text-center">{{>totalReturnDescriptions.titles.DividendAdjusted}}</th>
+                <th class="text-center">{{>totalReturnDescriptions.titles.DividendType}}</th>
+            </tr>
+            {{for rows}}
+            <tr>
+                <td class="text-center">{{>Year}}</td>
+                <td class="text-center">{{>~formatDate(EventDate)}}</td>
+                <td class="text-center">{{>~formatNumber(Amount, 2)}}</td>
+                <td class="text-center">{{>~formatNumber(AmountAdjusted, 2)}}</td>
+                <td class="text-center">{{>Type}}</td>
+            </tr>
+            {{/for}}
+        </table>
+    </script>
+
+    <script id="tplTotalReturnInformation" type="text/x-jsrender">
+        <div>
+            {{for totalReturnDescriptions.informationParagraphs}}
+            <h2>{{>title}}</h2>
+            <div>{{:content}}</div>
+            <br />
+            {{/for}}
+        </div>
+    </script>
+
+    <script id="tplTotalReturnCustomSummary" type="text/x-jsrender">
+        <table class="table table-sm" style="">
+            <tr>
+                <th>{{>totalReturnDescriptions.titles.DetailCustomPeriodTitle}}</th>
+                <th class="text-center">{{>totalReturnDescriptions.titles.Price}}</th>
+                <th class="text-center">{{>totalReturnDescriptions.titles.Dividend}}</th>
+                <th class="text-center">{{>totalReturnDescriptions.titles.TotalReturn}}</th>
+                <th class="text-center">{{>totalReturnDescriptions.titles.TotalReturnCagr}}</th>
+            </tr>
+            {{for Instruments}}
+            <tr>
+                <td>{{>TickerSymbol}}</td>
+                <td class="text-center">{{if (CustomSummary.PricePercentage)}}{{>~formatNumber(CustomSummary.PricePercentage   * 100, 1)}} %{{else}} - {{/if}}</td>
+                <td class="text-center">{{if (CustomSummary.DividendPercentage)}}{{>~formatNumber(CustomSummary.DividendPercentage   * 100, 1)}} %{{else}} - {{/if}}</td>
+                <td class="text-center">{{if CustomSummary.EYieldPercentage}}{{>~formatNumber(CustomSummary.EYieldPercentage   * 100, 1)}} %{{else}} - {{/if}}</td>
+                <td class="text-center">{{if CustomSummary.EYieldCagr}}{{>~formatNumber(CustomSummary.EYieldCagr   * 100, 1)}} %{{else}} - {{/if}}</td>
+            </tr>
+            {{/for}}
+        </table>
+    </script>
+
+    <script id="tplTotalReturnListing" type="text/x-jsrender">
+        <table class="table table-sm" style="">
+            <tr>
+                <th>{{>totalReturnDescriptions.titles.DetailGenericListingTitle}}</th>
+                {{for tickers}}
+                <th class="text-center">{{>TickerName}}</th>
+                {{/for}}
+            </tr>
+            {{for rows}}
+            <tr>
+                <td>{{>Key}}</td>
+                {{for tickers}}
+                <td class="text-center">{{>~formatNumber(EYieldPercentage * 100, 2)}} %</td>
+                {{/for}}
+            </tr>
+            {{/for}}
+        </table>
+    </script>
+
+    <script id="tplTotalReturnCAGRListing" type="text/x-jsrender">
+        <table class="table table-sm" style="">
+            <tr>
+                <th>{{>totalReturnDescriptions.titles.DetailCagrListingTitle}}</th>
+                {{for tickers}}
+                <th class="text-center">{{>TickerName}}</th>
+                {{/for}}
+            </tr>
+            {{for rows}}
+            <tr>
+                <td>{{>Key}}</td>
+                {{for tickers}}
+                <td class="text-center">{{if EYieldCagr}}{{>~formatNumber(EYieldCagr * 100, 2)}} %{{else}} - {{/if}}</td>
+                {{/for}}
+            </tr>
+            {{/for}}
+        </table>
+    </script>
+
+    <script id="tplTotalReturnPeriods" type="text/x-jsrender">
+        <div class="row">
+            <div class="col-2">
+                <div class="input-group date-picker" id="datePickerStart">
+                    <span class="input-group-prepend">
+                        <button class="btn btn-outline-secondary" type="button"><i class="fas fa-calendar-alt"></i></button>
+                    </span>
+                    <input type="text" class="form-control date-input" />
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="input-group date-picker" id="datePickerEnd">
+                    <span class="input-group-prepend">
+                        <button class="btn btn-outline-secondary" type="button"><i class="fas fa-calendar-alt"></i></button>
+                    </span>
+                    <input type="text" class="form-control date-input" />
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="text-right">
+                    <button id="btnTotalReturnDetailCsv" class="btn btn-success"><i class="fas fa-download"></i> {{>TextDownload}}</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center text-justify" style="padding-top: 10px;">
+                    <button class="btn-refresh btn btn-info" data-intervallength="06" data-intervaltype="Month">{{:totalReturnDescriptions.intervalKeys.BTN_06_MONTH }}</button>
+                    <button class="btn-refresh btn btn-info" data-intervallength="01" data-intervaltype="Year">{{:totalReturnDescriptions.intervalKeys.BTN_01_YEAR }}</button>
+                    <button class="btn-refresh btn btn-info" data-intervallength="03" data-intervaltype="Year">{{:totalReturnDescriptions.intervalKeys.BTN_03_YEAR }}</button>
+                    <button class="btn-refresh btn btn-info" data-intervallength="05" data-intervaltype="Year">{{:totalReturnDescriptions.intervalKeys.BTN_05_YEAR }}</button>
+                    <button class="btn-refresh btn btn-info" data-intervallength="10" data-intervaltype="Year">{{:totalReturnDescriptions.intervalKeys.BTN_10_YEAR }}</button>
+                    <button class="btn-refresh btn btn-info" data-intervallength="15" data-intervaltype="Year">{{:totalReturnDescriptions.intervalKeys.BTN_15_YEAR }}</button>
+                    <button class="btn-refresh btn btn-info" data-intervallength="20" data-intervaltype="Year">{{:totalReturnDescriptions.intervalKeys.BTN_20_YEAR }}</button>
+                    <button class="btn-refresh btn btn-info" data-intervallength="25" data-intervaltype="Year">{{:totalReturnDescriptions.intervalKeys.BTN_25_YEAR }}</button>
+                    <button class="btn-refresh btn btn-info" data-intervaltype="All">{{:totalReturnDescriptions.intervalKeys.BTN_ALL }}</button>
+                </div>
+            </div>
+        </div>
+    </script>
+</body>
+</html>

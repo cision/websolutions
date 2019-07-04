@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cision Web Solutions | Sharegraph</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://code.highcharts.com/stock/7.0.3/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/7.0.3/modules/exporting.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="totalReturn">
+            <div id="container-total-return-dividend-chart">
+
+            </div>
+
+            <p>&nbsp;</p>
+
+            <div id="target-total-return-dividend-listing">
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            var settings = window.cision.websolution.settings.general,
+                texts = window.cision.websolution.texts[settings.uiLanguage];
+
+            //render totalReturn dividend
+            window.cision.websolution.totalReturn.dividend.render();
+        });
+    </script>
+
+    <script id="tplTotalReturnDividendListing" type="text/x-jsrender">
+        <table class="table table-sm" style="">
+            <tr>
+                <th class="text-center">{{>totalReturnDescriptions.titles.Year}}</th>
+                <th class="text-center">{{>TextDate}}</th>
+                <th class="text-center">{{>totalReturnDescriptions.titles.DividendUnAdjusted}}</th>
+                <th class="text-center">{{>totalReturnDescriptions.titles.DividendAdjusted}}</th>
+                <th class="text-center">{{>totalReturnDescriptions.titles.DividendType}}</th>
+            </tr>
+            {{for rows}}
+            <tr>
+                <td class="text-center">{{>Year}}</td>
+                <td class="text-center">{{>~formatDate(EventDate)}}</td>
+                <td class="text-center">{{>~formatNumber(Amount, 2)}}</td>
+                <td class="text-center">{{>~formatNumber(AmountAdjusted, 2)}}</td>
+                <td class="text-center">{{>Type}}</td>
+            </tr>
+            {{/for}}
+        </table>
+    </script>
+</body>
+</html>

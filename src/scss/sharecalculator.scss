@@ -67,8 +67,11 @@
 	.compute-button {
 		margin-top: 10px;
 	}
-	#share-help-container {
-		margin-top: 20px;
+	.share-help-container {
+		margin-top: 15px;
+		p {
+			margin-bottom: 10px;
+		}
 	}
 	.results-right {
 		width: 49%;
@@ -88,11 +91,8 @@
 	}
 	table td {
 		padding: 4px 10px 4px 0;
-		width: 110px;
-	}
-	.sharevalues .second {
-		width: 180px;
-	}
+		/*width: 110px;*/
+	}	
 }
 #end-value {
 	margin-left: 10px;

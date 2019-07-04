@@ -15,22 +15,6 @@
         <div id="target-sharegraph-wrapper"></div>
     </div>
 
-    <script type="text/javascript">
-        $(function () {
-            window.cision.websolution.sharegraph.init();
-
-            $(document).keypress(function (e) {
-                if (e.which == 13 || event.keyCode == 13) {
-                    ShareCalculatorCompute();
-                }
-            });
-        });
-
-        function ShareCalculatorCompute() {
-            cision.websolution.sharecalculator.compute();
-        }
-    </script>
-
     <script id="templateTicker" type="text/x-jsrender">
         {{if showHorisontalTicker}}
         <table id="horisontal-ticker">
@@ -187,11 +171,11 @@
 
     <script id="template-sharecalclulator" type="text/x-jsrender">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-6">
                 <p class="helptext">{{>TextPeriodHelp}}</p>
                 <table class="table table-borderless sharevalues" border="0" cellpadding="0" cellspacing="0">
                     <tr>
-                        <td class="bold">{{>TextFromIncluding}}:</td>
+                        <td class="bold first">{{>TextFromIncluding}}:</td>
                         <td>
                             <div class="input-group date-picker" id="datePickerShareCalculatorFrom">
                                 <span class="input-group-prepend">
@@ -214,11 +198,11 @@
                     </tr>
                 </table>
             </div>
-            <div class="col-sm-6">
+            <div class="col-6">
                 <p class="helptext">{{>TextNumberOfSharesHelp}}</p>
                 <table class="table table-borderless sharevalues" border="0" cellpadding="0" cellspacing="0">
                     <tr>
-                        <td class="bold">{{>TextNumberOfShares}}:</td>
+                        <td class="bold first">{{>TextNumberOfShares}}:</td>
                         <td>
                             <input type="text" id="tbNumberOfShares" class="amount form-control" value="" />
                         </td>
@@ -468,5 +452,20 @@
         {{/if}}
     </script>
 
+    <script type="text/javascript">
+        $(function () {
+            cision.websolution.sharegraph.init();
+
+            $(document).keypress(function (e) {
+                if (e.which == 13 || event.keyCode == 13) {
+                    ShareCalculatorCompute();
+                }
+            });
+        });
+
+        function ShareCalculatorCompute() {
+            cision.websolution.sharecalculator.compute();
+        }
+    </script>
 </body>
 </html>

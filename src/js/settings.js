@@ -46,9 +46,9 @@ window.cision.websolution.settings = {
         maxAmountOfItems: 10, // max amount of items a user can order in one request
 
         // Ticker specific settings
-        tickerImageMinus: "images/down.png",
-        tickerImagePlus: "images/up.png",
-        tickerImageUnchanged: "images/unadjusted.png",
+        tickerImageMinus: "Images/down.png",
+        tickerImagePlus: "Images/up.png",
+        tickerImageUnchanged: "Images/unadjusted.png",
 
         //Share calculator specific settings
         startDateYear: 2007,
@@ -129,42 +129,57 @@ window.cision.websolution.settings = {
     orderbook: {
         accessKey: '6C4EC853924B4CA4903CB24B0922882A'
     },
+
     ownership: {
         accessKey: 'E8581513D3E04B25BB4F616A41315FDC'
     },
+
+    totalreturn: {
+        accessKey: 'DEV_TEST_MODULE'
+    },
+
     estimate: {
         accessKey: 'F8D4BD57FD654EEABF8CDCF520FA9B98',
         accessKeyTicker: 'FDC260DD9AEE461996F9A400C3E67649'
     },
+
     ticker: {
         accessKey: 'FDC260DD9AEE461996F9A400C3E67649'
     },
+
     sharegraph: {
         accessKey: '11B2CD3AAAF1481AA7DBEC5820ED615F',
         shareHistoryKey: '8CD21721350E43968E4FE52299AE02F1'
     },
+
     sharecalculator: {        
         accessKey: '18C3B618661C4D7ABF1C622D5DDA0672'
     },
+
     minisharegraph: {
         accessKey: '11B2CD3AAAF1481AA7DBEC5820ED615F'
     },
+
     newsfeed: {
         accessKey: 'F32103526F704E469FB808E4CF5225D0'
     },
+
     mediafeed: {
         accessKey: 'F32103526F704E469FB808E4CF5225D0'
     },
+
     insider: {
         accessKey: '8E7CD4D865004D2987EB25D23CF7830F'   
     },
+
     calendar: {
         accessKey: '737CB5BF989D43D6844C27F294CA9238'
     },
+
     printedMaterial: {
         accessKey: 'F9AAF9CA0154483C9CBF5A65E215A892'
     },
-    dividend: {
+	dividend: {
         accessKey: ''
     }
 };
@@ -172,6 +187,17 @@ window.cision.websolution.settings = {
 // Switch moment language
 try {
     moment.locale(cision.websolution.settings.general.uiLanguage);
+} catch (e) {
+    console.log(e);
+}
+
+try {
+    Highcharts.setOptions({
+        lang: {
+            decimalPoint: cision.websolution.settings.general.numberFormatOptions.decimalSeparator,
+            thousandsSep: cision.websolution.settings.general.numberFormatOptions.thousandSeparator
+        }
+    });
 } catch (e) {
     console.log(e);
 }

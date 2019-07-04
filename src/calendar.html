@@ -214,8 +214,7 @@
                 calendarCategory: category || '',
                 dateFormat: 'DD MMM',
                 timeFormat: 'HH:mm',
-                startDate: moment().format('YYYY-MM-DD'),
-                endDate: moment().add(5, 'years').format('YYYY-MM-DD')
+				endDate: moment().add(5, 'years').format('YYYY-MM-DD')
             });
             var promiseArchivedEvents = window.cision.websolution.calendar.renderArchiveList({
                 calendarPageIndex: pageIndex,

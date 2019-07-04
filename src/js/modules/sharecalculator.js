@@ -38,6 +38,35 @@ window.cision.websolution.sharecalculator = !cision.websolution.settings.shareca
 
     };
 
+    function initializeDatepickers() {
+        $('#datePickerShareCalculatorFrom input').datepicker({
+            format: "yyyy-mm-dd",
+            todayBtn: false,
+            autoclose: true,
+            todayHighlight: true,
+            orientation: "bottom left",
+            language: settings.uiLanguage,
+            endDate: moment().subtract(1, 'days').format('YYYY-MM-DD')
+        });
+        $('#datePickerShareCalculatorTo input').datepicker({
+            format: "yyyy-mm-dd",
+            todayBtn: "linked",
+            autoclose: true,
+            todayHighlight: true,
+            orientation: "bottom left",
+            language: settings.uiLanguage,
+            endDate: moment().format('YYYY-MM-DD')
+        });
+
+        // set initial values
+        $('#datePickerShareCalculatorFrom input').datepicker('update', moment().subtract(1, 'years').format('YYYY-MM-DD'));
+        $('#datePickerShareCalculatorTo input').datepicker('update', moment().format('YYYY-MM-DD'));
+
+        $('.date-picker').on('click', function () {
+            $(this).find('input').datepicker('show');
+        });
+    }
+
     function InitSettingsChanged() {
         $("#tbNumberOfShares").on("change", function () {
             if (this.value == "") {
@@ -76,14 +105,14 @@ window.cision.websolution.sharecalculator = !cision.websolution.settings.shareca
         initializeDatepickers();
     }
 
-    var compute = function() {
+    function compute() {
         var resultsModel = $.extend(texts, settings);
         var historyModel = $.extend(texts, settings);
 
         //get the input values
         var shareType = $("#sharecalclulator-sharetype-container input[type='radio']:checked").val();
-        var startDate = $("#shareCalculatorStartYear").val() + "-" + $("#shareCalculatorStartMonth").val() + "-" + $("#shareCalculatorStartDay").val();
-        var endDate = $("#shareCalculatorEndYear").val() + "-" + $("#shareCalculatorEndMonth").val() + "-" + $("#shareCalculatorEndDay").val();
+        var startDate = $('#datePickerShareCalculatorFrom input').val();
+        var endDate = $('#datePickerShareCalculatorTo input').val();
         var numberOfShares = $("#tbNumberOfShares").val();
         var holdingValue = $("#tbAmount").val();
 
@@ -220,8 +249,8 @@ window.cision.websolution.sharecalculator = !cision.websolution.settings.shareca
         }
 
         var $tableHistory = $("#shareCalculatorHistory");
-        var $headersHistory = $tableHistory.find('tr:has(th)')
-        var $rowsHistory = $tableHistory.find('tr:has(td)')
+        var $headersHistory = $tableHistory.find('tr:has(th)');
+        var $rowsHistory = $tableHistory.find('tr:has(td)');
 
         // Grab text from history table into CSV formatted string        
         csv += formatRows($headersHistory.map(grabRow));
@@ -250,7 +279,6 @@ window.cision.websolution.sharecalculator = !cision.websolution.settings.shareca
         }
         // Grab and format a row from the table
         function grabRow(i, row) {
-
             var $row = $(row);
             //for some reason $cols = $row.find('td') || $row.find('th') won't work...
             var $cols = $row.find('td');
@@ -268,36 +296,7 @@ window.cision.websolution.sharecalculator = !cision.websolution.settings.shareca
         }
     }
 
-    function initializeDatepickers() {
-        $('#datePickerShareCalculatorFrom input').datepicker({
-            format: "yyyy-mm-dd",
-            todayBtn: false,
-            autoclose: true,
-            todayHighlight: true,
-            orientation: "bottom left",
-            language: settings.uiLanguage,
-            endDate: moment().subtract(1, 'days').format('YYYY-MM-DD')
-        });
-        $('#datePickerShareCalculatorTo input').datepicker({
-            format: "yyyy-mm-dd",
-            todayBtn: "linked",
-            autoclose: true,
-            todayHighlight: true,
-            orientation: "bottom left",
-            language: settings.uiLanguage,
-            endDate: moment().format('YYYY-MM-DD')
-        });
-
-        // set initial values
-        $('#datePickerShareCalculatorFrom input').datepicker('update', moment().subtract(1, 'years').format('YYYY-MM-DD'));
-        $('#datePickerShareCalculatorTo input').datepicker('update', moment().format('YYYY-MM-DD'));
-
-        $('.date-picker').on('click', function () {
-            $(this).find('input').datepicker('show');
-        });
-    }
-
-    var exportCsv = function() {
+    function exportCsv() {
         var shareType = $("#sharecalclulator-sharetype-container input[type='radio']:checked").val();
         var startDate = $("#shareCalculatorStartYear").val() + $("#shareCalculatorStartMonth").val() + $("#shareCalculatorStartDay").val();
         var endDate = $("#shareCalculatorEndYear").val() + $("#shareCalculatorEndMonth").val() + $("#shareCalculatorEndDay").val();

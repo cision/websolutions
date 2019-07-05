@@ -16,6 +16,9 @@ import './js/modules/printed.material.js';
 import './js/modules/ticker.js';
 import './js/modules/ticker.performance.js';
 import './js/modules/ticker.trades.js';
+import './js/modules/totalreturn.detail.js';
+import './js/modules/totalreturn.dividend.js';
+import './js/modules/totalreturn.overview.js';
 
 import './scss/base.scss'
 

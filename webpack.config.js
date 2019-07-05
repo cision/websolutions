@@ -216,15 +216,30 @@ module.exports = {
       template: './src/trades.html',
       filename: 'trades.html'
     }),
-	 new HtmlWebpackPlugin({
+	new HtmlWebpackPlugin({
       inject: 'head',
       template: './src/totalreturn.html',
       filename: 'totalreturn.html'
     }),
-	 new HtmlWebpackPlugin({
+	new HtmlWebpackPlugin({
       inject: 'head',
       template: './src/totalreturnDetail.html',
       filename: 'totalreturnDetail.html'
+    }),
+	new HtmlWebpackPlugin({
+      inject: 'head',
+      template: './src/totalreturnDividend.html',
+      filename: 'totalreturnDividend.html'
+    }),
+	new HtmlWebpackPlugin({
+      inject: 'head',
+      template: './src/totalreturnInformation.html',
+      filename: 'totalreturnInformation.html'
+    }),
+	new HtmlWebpackPlugin({
+      inject: 'head',
+      template: './src/totalreturnOverview.html',
+      filename: 'totalreturnOverview.html'
     }),
   ]
 };

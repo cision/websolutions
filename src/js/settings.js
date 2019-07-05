@@ -46,9 +46,9 @@ window.cision.websolution.settings = {
         maxAmountOfItems: 10, // max amount of items a user can order in one request
 
         // Ticker specific settings
-        tickerImageMinus: "Images/down.png",
-        tickerImagePlus: "Images/up.png",
-        tickerImageUnchanged: "Images/unadjusted.png",
+        tickerImageMinus: "images/down.png",
+        tickerImagePlus: "images/up.png",
+        tickerImageUnchanged: "images/unadjusted.png",
 
         //Share calculator specific settings
         startDateYear: 2007,

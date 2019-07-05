@@ -216,5 +216,15 @@ module.exports = {
       template: './src/trades.html',
       filename: 'trades.html'
     }),
+	 new HtmlWebpackPlugin({
+      inject: 'head',
+      template: './src/totalreturn.html',
+      filename: 'totalreturn.html'
+    }),
+	 new HtmlWebpackPlugin({
+      inject: 'head',
+      template: './src/totalreturnDetail.html',
+      filename: 'totalreturnDetail.html'
+    }),
   ]
 };

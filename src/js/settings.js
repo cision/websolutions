@@ -26,8 +26,7 @@ window.cision.websolution.settings = {
             dateTimeFormat: 'DD MMM YYYY HH:mm',
             dateFormat: 'DD MMM YYYY',
             timeFormat: 'HH:mm'
-        },
-
+        },		
         // Newsfeed specific settings
         separateFirstRelease: false,
         introMaxLength: 155,
@@ -135,7 +134,7 @@ window.cision.websolution.settings = {
     },
 
     totalreturn: {
-        accessKey: 'DEV_TEST_MODULE'
+        accessKey: '53B91163F6FE459693A6A109CB5C8274'
     },
 
     estimate: {

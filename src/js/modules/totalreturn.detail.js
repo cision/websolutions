@@ -3,6 +3,8 @@
 
 import './module.dependencies.js';
 
+window.cision.websolution.totalReturn = cision.websolution.totalReturn || {};
+
 window.cision.websolution.totalReturn.detail = !window.cision.websolution.settings.totalreturn ? {} : function ($) {
     var settings = $.extend({ excludeKeys: [], preferredColors: {} }, window.cision.websolution.settings.general),
         accessKey = window.cision.websolution.settings.totalreturn.accessKey,

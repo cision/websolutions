@@ -35,23 +35,26 @@ window.cision.websolution.sharegraph = !window.cision.websolution.settings.share
             window.cision.websolution.trades.render();
             window.cision.websolution.performance.render();
             window.cision.websolution.orderbook.render();
-            window.cision.websolution.sharecalculator.render();           
-        }
+            window.cision.websolution.sharecalculator.render();
 
-        if (settings.typeOfChart == 'PartOfDay') {
-            showPartOfDay();
-            $("#intraDay").addClass('active');
-        } else {
-            var $element = $("#defaultPeriod");
+            if (settings.typeOfChart == 'PartOfDay') {
+                showPartOfDay();
+                $("#intraDay").addClass('active');
+            } else {
+                var $element = $("#defaultPeriod");
 
-            $element.addClass('active');
-            var arg = $element.data("key");
-            var delegate = actions[arg];
-      
-            if (delegate) {
-                delegate(event, $element);
+                $element.addClass('active');
+                var arg = $element.data("key");
+                var delegate = actions[arg];
+
+                if (delegate) {
+                    delegate(event, $element);
+                }
             }
         }
+        else {
+            showEndOfDay();
+        }  
     }
 
     function sharegraphPrintFix() {

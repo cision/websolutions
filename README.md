@@ -20,7 +20,7 @@ pnpm i cision-websolutions
 ```
 
 To install cision package dependencies run the following command from node_modules/cision-websolutions folder if you installed project from npm site otherwise run it from root.
-```
+```javascript
 pnpm install 
 ```
 

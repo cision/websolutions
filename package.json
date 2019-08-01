@@ -1,6 +1,6 @@
 {
   "name": "cision-websolutions",
-  "version": "4.2.8",
+  "version": "4.2.9",
   "description": "Cision Websolutions modules",
   "main": "./src/cision.index.js",
   "author": "Cision",

@@ -17,7 +17,11 @@ To install pnpm, the cision package and all its dependencies run the following c
 ```javascript
 npm i -g pnpm
 pnpm i cision-websolutions
-pnpm install
+```
+
+If you installed project from npm site run this command from node_modules/cision-websolutions folder otherwise run it from root
+```
+pnpm install 
 ```
 
 Run

@@ -19,14 +19,14 @@ npm i -g pnpm
 pnpm i cision-websolutions
 ```
 
-To install cision package dependencies run the following command from *node_modules/cision-websolutions* folder if you installed project from npm site otherwise run it from root.
+To install cision package dependencies run the following command from **node_modules/cision-websolutions** folder if you installed project from npm site otherwise run it from root.
 ```javascript
 pnpm install 
 ```
 
 Run
 -------------------
-This command can only be run from the *node_modules/cision-websolutions* folder not from the root level of the downloaded package.
+This command can only be run from the **node_modules/cision-websolutions** folder not from the root level of the downloaded package.
 Make sure all dev dependencies are installed before running this. 
 ```javascript
 npm run start
@@ -34,7 +34,7 @@ npm run start
 
 Build
 -------------------
-This command can only be run from the *node_modules/cision-websolutions* folder not from the root level of the downloaded package.
+This command can only be run from the **node_modules/cision-websolutions** folder not from the root level of the downloaded package.
 Make sure all dev dependencies are installed before running this. 
 ```javascript
 npm run build-prod

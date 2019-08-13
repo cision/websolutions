@@ -602,7 +602,8 @@ window.cision.websolution.sharegraph = !window.cision.websolution.settings.share
         var postData = {
             startDate: settings.dateToStartFrom,
             endDate: settings.dateToEnd,
-            quoteType: settings.typeOfChart
+            quoteType: settings.typeOfChart,
+            groupByMinutes: settings.typeOfChart == 'PartOfDay' ? 1 : 0
         };
 
         // fetch the data

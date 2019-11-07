@@ -91,10 +91,9 @@ window.cision.websolution.newsfeed =  !cision.websolution.settings.newsfeed ? {}
             window.cision.websolution.common.modelToHtml(objResponse, tplElement, tplTarget);
 
             if (releaseList.length < 1 && objFirstRelease === null) {
-                window.cision.websolution.common.modelToHtml({}, "#tplnosearchResult", '#noSearchresult-container');
-                $('#noSearchresult-container').show();
+                $('#no-published-releases-container').attr('hidden', false);
             } else {
-                $('#noSearchresult-container').hide();
+                $('#no-published-releases-container').attr('hidden', true);
             }
 
         }).catch(function (err) { console.log('Could not retrieve newsfeed data. ' + err.message) });

@@ -5,7 +5,6 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const BrotliGzipPlugin = require('brotli-gzip-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   optimization: {
@@ -52,17 +51,17 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [  ["@babel/env", {
+            presets: [["@babel/env", {
               "useBuiltIns": "usage",
               "targets": {
-                  "browsers": [
-                      "chrome >= 61",
-                      "edge >= 15",
-                      "firefox >= 52",
-                      "ie >= 10",
-                  ]
+                "browsers": [
+                  "chrome >= 61",
+                  "edge >= 15",
+                  "firefox >= 52",
+                  "ie >= 10",
+                ]
               }
-          }]]
+            }]]
           }
         }
       },
@@ -91,7 +90,6 @@ module.exports = {
     ]
   },
   plugins: [
-   // new BundleAnalyzerPlugin({generateStatsFile: false }),
     new BrotliGzipPlugin({
       asset: '[path].br[query]',
       algorithm: 'brotli',
@@ -99,18 +97,18 @@ module.exports = {
       threshold: 10240,
       minRatio: 0.8,
       quality: 11
-  }),
-  new BrotliGzipPlugin({
+    }),
+    new BrotliGzipPlugin({
       asset: '[path].gz[query]',
       algorithm: 'gzip',
       test: /\.(js|css|html|svg)$/,
       threshold: 10240,
       minRatio: 0.8
-  }),
-  new webpack.IgnorePlugin({ // tell webpack not to load moment locales except for the stated languages to minimize payload
-    resourceRegExp: /^\.\/locale$/,
-    contextRegExp: /moment$/
-  }), 
+    }),
+    new webpack.IgnorePlugin({ // tell webpack not to load moment locales except for the stated languages to minimize payload
+      resourceRegExp: /^\.\/locale$/,
+      contextRegExp: /moment$/
+    }),
     new ExtractTextPlugin('style.css'),
     new CleanWebpackPlugin('dist', {}),
     new webpack.ProvidePlugin({
@@ -216,27 +214,27 @@ module.exports = {
       template: './src/trades.html',
       filename: 'trades.html'
     }),
-	new HtmlWebpackPlugin({
+    new HtmlWebpackPlugin({
       inject: 'head',
       template: './src/totalreturn.html',
       filename: 'totalreturn.html'
     }),
-	new HtmlWebpackPlugin({
+    new HtmlWebpackPlugin({
       inject: 'head',
       template: './src/totalreturnDetail.html',
       filename: 'totalreturnDetail.html'
     }),
-	new HtmlWebpackPlugin({
+    new HtmlWebpackPlugin({
       inject: 'head',
       template: './src/totalreturnDividend.html',
       filename: 'totalreturnDividend.html'
     }),
-	new HtmlWebpackPlugin({
+    new HtmlWebpackPlugin({
       inject: 'head',
       template: './src/totalreturnInformation.html',
       filename: 'totalreturnInformation.html'
     }),
-	new HtmlWebpackPlugin({
+    new HtmlWebpackPlugin({
       inject: 'head',
       template: './src/totalreturnOverview.html',
       filename: 'totalreturnOverview.html'

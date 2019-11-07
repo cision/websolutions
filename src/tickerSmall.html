@@ -16,9 +16,8 @@
         {{for tickers}}
         <div class="small-ticker">
             <p><strong>{{>TickerName}} ({{>TickerSymbol}})</strong></p>
-            <div class="clearfix">
             <p class="float-left delta"><strong>{{>~formatNumber(Delta)}} {{>TradeCurrency}}</strong></p>
-             <img src="{{url:ArrowImageurl}}" /></div>
+            <div> <img src="{{url:ArrowImageurl}}" /></div>
             <div><span class="ticker-price {{if Delta > 0}}text-success{{else Delta == 0}}text-info{{else}}text-danger{{/if}}">{{>~formatNumber(Price)}}</span></div>
             <p class="text-muted">{{>TextLatestChange}}</p>
             <p class="text-muted">{{>Date}} {{>Time}}</p>
@@ -29,7 +28,7 @@
 
     <script type="text/javascript">
         $(function () {
-            window.cision.websolution.tickers.render();
+            cision.websolution.tickers.render();
         });
     </script>
 </body>

@@ -77,9 +77,9 @@
         };
 
         $(function () {
-            settings = settings || window.cision.websolution.settings.general;
-            texts = texts || window.cision.websolution.texts[settings.uiLanguage];
-            textsDescriptions = textsDescriptions || window.cision.websolution.texts[settings.uiLanguage].totalReturnDescriptions;
+            settings = settings || cision.websolution.settings.general;
+            texts = texts || cision.websolution.texts[settings.uiLanguage];
+            textsDescriptions = textsDescriptions || cision.websolution.texts[settings.uiLanguage].totalReturnDescriptions;
 
             $("<li class='nav-item'><a href='#target-total-return-overview' class='nav-link active' data-toggle='tab'>" + textsDescriptions.titles.Overview + "</a></li>").appendTo(".cision-tab-headers");
             $("<li class='nav-item'><a href='#target-total-return-detail' class='nav-link' data-toggle='tab'>" + textsDescriptions.titles.TotalReturn + "</a></li>").appendTo(".cision-tab-headers");
@@ -115,13 +115,13 @@
 
         function renderInformation() {
             var compositeModel = $.extend({}, texts);
-            var renderedHtml = $('#tplTotalReturnInformation').render(compositeModel, window.cision.websolution.formatHelpers);
+            var renderedHtml = $('#tplTotalReturnInformation').render(compositeModel, cision.websolution.formatHelpers);
             $('#target-total-return-information').html(renderedHtml);
         }
 
         function renderOverview() {
             var excludeKeys = ['LAST_03_MONTH', 'LAST_06_MONTH', 'LAST_20_YEAR', 'LAST_25_YEAR', 'LAST_50_YEAR', 'LAST_00_ALL', 'ALL'];
-            window.cision.websolution.totalReturn.overview.render({ excludeKeys: excludeKeys });
+            cision.websolution.totalReturn.overview.render({ excludeKeys: excludeKeys });
         }
 
         function renderDetail() {
@@ -129,7 +129,7 @@
 
             // Buttons
             var compositeModel = $.extend({}, texts);
-            var renderedHtml = $('#tplTotalReturnPeriods').render(compositeModel, window.cision.websolution.formatHelpers);
+            var renderedHtml = $('#tplTotalReturnPeriods').render(compositeModel, cision.websolution.formatHelpers);
             $('#target-total-return-detail-periods').html(renderedHtml);
 
             // Rebind buttons
@@ -140,29 +140,29 @@
                 var intervalLength = 1 * $btnRefresh.data("intervallength");
                 var intervalType = $btnRefresh.data("intervaltype");
 
-                window.cision.websolution.totalReturn.detail.render({ excludeKeys: excludeKeys, intervalType: intervalType, intervalLength: intervalLength, callback: setDetailDatepickerValues });
+                cision.websolution.totalReturn.detail.render({ excludeKeys: excludeKeys, intervalType: intervalType, intervalLength: intervalLength, callback: setDetailDatepickerValues });
             });
 
             $("#btnTotalReturnDetailCsv").click(function () {
                 var startDate = $('#datePickerStart input').val();
                 var endDate = $('#datePickerEnd input').val();
-                var url = settings.serviceEndpoint + "TotalReturn/" + window.cision.websolution.settings.totalreturn.accessKey + "/Csv"
+                var url = settings.serviceEndpoint + "TotalReturn/" + cision.websolution.settings.totalreturn.accessKey + "/Csv"
                     + "?intervalType=Custom"
-                    //+ "&decimalSeparator=" + window.cision.websolution.settings.general.numberFormatOptions.decimalSeparator
+                    //+ "&decimalSeparator=" + cision.websolution.settings.general.numberFormatOptions.decimalSeparator
                     + "&startDate=" + startDate
                     + "&endDate=" + endDate;
                 window.open(url, "exceldownload", "");
             });
 
-            window.cision.websolution.totalReturn.detail.initDatePickers({ callback: setDetailDatepickerValues, setDetailLoadingState: setDetailLoadingState });
+            cision.websolution.totalReturn.detail.initDatePickers({ callback: setDetailDatepickerValues, setDetailLoadingState: setDetailLoadingState });
 
             //render totalReturn Detail
-            window.cision.websolution.totalReturn.detail.render({ excludeKeys: excludeKeys, intervalType: 'Year', intervalLength: 1, callback: setDetailDatepickerValues });
+            cision.websolution.totalReturn.detail.render({ excludeKeys: excludeKeys, intervalType: 'Year', intervalLength: 1, callback: setDetailDatepickerValues });
         }
 
         function renderDividend() {
             //render totalReturn dividend
-            window.cision.websolution.totalReturn.dividend.render({ excludeKeys: ['LAST_03_MONTH', 'LAST_06_MONTH', 'LAST_25_YEAR', 'LAST_50_YEAR'] });
+            cision.websolution.totalReturn.dividend.render({ excludeKeys: ['LAST_03_MONTH', 'LAST_06_MONTH', 'LAST_25_YEAR', 'LAST_50_YEAR'] });
         }
     </script>
 
@@ -276,22 +276,22 @@
             </div>
             <div class="col-8">
                 <div class="text-right">
-                    <button id="btnTotalReturnDetailCsv" class="btn btn-success"><i class="fas fa-download"></i> {{>TextDownload}}</button>
+                    <button id="btnTotalReturnDetailCsv" class="btn border"><i class="fas fa-download"></i> {{>TextDownload}}</button>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
                 <div class="text-center text-justify" style="padding-top: 10px;">
-                    <button class="btn-refresh btn btn-info" data-intervallength="06" data-intervaltype="Month">{{:totalReturnDescriptions.intervalKeys.BTN_06_MONTH }}</button>
-                    <button class="btn-refresh btn btn-info" data-intervallength="01" data-intervaltype="Year">{{:totalReturnDescriptions.intervalKeys.BTN_01_YEAR }}</button>
-                    <button class="btn-refresh btn btn-info" data-intervallength="03" data-intervaltype="Year">{{:totalReturnDescriptions.intervalKeys.BTN_03_YEAR }}</button>
-                    <button class="btn-refresh btn btn-info" data-intervallength="05" data-intervaltype="Year">{{:totalReturnDescriptions.intervalKeys.BTN_05_YEAR }}</button>
-                    <button class="btn-refresh btn btn-info" data-intervallength="10" data-intervaltype="Year">{{:totalReturnDescriptions.intervalKeys.BTN_10_YEAR }}</button>
-                    <button class="btn-refresh btn btn-info" data-intervallength="15" data-intervaltype="Year">{{:totalReturnDescriptions.intervalKeys.BTN_15_YEAR }}</button>
-                    <button class="btn-refresh btn btn-info" data-intervallength="20" data-intervaltype="Year">{{:totalReturnDescriptions.intervalKeys.BTN_20_YEAR }}</button>
-                    <button class="btn-refresh btn btn-info" data-intervallength="25" data-intervaltype="Year">{{:totalReturnDescriptions.intervalKeys.BTN_25_YEAR }}</button>
-                    <button class="btn-refresh btn btn-info" data-intervaltype="All">{{:totalReturnDescriptions.intervalKeys.BTN_ALL }}</button>
+                    <button class="btn-refresh btn btn-outline-secondary" data-intervallength="06" data-intervaltype="Month">{{:totalReturnDescriptions.intervalKeys.BTN_06_MONTH }}</button>
+                    <button class="btn-refresh btn btn-outline-secondary" data-intervallength="01" data-intervaltype="Year">{{:totalReturnDescriptions.intervalKeys.BTN_01_YEAR }}</button>
+                    <button class="btn-refresh btn btn-outline-secondary" data-intervallength="03" data-intervaltype="Year">{{:totalReturnDescriptions.intervalKeys.BTN_03_YEAR }}</button>
+                    <button class="btn-refresh btn btn-outline-secondary" data-intervallength="05" data-intervaltype="Year">{{:totalReturnDescriptions.intervalKeys.BTN_05_YEAR }}</button>
+                    <button class="btn-refresh btn btn-outline-secondary" data-intervallength="10" data-intervaltype="Year">{{:totalReturnDescriptions.intervalKeys.BTN_10_YEAR }}</button>
+                    <button class="btn-refresh btn btn-outline-secondary" data-intervallength="15" data-intervaltype="Year">{{:totalReturnDescriptions.intervalKeys.BTN_15_YEAR }}</button>
+                    <button class="btn-refresh btn btn-outline-secondary" data-intervallength="20" data-intervaltype="Year">{{:totalReturnDescriptions.intervalKeys.BTN_20_YEAR }}</button>
+                    <button class="btn-refresh btn btn-outline-secondary" data-intervallength="25" data-intervaltype="Year">{{:totalReturnDescriptions.intervalKeys.BTN_25_YEAR }}</button>
+                    <button class="btn-refresh btn btn-outline-secondary" data-intervaltype="All">{{:totalReturnDescriptions.intervalKeys.BTN_ALL }}</button>
                 </div>
             </div>
         </div>

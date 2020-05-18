@@ -198,7 +198,7 @@ window.cision.websolution.ownership = !cision.websolution.settings.ownership ? {
                 return el.AreaName == 'SVERIGEBOENDE' 
             });
             if (objAreaSweden) {
-                objAreaSweden.AreaName = textsAreaNames.Sweden || objAreaSweden.AreaName;
+                objAreaSweden[0].AreaName = textsAreaNames.Sweden || objAreaSweden.AreaName;
                 reorderedAreas.push(objAreaSweden[0]);
             }
 
@@ -206,7 +206,7 @@ window.cision.websolution.ownership = !cision.websolution.settings.ownership ? {
                 return el.AreaName == 'USA' 
             });
             if (objAreaUsa) {
-                objAreaUsa.AreaName = textsAreaNames.Usa || objAreaUsa.AreaName;
+                objAreaUsa[0].AreaName = textsAreaNames.Usa || objAreaUsa.AreaName;
                 reorderedAreas.push(objAreaUsa[0]);
             }
 
@@ -214,7 +214,7 @@ window.cision.websolution.ownership = !cision.websolution.settings.ownership ? {
                 return el.AreaName == 'ÖVRIGA NORDEN' 
             });
             if (objAreaNordic) {
-                objAreaNordic.AreaName = textsAreaNames.Nordic || objAreaNordic.AreaName;
+                objAreaNordic[0].AreaName = textsAreaNames.Nordic || objAreaNordic.AreaName;
                 reorderedAreas.push(objAreaNordic[0]);
             }
 
@@ -222,7 +222,7 @@ window.cision.websolution.ownership = !cision.websolution.settings.ownership ? {
                 return el.AreaName == 'ÖVRIGA EUROPA (EXKL SVERIGE OCH NORDEN)' 
             });
             if (objAreaEurope) {
-                objAreaEurope.AreaName = textsAreaNames.Europe || 'ÖVRIGA EUROPA' /* objAreaEurope.AreaName */;
+                objAreaEurope[0].AreaName = textsAreaNames.Europe || 'ÖVRIGA EUROPA' /* objAreaEurope.AreaName */;
                 reorderedAreas.push(objAreaEurope[0]);
             }
 
@@ -230,7 +230,7 @@ window.cision.websolution.ownership = !cision.websolution.settings.ownership ? {
                 return el.AreaName == 'ÖVRIGA VÄRLDEN' 
             });
             if (objAreaWorld) {
-                objAreaWorld.AreaName = textsAreaNames.World || objAreaWorld.AreaName;
+                objAreaWorld[0].AreaName = textsAreaNames.World || objAreaWorld.AreaName;
                 reorderedAreas.push(objAreaWorld[0]);
             }
 
@@ -238,7 +238,7 @@ window.cision.websolution.ownership = !cision.websolution.settings.ownership ? {
                 return el.OwnershipPercent == 100
             });
             if (objAreaTotal) {
-                objAreaTotal.AreaName = textsAreaNames.Total || objAreaTotal.AreaName;
+                objAreaTotal[0].AreaName = textsAreaNames.Total || objAreaTotal.AreaName;
             }
 
             rawData.Areas = reorderedAreas;

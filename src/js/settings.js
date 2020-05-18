@@ -68,6 +68,7 @@ window.cision.websolution.settings = {
         enableLegend: false,
         enableScrollbar: false,
         enableNavigator: true,
+        defaultShowVolume: true,
         dividendType: 'Annual', // Annual, Bonus, Monthly, Quarterly, HalfYear 
         effectiveYieldSuffix: 'EFFECTIVEYIELD',
         yAxisSize: { share: { top: 0, height: 250 }, volume: { top: 300, height:80 } }, // sizes for the share graph and the volume graph. only applies when volume is displayed

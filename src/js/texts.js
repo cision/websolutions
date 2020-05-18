@@ -145,6 +145,7 @@ window.cision.websolution.texts["sv"] = {
     TextShare: "Aktie",
     TextHolders: "Aktieägare",
     TextValueSEK: "Värde i SEK",
+    TextValueKSEK: "Värde i kSEK",
     TextArea: "Area Namn",
     TextOwnershipAreaNames: {
         'Sweden': 'SVERIGEBOENDE',
@@ -340,6 +341,7 @@ window.cision.websolution.texts["en"] = {
     TextShare: "Share",
     TextHolders: "Share Holders",
     TextValueSEK: "Value in SEK",
+    TextValueKSEK: "Value in kSEK",
     TextArea: "Area Name",
     TextOwnershipAreaNames: {
         'Sweden': 'SWEDEN',
@@ -542,6 +544,7 @@ window.cision.websolution.texts["fi"] = {
     TextVotes: "Äänet %",
     TextHolders: "Osakkeenomistajat",
     TextValueSEK: "Arvo SEK",
+    TextValueKSEK: "Arvo kSEK",
     TextArea: "Aluenimi",
     TextOwnershipAreaNames: {
         'Sweden': 'RUOTSI',
@@ -735,6 +738,7 @@ window.cision.websolution.texts["fi"] = {
 //     TextShare: "Share",
 //     TextHolders: "Share Holders",
 //     TextValueSEK: "Value in SEK",
+//     TextValueKSEK: "Value in kSEK",
 //     TextArea: "Area Name",
 //     TextOwnershipAreaNames: {
 //         'Sweden': 'SWEDEN',
@@ -932,6 +936,7 @@ window.cision.websolution.texts["fi"] = {
 //     TextVotes: "Votes %",
 //     TextHolders: "Share Holders",
 //     TextValueSEK: "Value in SEK",
+//     TextValueKSEK: "Value in kSEK",
 //     TextArea: "Area Name",
 //     TextOwnershipAreaNames: {
 //         'Sweden': 'SWEDEN',
@@ -1130,6 +1135,7 @@ window.cision.websolution.texts["fi"] = {
 //     TextVotes: "Votes %",
 //     TextHolders: "Share Holders",
 //     TextValueSEK: "Value in SEK",
+//     TextValueKSEK: "Value in kSEK",
 //     TextArea: "Area Name",
 //     TextOwnershipAreaNames: {
 //         'Sweden': 'SWEDEN',

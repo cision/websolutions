@@ -6,7 +6,7 @@ import './module.dependencies.js';
 window.cision.websolution.sharegraph = !window.cision.websolution.settings.sharegraph ? {} : function($){
     var settings = $.extend({}, window.cision.websolution.settings.general),
         accessKey = window.cision.websolution.settings.sharegraph.accessKey,
-        showVolume = false,
+        showVolume = !!settings.defaultShowVolume,
         today = moment().format('YYYY-MM-DD'),       
         actions = [],
         objChart;
@@ -54,7 +54,11 @@ window.cision.websolution.sharegraph = !window.cision.websolution.settings.share
         }
         else {
             showEndOfDay();
-        }  
+        }
+        
+        if (settings.defaultShowVolume) {
+            $('#share-options-select .chartComparisonType.volume').addClass("selected");
+        }
     }
 
     function sharegraphPrintFix() {

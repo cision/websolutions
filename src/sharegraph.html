@@ -140,7 +140,7 @@
                 <li class="nav-item" role="presentation"><a href="#performance" class="nav-link active" aria-controls="home" role="tab" data-toggle="tab">{{>TextPerformance}}</a></li>
                 <li class="nav-item" role="presentation"><a href="#orderbook" class="nav-link" aria-controls="profile" role="tab" data-toggle="tab">{{>TextOrderBook}}</a></li>
                 <li class="nav-item" role="presentation"><a href="#trades" class="nav-link" aria-controls="messages" role="tab" data-toggle="tab">{{>TextTrades}}</a></li>
-                <li class="nav-item" role="presentation"><a href="#sharecaculator" class="nav-link" aria-controls="messages" role="tab" data-toggle="tab">{{>TextShareCalculator}}</a></li>
+                <li id="liSharecaculator" class="nav-item" role="presentation"><a href="#sharecaculator" class="nav-link" aria-controls="messages" role="tab" data-toggle="tab">{{>TextShareCalculator}}</a></li>
             </ul>
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="performance"><div id="target-share-performance"></div></div>
@@ -364,11 +364,11 @@
                 <td class="text-right">{{>~formatNumber(LastPrice, 2)}}</td>
             </tr>
             <tr>
-                <td>{{>TextYearHigh}} ({{>HighPriceYtdDateFormatted}})</td>
+                <td>{{>TextYearHigh}} ({{>~formatDate(HighPrice1YDate)}})</td>
                 <td class="text-right">{{>~formatNumber(HighPrice1Y)}}</td>
             </tr>
             <tr>
-                <td>{{>TextYearLow}} ({{>LowPriceYtdDateFormatted}})</td>
+                <td>{{>TextYearLow}} ({{>~formatDate(LowPrice1YDate)}})</td>
                 <td class="text-right">{{>~formatNumber(LowPrice1Y)}}</td>
             </tr>
             <tr>
@@ -461,6 +461,11 @@
                     ShareCalculatorCompute();
                 }
             });
+
+            if (cision.websolution.settings.sharecalculator && cision.websolution.settings.sharecalculator.accessKey && cision.websolution.settings.sharecalculator.accessKey.trim().length > 0)
+                $("#liSharecaculator").show();
+            else
+                $("#liSharecaculator").hide();
         });
 
         function ShareCalculatorCompute() {
